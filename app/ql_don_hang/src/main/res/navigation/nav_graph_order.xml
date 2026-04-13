@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_order"
+    app:startDestination="@id/OrderListFragment">
+
+    <fragment
+        android:id="@+id/OrderListFragment"
+        android:name="com.example.ql_don_hang.OrderListFragment"
+        android:label="OrderListFragment"
+        tools:layout="@layout/fragment_order_list">
+        <action
+            android:id="@+id/action_OrderListFragment_to_OrderDetailFragment"
+            app:destination="@id/OrderDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/OrderDetailFragment"
+        android:name="com.example.ql_don_hang.OrderDetailFragment"
+        android:label="OrderDetailFragment"
+        tools:layout="@layout/fragment_order_detail">
+        <argument
+            android:name="order"
+            app:argType="com.example.ql_don_hang.Order" />
+        <action
+            android:id="@+id/action_OrderDetailFragment_to_CancelOrderFragment"
+            app:destination="@id/CancelOrderFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/CancelOrderFragment"
+        android:name="com.example.ql_don_hang.CancelOrderFragment"
+        android:label="CancelOrderFragment"
+        tools:layout="@layout/fragment_cancel_order">
+        <argument
+            android:name="order"
+            app:argType="com.example.ql_don_hang.Order" />
+    </fragment>
+</navigation>

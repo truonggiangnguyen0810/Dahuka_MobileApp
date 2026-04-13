@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/AddressListFragment">
+
+    <fragment
+        android:id="@+id/AddressListFragment"
+        android:name="com.example.so_dia_chi.AddressListFragment"
+        android:label="Sổ địa chỉ"
+        tools:layout="@layout/view_sdc1">
+        <action
+            android:id="@+id/action_AddressListFragment_to_AddEditAddressFragment"
+            app:destination="@id/AddEditAddressFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/AddEditAddressFragment"
+        android:name="com.example.so_dia_chi.AddEditAddressFragment"
+        android:label="Thêm địa chỉ"
+        tools:layout="@layout/view_update_delete">
+        <argument
+            android:name="address"
+            app:argType="com.example.so_dia_chi.Address"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+
+</navigation>

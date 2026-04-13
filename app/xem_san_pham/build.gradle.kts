@@ -4,9 +4,7 @@ plugins {
 
 android {
     namespace = "com.example.xem_san_pham"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.xem_san_pham"

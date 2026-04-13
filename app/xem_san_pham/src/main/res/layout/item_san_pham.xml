@@ -1,35 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="6dp"
+    android:background="@drawable/bg_product_card"
     android:orientation="vertical"
-    android:padding="12dp"
-    android:background="#FFFFFF">
+    android:padding="12dp">
 
     <ImageView
         android:id="@+id/imgSanPham"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="168dp"
+        android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/sp_1"/>
+        android:src="@drawable/sp1" />
 
     <TextView
         android:id="@+id/tvTenSanPham"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tên sản phẩm"/>
+        android:layout_marginTop="12dp"
+        android:lineSpacingExtra="1dp"
+        android:maxLines="2"
+        android:text="Máy lọc nước RO 12 cấp Mutosi MP-S126"
+        android:textColor="#242424"
+        android:textSize="14sp" />
 
     <TextView
-        android:id="@+id/tvGiaSanPham"
+        android:id="@+id/tvGia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Giá"/>
+        android:layout_marginTop="14dp"
+        android:text="5,790,000đ"
+        android:textColor="#0A7A58"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/btnTimHieuThem"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:text="Tìm hiểu thêm"
-        android:gravity="center"
-        android:background="#000000"
-        android:textColor="#FFFFFF"/>
+        android:layout_height="36dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/btnTimHieuThem"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#000000"
+            android:gravity="center"
+            android:text="Tìm hiểu thêm"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp" />
+
+        <FrameLayout
+            android:id="@+id/btnThemGioHang"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/bg_cart_button">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_cart"
+                android:tint="#222222" />
+        </FrameLayout>
+    </LinearLayout>
 </LinearLayout>

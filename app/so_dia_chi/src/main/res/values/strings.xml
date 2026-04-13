@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Mobile</string>
+    <string name="action_settings">Settings</string>
+    <string name="address_list_label">Sổ địa chỉ</string>
+    <string name="add_address_label">Thêm địa chỉ mới</string>
+    <string name="edit_address_label">Sửa địa chỉ</string>
+
+    <string name="add_new_address">+ Thêm Địa Chỉ Mới</string>
+    <string name="contact_info">LIÊN HỆ</string>
+    <string name="full_name">Họ và tên</string>
+    <string name="hint_full_name">Nhập họ và tên</string>
+    <string name="phone_number">Số điện thoại</string>
+    <string name="hint_phone_number">Nhập số điện thoại</string>
+    <string name="address_info">ĐỊA CHỈ</string>
+    <string name="city_district_ward">Tỉnh/Thành phố, Quận/Huyện, Phường/Xã</string>
+    <string name="hint_city_district_ward">Chọn địa chỉ</string>
+    <string name="street_building_house">Tên đường, Toà nhà, Số nhà</string>
+    <string name="hint_street_building_house">Nhập chi tiết địa chỉ</string>
+    <string name="address_type">LOẠI ĐỊA CHỈ</string>
+    <string name="home">Nhà Riêng</string>
+    <string name="office">Văn Phòng</string>
+    <string name="set_default_address">Đặt làm địa chỉ mặc định</string>
+    <string name="set_default_subtext">Sử dụng địa chỉ này cho các đơn hàng sau</string>
+    <string name="complete">HOÀN THÀNH</string>
+    <string name="delete_address">XÓA ĐỊA CHỈ</string>
+    <string name="delete_confirm_title">Xóa địa chỉ?</string>
+    <string name="cancel">Thoát</string>
+    <string name="delete">Xóa</string>
+    <string name="delete_success">Xóa thành công</string>
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="lorem_ipsum">
+        Lorem ipsum dolor sit amet...
+    </string>
+</resources>

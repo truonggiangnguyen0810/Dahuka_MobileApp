@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Quản lý tài khoản</string>
+    <string name="search_hint">Tìm kiếm...</string>
+    <string name="id_label">ID: 10293405111</string>
+    <string name="member_label">Thành viên</string>
+    <string name="user_name">Ngọc Diệp Bùi</string>
+    <string name="order_count">12</string>
+    <string name="order_label">ĐƠN HÀNG</string>
+    <string name="address_count">01</string>
+    <string name="address_label">ĐỊA CHỈ</string>
+    <string name="offer_count">05</string>
+    <string name="offer_label">ƯU ĐÃI</string>
+    <string name="personal_info">Thông tin cá nhân</string>
+    <string name="address_book">Sổ địa chỉ</string>
+    <string name="purchase_history">Lịch sử mua hàng</string>
+    <string name="change_password">Đổi mật khẩu</string>
+    <string name="customer_support">Hỗ trợ khách hàng</string>
+    <string name="logout">Đăng xuất</string>
+</resources>
