@@ -58,6 +58,10 @@ dependencies {
     // Lifecycle
     implementation(libs.lifecycle.runtime.ktx)
 
+    // Glide
+    implementation(libs.glide)
+    annotationProcessor(libs.glide.compiler)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

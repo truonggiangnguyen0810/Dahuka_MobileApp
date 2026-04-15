@@ -47,7 +47,7 @@ class PersonalInfoActivity : AppCompatActivity() {
         }
 
         // Load customer data from API
-        val khachHangId = intent.getStringExtra(EXTRA_KHACH_HANG_ID) ?: "69d923c97922bf3246b90b79"
+        val khachHangId = intent.getStringExtra(EXTRA_KHACH_HANG_ID) ?: "69d923c97922bf3246b90b8c"
         loadKhachHangData(khachHangId)
     }
 

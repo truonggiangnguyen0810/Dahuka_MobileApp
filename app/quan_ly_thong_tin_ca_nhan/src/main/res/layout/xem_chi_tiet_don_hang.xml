@@ -70,6 +70,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/customerName"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Ngọc Diệp Bùi"
@@ -77,6 +78,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/customerPhone"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
@@ -91,6 +93,7 @@
                             android:background="@color/dividerGray" />
 
                         <TextView
+                            android:id="@+id/shippingAddress"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1.5"
@@ -143,13 +146,6 @@
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
 
-                            <TextView
-                                android:id="@+id/modelName"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="Mutosi MP-S126"
-                                android:textColor="@color/textGray" />
 
                             <TextView
                                 android:id="@+id/quantity"
@@ -199,7 +195,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="Tình trạng đơn hàng"
+                        android:text="Trạng thái đơn hàng"
                         android:textColor="@color/textBlack"
                         android:textSize="13sp" />
 
@@ -218,6 +214,7 @@
                             android:gravity="center"
                             android:orientation="vertical">
                             <ImageView
+                                android:id="@+id/trackerIcon1"
                                 android:layout_width="28dp"
                                 android:layout_height="28dp"
                                 android:background="@drawable/bg_circle_outline_red"
@@ -225,6 +222,7 @@
                                 android:src="@android:drawable/ic_menu_recent_history"
                                 app:tint="@color/red" />
                             <TextView
+                                android:id="@+id/trackerText1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
@@ -247,6 +245,7 @@
                             android:gravity="center"
                             android:orientation="vertical">
                             <ImageView
+                                android:id="@+id/trackerIcon2"
                                 android:layout_width="28dp"
                                 android:layout_height="28dp"
                                 android:background="@drawable/bg_circle_outline_gray"
@@ -254,6 +253,7 @@
                                 android:src="@android:drawable/checkbox_on_background"
                                 app:tint="@color/statusGray" />
                             <TextView
+                                android:id="@+id/trackerText2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
@@ -276,6 +276,7 @@
                             android:gravity="center"
                             android:orientation="vertical">
                             <ImageView
+                                android:id="@+id/trackerIcon3"
                                 android:layout_width="28dp"
                                 android:layout_height="28dp"
                                 android:background="@drawable/bg_circle_outline_gray"
@@ -283,6 +284,7 @@
                                 android:src="@android:drawable/ic_dialog_map"
                                 app:tint="@color/statusGray" />
                             <TextView
+                                android:id="@+id/trackerText3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
@@ -305,6 +307,7 @@
                             android:gravity="center"
                             android:orientation="vertical">
                             <ImageView
+                                android:id="@+id/trackerIcon4"
                                 android:layout_width="28dp"
                                 android:layout_height="28dp"
                                 android:background="@drawable/bg_circle_outline_gray"
@@ -312,6 +315,7 @@
                                 android:src="@android:drawable/ic_menu_save"
                                 app:tint="@color/statusGray" />
                             <TextView
+                                android:id="@+id/trackerText4"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
@@ -352,11 +356,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Đơn vị vận chuyển"
+                        android:text="Phương thức vận chuyển"
                         android:textColor="@color/textBlack"
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/shippingMethod"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -369,70 +374,130 @@
                         android:layout_marginVertical="16dp"
                         android:background="@color/dividerGray" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/totalLabel"
-                            android:layout_width="wrap_content"
+                        <!-- Tổng số lượng -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Tổng tiền hàng:"
-                            android:textColor="@color/textBlack"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="5,790,000 đ"
-                            android:textColor="@color/textBlack"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Tổng số lượng:"
+                                android:textColor="@color/textBlack" />
 
-                        <TextView
-                            android:id="@+id/depositLabel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="Tiền cọc:"
-                            android:textColor="@color/textBlack"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/totalLabel" />
+                            <TextView
+                                android:id="@+id/totalQuantity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="01"
+                                android:textColor="@color/textBlack" />
+                        </LinearLayout>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="579,000 đ"
-                            android:textColor="@color/textBlack"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/depositLabel" />
-
-                        <TextView
-                            android:id="@+id/balanceLabel"
-                            android:layout_width="wrap_content"
+                        <!-- Tổng thành tiền -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="Thành tiền:"
-                            android:textColor="@color/textBlack"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/depositLabel" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Tổng thành tiền:"
+                                android:textColor="@color/textBlack" />
+
+                            <TextView
+                                android:id="@+id/totalAmount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="5,790,000 đ"
+                                android:textColor="@color/textBlack" />
+                        </LinearLayout>
+
+                        <!-- Tổng chiết khấu -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Tổng chiết khấu:"
+                                android:textColor="@color/textBlack" />
+
+                            <TextView
+                                android:id="@+id/totalDiscount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0 đ"
+                                android:textColor="@color/primaryGreen" />
+                        </LinearLayout>
+
+                        <!-- Tổng thanh toán -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Tổng thanh toán:"
+                                android:textColor="@color/textBlack"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/totalPayment"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="5,790,000 đ"
+                                android:textColor="@color/red"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <!-- Ghi chú -->
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginVertical="12dp"
+                            android:background="@color/dividerGray" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="5,211,000 đ"
-                            android:textColor="@color/red"
-                            android:textStyle="bold"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/balanceLabel" />
+                            android:text="Ghi chú:"
+                            android:textColor="@color/textBlack"
+                            android:textStyle="bold" />
 
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                        <TextView
+                            android:id="@+id/orderNote"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Không có ghi chú"
+                            android:textColor="@color/textGray"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/cancelOrderButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#0E1623"

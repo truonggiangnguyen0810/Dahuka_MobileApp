@@ -19,4 +19,16 @@ interface KhachHangApiService {
         @Path("maKH") maKH: String,
         @Body khachHang: KhachHang
     ): Response<KhachHang>
+
+    @GET("api/don-hang")
+    suspend fun getAllDonHang(): Response<List<DonHang>>
+
+    @GET("api/chi-tiet-don-hang")
+    suspend fun getAllChiTietDonHang(): Response<List<ChiTietDonHang>>
+
+    @GET("api/san-pham")
+    suspend fun getAllSanPham(): Response<List<SanPham>>
+
+    @GET("api/hinh-anh-san-pham")
+    suspend fun getAllHinhAnhSanPham(): Response<List<HinhAnhSanPham>>
 }

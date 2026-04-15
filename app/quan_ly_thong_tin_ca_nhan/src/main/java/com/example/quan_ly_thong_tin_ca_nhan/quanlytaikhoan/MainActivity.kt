@@ -15,7 +15,8 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private var currentId: String = "69d923c97922bf3246b90b79"
+    private var currentId: String = "69d923c97922bf3246b90ba1"
+    private var currentMaKH: String = ""
 
     companion object {
         private const val TAG = "MainActivity"
@@ -38,6 +39,7 @@ class MainActivity : AppCompatActivity() {
                     val khachHangList = response.body()
                     val khachHang = khachHangList?.find { it.id == currentId }
                     if (khachHang != null) {
+                        currentMaKH = khachHang.maKhachHang ?: ""
                         displayKhachHangInfo(khachHang)
                     }
                 } else {
@@ -51,12 +53,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun displayKhachHangInfo(khachHang: KhachHang) {
         // Update the user name in the profile card
-        // The profile card uses a string resource, but we can find and update the TextView
         try {
             val profileCard = binding.root.findViewById<TextView>(R.id.userName)
             profileCard?.text = khachHang.tenKhachHang ?: "Khách hàng"
         } catch (e: Exception) {
-            // fallback: find by content description or other means
             Log.e(TAG, "Could not update user name", e)
         }
 
@@ -71,7 +71,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        // Reload data when returning from PersonalInfoActivity
         loadKhachHangInfo()
     }
 
@@ -84,7 +83,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.purchaseHistoryLayout.setBounceClickEffect {
-            val intent = Intent(this, PurchaseHistoryActivity::class.java)
+            val intent = Intent(this, PurchaseHistoryActivity::class.java).apply {
+                putExtra(PurchaseHistoryActivity.EXTRA_MA_KHACH_HANG, currentMaKH)
+            }
             startActivity(intent)
         }
 
