@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -49,13 +50,19 @@ public class DieuHopSanPham extends RecyclerView.Adapter<DieuHopSanPham.ViewHold
 
         h.ten.setText(sp.getTen());
         h.gia.setText(sp.getGia());
-        h.img.setImageResource(sp.getHinhAnh());
+        
+        // Use Glide to load image from URL
+        Glide.with(context)
+            .load(sp.getHinhAnhUrl())
+            .placeholder(R.drawable.sp_1)
+            .error(R.drawable.sp_1)
+            .into(h.img);
 
         View.OnClickListener click = v -> {
             Intent intent = new Intent(context, ChiTietSanPhamActivity.class);
             intent.putExtra("ten", sp.getTen());
             intent.putExtra("gia", sp.getGia());
-            intent.putExtra("img", sp.getHinhAnh());
+            intent.putExtra("img", sp.getHinhAnhUrl());
             context.startActivity(intent);
         };
 

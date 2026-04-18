@@ -5,6 +5,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import com.bumptech.glide.Glide;
 
 public class ChiTietSanPhamActivity extends AppCompatActivity {
 
@@ -19,6 +20,11 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
 
         ten.setText(getIntent().getStringExtra("ten"));
         gia.setText(getIntent().getStringExtra("gia"));
-        img.setImageResource(getIntent().getIntExtra("img", R.drawable.sp_1));
+        String url = getIntent().getStringExtra("img");
+        
+        Glide.with(this)
+            .load(url)
+            .placeholder(R.drawable.sp_1)
+            .into(img);
     }
 }

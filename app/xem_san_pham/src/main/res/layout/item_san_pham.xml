@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="6dp"
@@ -12,22 +13,24 @@
         android:layout_width="match_parent"
         android:layout_height="168dp"
         android:adjustViewBounds="true"
+        android:contentDescription="Ảnh sản phẩm"
         android:scaleType="fitCenter"
-        android:src="@drawable/sp1" />
+        android:src="@drawable/sp_1" />
 
     <TextView
         android:id="@+id/tvTenSanPham"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
+        android:ellipsize="end"
         android:lineSpacingExtra="1dp"
-        android:maxLines="2"
+        android:maxLines="3"
         android:text="Máy lọc nước RO 12 cấp Mutosi MP-S126"
         android:textColor="#242424"
         android:textSize="14sp" />
 
     <TextView
-        android:id="@+id/tvGia"
+        android:id="@+id/tvGiaSanPham"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
@@ -40,6 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="36dp"
         android:layout_marginTop="10dp"
+        android:baselineAligned="false"
         android:orientation="horizontal">
 
         <TextView
@@ -58,14 +62,15 @@
             android:layout_width="48dp"
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
-            android:background="@drawable/bg_cart_button">
+            android:background="@drawable/bg_cart_button_selector">
 
             <ImageView
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:layout_gravity="center"
+                android:contentDescription="Thêm vào giỏ hàng"
                 android:src="@drawable/ic_cart"
-                android:tint="#222222" />
+                app:tint="#222222" />
         </FrameLayout>
     </LinearLayout>
 </LinearLayout>

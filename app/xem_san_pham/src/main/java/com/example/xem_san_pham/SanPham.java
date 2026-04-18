@@ -3,12 +3,12 @@ package com.example.xem_san_pham;
 public class SanPham {
     private String ten;
     private String gia;
-    private int hinhAnh;
+    private String hinhAnhUrl;
 
-    public SanPham(String ten, String gia, int hinhAnh) {
+    public SanPham(String ten, String gia, String hinhAnhUrl) {
         this.ten = ten;
         this.gia = gia;
-        this.hinhAnh = hinhAnh;
+        this.hinhAnhUrl = hinhAnhUrl;
     }
 
     public String getTen() {
@@ -19,7 +19,7 @@ public class SanPham {
         return gia;
     }
 
-    public int getHinhAnh() {
-        return hinhAnh;
+    public String getHinhAnhUrl() {
+        return hinhAnhUrl;
     }
 }
