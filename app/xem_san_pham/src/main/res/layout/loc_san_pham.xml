@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hệ thống lõi lọc"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <CheckBox android:id="@+id/cb3Loi" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="3 lõi" />
+        <CheckBox android:id="@+id/cb7Loi" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="7 lõi" />
+        <CheckBox android:id="@+id/cb8Loi" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="8 lõi" />
+        <CheckBox android:id="@+id/cb9Loi" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="9 lõi" />
+        <CheckBox android:id="@+id/cb10Loi" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="10 lõi" />
+        <CheckBox android:id="@+id/cb11Loi" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="11 lõi" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="15dp"
+        android:background="#DDDDDD" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Loại nguồn nước"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <CheckBox android:id="@+id/cbNuocLo" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Nước lợ" />
+        <CheckBox android:id="@+id/cbNuocMay" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Nước máy" />
+        <CheckBox android:id="@+id/cbNuocCung" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Nước cứng" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="15dp"
+        android:background="#DDDDDD" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Khoảng giá"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <CheckBox android:id="@+id/cbGia4_6" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Từ 4 - 6 triệu" />
+        <CheckBox android:id="@+id/cbGia6_8" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Từ 6 - 8 triệu" />
+        <CheckBox android:id="@+id/cbGia8_10" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Từ 8 - 10 triệu" />
+        <CheckBox android:id="@+id/cbGiaTren10" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Trên 10 triệu" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnApplyLoc"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#000000"
+            android:text="Lọc"
+            app:cornerRadius="0dp"
+            android:textColor="#FFFFFF" />
+
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btnHuyLoc"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:backgroundTint="#FFFFFF"
+            android:text="Hủy"
+            app:cornerRadius="0dp"
+            android:textColor="#000000"
+            style="?android:attr/borderlessButtonStyle" />
+    </LinearLayout>
+</LinearLayout>
