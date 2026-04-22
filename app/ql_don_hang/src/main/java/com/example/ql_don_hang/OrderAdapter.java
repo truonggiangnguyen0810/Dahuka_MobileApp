@@ -9,11 +9,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ql_don_hang.databinding.ItemOrderBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
 
     private List<Order> orderList;
+    private List<Order> orderListFull;
     private OnOrderClickListener listener;
 
     public interface OnOrderClickListener {
@@ -22,7 +24,30 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
     public OrderAdapter(List<Order> orderList, OnOrderClickListener listener) {
         this.orderList = orderList;
+        this.orderListFull = new ArrayList<>(orderList);
         this.listener = listener;
+    }
+
+    public void updateData(List<Order> newList) {
+        this.orderList = newList;
+        this.orderListFull = new ArrayList<>(newList);
+        notifyDataSetChanged();
+    }
+
+    public void filter(String text) {
+        List<Order> filteredList = new ArrayList<>();
+        if (text == null || text.isEmpty()) {
+            filteredList.addAll(orderListFull);
+        } else {
+            String filterPattern = text.toLowerCase().trim();
+            for (Order item : orderListFull) {
+                if (item.getMaDonHang() != null && item.getMaDonHang().toLowerCase().contains(filterPattern)) {
+                    filteredList.add(item);
+                }
+            }
+        }
+        orderList = filteredList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -35,10 +60,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
         Order order = orderList.get(position);
-        holder.binding.tvOrderId.setText(order.getId());
+        holder.binding.tvOrderId.setText(order.getMaDonHang());
         holder.binding.tvOrderDate.setText(order.getDate());
         holder.binding.tvCustomerName.setText(order.getCustomerName());
-        holder.binding.tvTotalAmount.setText("Tổng tiền: " + String.format("%,d", order.getTotalAmount()) + " đ");
+        holder.binding.tvTotalAmount.setText("Tổng tiền: " + String.format("%,.0f", order.getTotalAmount()) + " đ");
 
         if ("Cancelled".equals(order.getStatus())) {
             holder.binding.btnReorder.setVisibility(View.VISIBLE);

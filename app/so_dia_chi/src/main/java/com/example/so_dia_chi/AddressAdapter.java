@@ -35,12 +35,16 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
     @Override
     public void onBindViewHolder(@NonNull AddressViewHolder holder, int position) {
         Address address = addresses.get(position);
-        holder.tvName.setText(address.getFullName());
-        holder.tvPhone.setText(address.getPhone());
-        holder.tvDetailAddress.setText(address.getDetailAddress());
-        holder.tvFullAddress.setText(address.getFullAddress());
+        
+        holder.tvName.setText(address.getTenNguoiNhan());
+        // API không có trường Phone rõ ràng, tạm thời hiển thị Email hoặc trống nếu không dùng
+        holder.tvPhone.setText(address.getEmail() != null ? address.getEmail() : "");
+        holder.tvDetailAddress.setText(address.getDiaChiCuThe());
+        
+        String fullAddr = address.getPhuongXa() + ", " + address.getQuanHuyen() + ", " + address.getThanhPho();
+        holder.tvFullAddress.setText(fullAddr.replace("null, ", ""));
 
-        if (address.isDefault()) {
+        if (address.getDiaChiMacDinh() == 1) {
             holder.tvDefaultBadge.setVisibility(View.VISIBLE);
         } else {
             holder.tvDefaultBadge.setVisibility(View.GONE);
@@ -59,11 +63,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
     }
 
     static class AddressViewHolder extends RecyclerView.ViewHolder {
-        TextView tvName;
-        TextView tvPhone;
-        TextView tvDetailAddress;
-        TextView tvFullAddress;
-        TextView tvDefaultBadge;
+        TextView tvName, tvPhone, tvDetailAddress, tvFullAddress, tvDefaultBadge;
 
         AddressViewHolder(@NonNull View itemView) {
             super(itemView);

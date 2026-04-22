@@ -61,16 +61,29 @@ public class AddEditAddressFragment extends Fragment {
         btnComplete = view.findViewById(R.id.btn_complete);
         btnBack = view.findViewById(R.id.btn_back);
 
+        // LOAD DATA (EDIT)
         if (getArguments() != null && getArguments().getParcelable("address") != null) {
             existingAddress = getArguments().getParcelable("address");
             if (existingAddress != null) {
                 tvToolbarTitle.setText("Sửa địa chỉ");
-                etFullName.setText(existingAddress.getFullName());
-                etPhoneNumber.setText(existingAddress.getPhone());
-                etStreet.setText(existingAddress.getDetailAddress());
-                tvCityDistrictWard.setText(existingAddress.getFullAddress());
-                swDefault.setChecked(existingAddress.isDefault());
-                isCitySelected = true;
+
+                etFullName.setText(existingAddress.getTenNguoiNhan());
+                // Không gán email vào ô số điện thoại
+                etPhoneNumber.setText(""); 
+                etStreet.setText(existingAddress.getDiaChiCuThe());
+                
+                String fullAddr = "";
+                if (existingAddress.getPhuongXa() != null) fullAddr += existingAddress.getPhuongXa();
+                if (existingAddress.getQuanHuyen() != null) fullAddr += (fullAddr.isEmpty() ? "" : ", ") + existingAddress.getQuanHuyen();
+                if (existingAddress.getThanhPho() != null) fullAddr += (fullAddr.isEmpty() ? "" : ", ") + existingAddress.getThanhPho();
+                
+                if (!fullAddr.isEmpty()) {
+                    tvCityDistrictWard.setText(fullAddr);
+                    tvCityDistrictWard.setTextColor(Color.BLACK);
+                    isCitySelected = true;
+                }
+
+                swDefault.setChecked(existingAddress.getDiaChiMacDinh() == 1);
                 btnDelete.setVisibility(View.VISIBLE);
             }
         } else {
@@ -89,10 +102,12 @@ public class AddEditAddressFragment extends Fragment {
         TextWatcher watcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 validateForm();
             }
+
             @Override
             public void afterTextChanged(Editable s) {}
         };
@@ -113,19 +128,32 @@ public class AddEditAddressFragment extends Fragment {
 
         btnDelete.setOnClickListener(v -> showDeleteDialog());
 
+        // SAVE
         btnComplete.setOnClickListener(v -> {
             String name = etFullName.getText().toString().trim();
-            String phone = etPhoneNumber.getText().toString().trim();
             String street = etStreet.getText().toString().trim();
             String fullAddr = tvCityDistrictWard.getText().toString().trim();
             boolean isDef = swDefault.isChecked();
 
-            if (phone.length() < 10) {
-                Toast.makeText(getContext(), "Số điện thoại không hợp lệ", Toast.LENGTH_SHORT).show();
-                return;
-            }
+            Address newAddress = new Address();
+            newAddress.setTenNguoiNhan(name);
+            // Không lưu sdt vào trường email nữa
+            newAddress.setDiaChiCuThe(street);
+            newAddress.setDiaChiMacDinh(isDef ? 1 : 0);
 
-            Address newAddress = new Address(name, phone, street, fullAddr, isDef);
+            // Tách địa chỉ thành Phường, Quận, Thành phố
+            if (fullAddr.contains(",")) {
+                String[] parts = fullAddr.split(",");
+                if (parts.length >= 3) {
+                    newAddress.setPhuongXa(parts[0].trim());
+                    newAddress.setQuanHuyen(parts[1].trim());
+                    newAddress.setThanhPho(parts[2].trim());
+                } else {
+                    newAddress.setThanhPho(fullAddr);
+                }
+            } else {
+                newAddress.setThanhPho(fullAddr);
+            }
 
             if (existingAddress != null) {
                 viewModel.updateAddress(existingAddress, newAddress);
@@ -134,6 +162,7 @@ public class AddEditAddressFragment extends Fragment {
                 viewModel.addAddress(newAddress);
                 Toast.makeText(getContext(), "Thêm địa chỉ thành công", Toast.LENGTH_SHORT).show();
             }
+
             Navigation.findNavController(view).navigateUp();
         });
 
@@ -145,9 +174,11 @@ public class AddEditAddressFragment extends Fragment {
         String phone = etPhoneNumber.getText().toString().trim();
         String street = etStreet.getText().toString().trim();
 
-        boolean isValid = !name.isEmpty() && !phone.isEmpty() && !street.isEmpty() && isCitySelected;
+        // Tạm thời cho phép trống sdt nếu bạn muốn, hoặc vẫn bắt nhập nhưng không lưu
+        boolean isValid = !name.isEmpty() && !street.isEmpty() && isCitySelected;
 
         btnComplete.setEnabled(isValid);
+
         if (isValid) {
             btnComplete.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), R.color.primary_green));
             btnComplete.setTextColor(Color.WHITE);
@@ -162,6 +193,7 @@ public class AddEditAddressFragment extends Fragment {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.view_accept_xoa);
         dialog.setCancelable(true);
+
         if (dialog.getWindow() != null) {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
@@ -170,10 +202,12 @@ public class AddEditAddressFragment extends Fragment {
         Button btnConfirmDelete = dialog.findViewById(R.id.btn_confirm_delete);
 
         btnCancel.setOnClickListener(v -> dialog.dismiss());
+
         btnConfirmDelete.setOnClickListener(v -> {
             if (existingAddress != null) {
                 viewModel.deleteAddress(existingAddress);
             }
+
             dialog.dismiss();
             Toast.makeText(getContext(), "Xóa địa chỉ thành công", Toast.LENGTH_SHORT).show();
             Navigation.findNavController(requireView()).navigateUp();

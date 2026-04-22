@@ -3,30 +3,45 @@ package com.example.so_dia_chi;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Address implements Parcelable {
 
-    private String fullName;
-    private String phone;
-    private String detailAddress;
-    private String fullAddress;
-    private boolean isDefault;
+    @SerializedName("_id")
+    private String id;
+
+    @SerializedName("TenNguoiNhan")
+    private String tenNguoiNhan;
+
+    @SerializedName("Email")
+    private String email;
+
+    @SerializedName("ThanhPho")
+    private String thanhPho;
+
+    @SerializedName("QuanHuyen")
+    private String quanHuyen;
+
+    @SerializedName("PhuongXa")
+    private String phuongXa;
+
+    @SerializedName("DiaChiCuThe")
+    private String diaChiCuThe;
+
+    @SerializedName("DiaChiMacDinh")
+    private int diaChiMacDinh;
 
     public Address() {}
 
-    public Address(String fullName, String phone, String detailAddress, String fullAddress, boolean isDefault) {
-        this.fullName = fullName;
-        this.phone = phone;
-        this.detailAddress = detailAddress;
-        this.fullAddress = fullAddress;
-        this.isDefault = isDefault;
-    }
-
     protected Address(Parcel in) {
-        fullName = in.readString();
-        phone = in.readString();
-        detailAddress = in.readString();
-        fullAddress = in.readString();
-        isDefault = in.readByte() != 0;
+        id = in.readString();
+        tenNguoiNhan = in.readString();
+        email = in.readString();
+        thanhPho = in.readString();
+        quanHuyen = in.readString();
+        phuongXa = in.readString();
+        diaChiCuThe = in.readString();
+        diaChiMacDinh = in.readInt();
     }
 
     public static final Creator<Address> CREATOR = new Creator<Address>() {
@@ -41,20 +56,29 @@ public class Address implements Parcelable {
         }
     };
 
-    public String getFullName() { return fullName; }
-    public void setFullName(String fullName) { this.fullName = fullName; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    public String getPhone() { return phone; }
-    public void setPhone(String phone) { this.phone = phone; }
+    public String getTenNguoiNhan() { return tenNguoiNhan; }
+    public void setTenNguoiNhan(String tenNguoiNhan) { this.tenNguoiNhan = tenNguoiNhan; }
 
-    public String getDetailAddress() { return detailAddress; }
-    public void setDetailAddress(String detailAddress) { this.detailAddress = detailAddress; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    public String getFullAddress() { return fullAddress; }
-    public void setFullAddress(String fullAddress) { this.fullAddress = fullAddress; }
+    public String getThanhPho() { return thanhPho; }
+    public void setThanhPho(String thanhPho) { this.thanhPho = thanhPho; }
 
-    public boolean isDefault() { return isDefault; }
-    public void setDefault(boolean aDefault) { isDefault = aDefault; }
+    public String getQuanHuyen() { return quanHuyen; }
+    public void setQuanHuyen(String quanHuyen) { this.quanHuyen = quanHuyen; }
+
+    public String getPhuongXa() { return phuongXa; }
+    public void setPhuongXa(String phuongXa) { this.phuongXa = phuongXa; }
+
+    public String getDiaChiCuThe() { return diaChiCuThe; }
+    public void setDiaChiCuThe(String diaChiCuThe) { this.diaChiCuThe = diaChiCuThe; }
+
+    public int getDiaChiMacDinh() { return diaChiMacDinh; }
+    public void setDiaChiMacDinh(int diaChiMacDinh) { this.diaChiMacDinh = diaChiMacDinh; }
 
     @Override
     public int describeContents() {
@@ -63,10 +87,13 @@ public class Address implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(fullName);
-        dest.writeString(phone);
-        dest.writeString(detailAddress);
-        dest.writeString(fullAddress);
-        dest.writeByte((byte) (isDefault ? 1 : 0));
+        dest.writeString(id);
+        dest.writeString(tenNguoiNhan);
+        dest.writeString(email);
+        dest.writeString(thanhPho);
+        dest.writeString(quanHuyen);
+        dest.writeString(phuongXa);
+        dest.writeString(diaChiCuThe);
+        dest.writeInt(diaChiMacDinh);
     }
 }

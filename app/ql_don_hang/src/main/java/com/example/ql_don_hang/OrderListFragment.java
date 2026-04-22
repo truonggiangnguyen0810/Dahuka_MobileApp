@@ -1,9 +1,13 @@
 package com.example.ql_don_hang;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,11 +20,15 @@ import com.example.ql_don_hang.databinding.ViewDonHangBinding;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class OrderListFragment extends Fragment {
 
     private ViewDonHangBinding binding;
     private OrderAdapter adapter;
-    private List<Order> orderList;
+    private List<Order> orderList = new ArrayList<>();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -32,8 +40,6 @@ public class OrderListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setupDummyData();
-
         adapter = new OrderAdapter(orderList, order -> {
             Bundle bundle = new Bundle();
             bundle.putSerializable("order", order);
@@ -42,25 +48,46 @@ public class OrderListFragment extends Fragment {
 
         binding.rvOrders.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvOrders.setAdapter(adapter);
+
+        setupSearch();
+        fetchOrders();
     }
 
-    private void setupDummyData() {
-        orderList = new ArrayList<>();
-        
-        Order order1 = new Order("DH20260122008", "26-02-2026 13:58", "An Nguyễn Văn", 11645000, "Placed");
-        order1.setAddress("68-Dương Khuê, Thành phố Đà Nẵng, Quận Sơn Trà, Phường Phước Mỹ");
-        order1.setPhone("0349434950");
-        order1.getProducts().add(new Product("Máy Lọc Nước RO 12 Cấp", "Mutosi MP-S126", 1, 5790000));
-        
-        Order order2 = new Order("DH20260122009", "22-01-2026 11:28", "An Nguyễn Văn", 11645000, "Cancelled");
-        order2.setAddress("68-Dương Khuê, Thành phố Đà Nẵng, Quận Sơn Trà, Phường Phước Mỹ");
-        order2.setPhone("0349434950");
-        order2.setCancelDate("28/02/2026 16:40");
-        order2.setCancelReason("Khác");
-        order2.getProducts().add(new Product("Máy Lọc Nước RO 12 Cấp", "Mutosi MP-S126", 1, 5790000));
+    private void setupSearch() {
+        binding.etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-        orderList.add(order1);
-        orderList.add(order2);
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.filter(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+    }
+
+    private void fetchOrders() {
+        OrderApiService apiService = RetrofitClient.getClient().create(OrderApiService.class);
+        apiService.getOrders().enqueue(new Callback<List<Order>>() {
+            @Override
+            public void onResponse(Call<List<Order>> call, Response<List<Order>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    orderList = response.body();
+                    adapter.updateData(orderList);
+                } else {
+                    Toast.makeText(getContext(), "Không thể lấy dữ liệu đơn hàng", Toast.LENGTH_SHORT).show();
+                    Log.e("OrderListFragment", "Error: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Order>> call, Throwable t) {
+                Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("OrderListFragment", "Failure: " + t.getMessage());
+            }
+        });
     }
 
     @Override

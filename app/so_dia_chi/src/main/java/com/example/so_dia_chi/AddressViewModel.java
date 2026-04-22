@@ -7,69 +7,107 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class AddressViewModel extends ViewModel {
     private final MutableLiveData<List<Address>> addresses = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
+    private final MutableLiveData<String> errorMessage = new MutableLiveData<>(null);
+    
+    private final AddressApiService apiService;
 
     public AddressViewModel() {
-        List<Address> initialList = new ArrayList<>();
-        initialList.add(new Address("Trần Thị Thùy Trinh", "(+84) 999 777 666",
-                "Đặng Hồi Xuân", "Phường Phú Quý, Quận Ngũ Hành, Đà Nẵng", true));
-        initialList.add(new Address("Nguyễn Văn An", "(+84) 123 456 789",
-                "Số 12, Ngõ 5", "Phường Hòa Khánh, Quận Liên Chiểu, Đà Nẵng", false));
-        addresses.setValue(initialList);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://boney-unspoiled-thesis.ngrok-free.dev/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        apiService = retrofit.create(AddressApiService.class);
+        fetchAddresses();
     }
 
     public LiveData<List<Address>> getAddresses() {
         return addresses;
     }
 
-    public void addAddress(Address address) {
-        List<Address> currentList = addresses.getValue();
-        if (currentList != null) {
-            List<Address> newList = new ArrayList<>(currentList);
-            if (address.isDefault()) {
-                clearDefaults(newList);
+    public LiveData<Boolean> getIsLoading() {
+        return isLoading;
+    }
+
+    public LiveData<String> getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void fetchAddresses() {
+        isLoading.setValue(true);
+        apiService.getAddresses().enqueue(new Callback<List<Address>>() {
+            @Override
+            public void onResponse(Call<List<Address>> call, Response<List<Address>> response) {
+                isLoading.setValue(false);
+                if (response.isSuccessful() && response.body() != null) {
+                    addresses.setValue(response.body());
+                } else {
+                    errorMessage.setValue("Lỗi khi tải danh sách: " + response.code());
+                }
             }
-            newList.add(address);
-            addresses.setValue(newList);
-        }
+
+            @Override
+            public void onFailure(Call<List<Address>> call, Throwable t) {
+                isLoading.setValue(false);
+                errorMessage.setValue("Lỗi kết nối: " + t.getMessage());
+            }
+        });
+    }
+
+    public void addAddress(Address address) {
+        apiService.addAddress(address).enqueue(new Callback<Address>() {
+            @Override
+            public void onResponse(Call<Address> call, Response<Address> response) {
+                if (response.isSuccessful()) {
+                    fetchAddresses(); // Refresh list
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Address> call, Throwable t) {
+                errorMessage.setValue("Không thể thêm địa chỉ");
+            }
+        });
     }
 
     public void updateAddress(Address oldAddress, Address newAddress) {
-        List<Address> currentList = addresses.getValue();
-        if (currentList != null) {
-            List<Address> newList = new ArrayList<>(currentList);
-            int index = -1;
-            for (int i = 0; i < newList.size(); i++) {
-                if (newList.get(i).getPhone().equals(oldAddress.getPhone()) && 
-                    newList.get(i).getFullName().equals(oldAddress.getFullName())) {
-                    index = i;
-                    break;
+        apiService.updateAddress(oldAddress.getId(), newAddress).enqueue(new Callback<Address>() {
+            @Override
+            public void onResponse(Call<Address> call, Response<Address> response) {
+                if (response.isSuccessful()) {
+                    fetchAddresses();
                 }
             }
-            if (index != -1) {
-                if (newAddress.isDefault()) {
-                    clearDefaults(newList);
-                }
-                newList.set(index, newAddress);
-                addresses.setValue(newList);
+
+            @Override
+            public void onFailure(Call<Address> call, Throwable t) {
+                errorMessage.setValue("Không thể cập nhật địa chỉ");
             }
-        }
+        });
     }
 
     public void deleteAddress(Address address) {
-        List<Address> currentList = addresses.getValue();
-        if (currentList != null) {
-            List<Address> newList = new ArrayList<>(currentList);
-            newList.removeIf(a -> a.getPhone().equals(address.getPhone()) && 
-                                 a.getFullName().equals(address.getFullName()));
-            addresses.setValue(newList);
-        }
-    }
+        apiService.deleteAddress(address.getId()).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    fetchAddresses();
+                }
+            }
 
-    private void clearDefaults(List<Address> list) {
-        for (Address a : list) {
-            a.setDefault(false);
-        }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                errorMessage.setValue("Không thể xóa địa chỉ");
+            }
+        });
     }
 }
