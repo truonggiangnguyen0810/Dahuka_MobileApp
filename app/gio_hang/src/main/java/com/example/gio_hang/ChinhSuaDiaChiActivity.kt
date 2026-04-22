@@ -1,12 +1,12 @@
 package com.example.gio_hang
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import android.view.Gravity
-import android.view.LayoutInflater
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.Switch
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 
@@ -43,18 +43,36 @@ class ChinhSuaDiaChiActivity : AppCompatActivity() {
         }
 
         findViewById<MaterialButton>(R.id.btnHoanThanh).setOnClickListener {
-            showSuccessToast()
+            val hoTen = findViewById<EditText>(R.id.etHoTen).text.toString().trim()
+            val sdt = findViewById<EditText>(R.id.etSoDienThoai).text.toString().trim()
+            val tinhThanh = findViewById<EditText>(R.id.etTinhThanh).text.toString().trim()
+            val quanHuyen = findViewById<EditText>(R.id.etQuanHuyen).text.toString().trim()
+            val phuongXa = findViewById<EditText>(R.id.etPhuongXa).text.toString().trim()
+            val tenDuong = findViewById<EditText>(R.id.etTenDuong).text.toString().trim()
+
+            val diaChiDayDu = listOf(phuongXa, quanHuyen, tinhThanh)
+                .filter { it.isNotEmpty() }
+                .joinToString(", ")
+
+            val switchMacDinh = findViewById<Switch>(R.id.switchMacDinh)
+
+            // Luôn lưu vào sổ địa chỉ, switch chỉ đánh dấu mặc định
+            DiaChiPrefs.saveAddress(this, DiaChiItem(
+                hoTen = hoTen,
+                soDienThoai = sdt,
+                tenDuong = tenDuong,
+                diaChi = diaChiDayDu,
+                isMacDinh = switchMacDinh.isChecked
+            ))
+
+            val intent = Intent().apply {
+                putExtra("hoTen", hoTen)
+                putExtra("soDienThoai", sdt)
+                putExtra("diaChi", diaChiDayDu)
+                putExtra("tenDuong", tenDuong)
+            }
+            setResult(Activity.RESULT_OK, intent)
             finish()
         }
-    }
-
-    private fun showSuccessToast() {
-        val inflater = LayoutInflater.from(this)
-        val layout = inflater.inflate(R.layout.toast_cap_nhat_thanh_cong, null)
-        val toast = Toast(this)
-        toast.duration = Toast.LENGTH_SHORT
-        toast.view = layout
-        toast.setGravity(Gravity.BOTTOM or Gravity.FILL_HORIZONTAL, 0, 80)
-        toast.show()
     }
 }
