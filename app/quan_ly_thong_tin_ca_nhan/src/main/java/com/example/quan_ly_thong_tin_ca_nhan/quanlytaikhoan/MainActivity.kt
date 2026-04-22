@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
                 val response = RetrofitClient.khachHangApi.getAllKhachHang()
                 if (response.isSuccessful) {
                     val khachHangList = response.body()
-                    val khachHang = khachHangList?.find { it.id == currentId }
+                    val khachHang = khachHangList?.find { it._id == currentId }
                     if (khachHang != null) {
                         currentMaKH = khachHang.maKhachHang ?: ""
                         displayKhachHangInfo(khachHang)

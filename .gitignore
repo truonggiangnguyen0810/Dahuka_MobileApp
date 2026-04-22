@@ -15,3 +15,9 @@
 local.properties
 
 .fake
+
+.kotlin/
+.gradle/
+build/
+local.properties
+*.log

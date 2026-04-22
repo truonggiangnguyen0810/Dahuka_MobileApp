@@ -1,9 +1,11 @@
 package com.example.common.network;
 
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import java.util.concurrent.TimeUnit;
 
 public class RetrofitClient {
 
@@ -14,11 +16,21 @@ public class RetrofitClient {
     public static Retrofit getRetrofit() {
         if (retrofit == null) {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-//            Set mức in ra nội dung trong logcat
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .addInterceptor(logging)
+                    .addInterceptor(chain -> {
+                        Request original = chain.request();
+                        Request request = original.newBuilder()
+                                .header("ngrok-skip-browser-warning", "true")
+                                .method(original.method(), original.body())
+                                .build();
+                        return chain.proceed(request);
+                    })
+                    .connectTimeout(30, TimeUnit.SECONDS)
+                    .readTimeout(30, TimeUnit.SECONDS)
+                    .writeTimeout(30, TimeUnit.SECONDS)
                     .build();
 
             retrofit = new Retrofit.Builder()

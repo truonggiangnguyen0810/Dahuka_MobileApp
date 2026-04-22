@@ -75,8 +75,7 @@ class PurchaseHistoryActivity : AppCompatActivity() {
                         (hinhAnhResponse.body() ?: emptyList())
                             .groupBy { it.maSP ?: "" }
                             .mapValues { (_, images) ->
-                                images.find { it.tenHinhAnh?.contains("Anhchinh", ignoreCase = true) == true }?.duongDanHinhAnh
-                                    ?: images.firstOrNull()?.duongDanHinhAnh
+                                images.firstOrNull()?.duongDanHinhAnh
                             }
                     } else emptyMap()
 

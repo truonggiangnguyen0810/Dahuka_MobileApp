@@ -7,7 +7,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        minSdk = 22
+        minSdk = 24
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -42,6 +42,6 @@ dependencies {
     // Gson - chuyển JSON ↔ Kotlin object
     api(libs.retrofit.converter.gson)
     // OkHttp - hỗ trợ interceptor (bỏ qua cảnh báo ngrok)
-    implementation(libs.okhttp)
-    implementation(libs.okhttp.logging.interceptor)
+    api(libs.okhttp)
+    api(libs.okhttp.logging.interceptor)
 }

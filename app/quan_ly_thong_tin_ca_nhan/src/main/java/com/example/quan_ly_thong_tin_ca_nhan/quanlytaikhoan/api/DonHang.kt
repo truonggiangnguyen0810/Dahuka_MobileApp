@@ -4,10 +4,13 @@ import com.google.gson.annotations.SerializedName
 
 data class DonHang(
     @SerializedName("_id")
-    val id: String? = null,
+    val _id: String? = null,
 
     @SerializedName("MaDonHang")
     val maDonHang: String? = null,
+
+    @SerializedName("ManHanVien")
+    val maNhanVien: String? = null,
 
     @SerializedName("MaKhachHang")
     val maKhachHang: String? = null,
@@ -26,6 +29,9 @@ data class DonHang(
 
     @SerializedName("TongThanhToan")
     val tongThanhToan: Double? = null,
+
+    @SerializedName("PTTT")
+    val pttt: String? = null,
 
     @SerializedName("GhiChu")
     val ghiChu: String? = null,

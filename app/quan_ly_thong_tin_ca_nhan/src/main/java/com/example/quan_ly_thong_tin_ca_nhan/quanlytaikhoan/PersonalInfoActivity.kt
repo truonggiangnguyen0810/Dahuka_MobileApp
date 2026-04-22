@@ -47,7 +47,7 @@ class PersonalInfoActivity : AppCompatActivity() {
         }
 
         // Load customer data from API
-        val khachHangId = intent.getStringExtra(EXTRA_KHACH_HANG_ID) ?: "69d923c97922bf3246b90b8c"
+        val khachHangId = intent.getStringExtra(EXTRA_KHACH_HANG_ID) ?: "69d923c97922bf3246b90ba1"
         loadKhachHangData(khachHangId)
     }
 
@@ -57,7 +57,7 @@ class PersonalInfoActivity : AppCompatActivity() {
                 val response = RetrofitClient.khachHangApi.getAllKhachHang()
                 if (response.isSuccessful) {
                     val khachHangList = response.body()
-                    val khachHang = khachHangList?.find { it.id == khachHangId }
+                    val khachHang = khachHangList?.find { it._id == khachHangId }
                     if (khachHang != null) {
                         currentKhachHang = khachHang
                         displayKhachHangData(khachHang)

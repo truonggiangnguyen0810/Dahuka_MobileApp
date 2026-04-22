@@ -134,7 +134,7 @@ class OrderDetailActivity : AppCompatActivity() {
                 val response = RetrofitClient.khachHangApi.getAllKhachHang()
                 if (response.isSuccessful) {
                     val khachHangList = response.body() ?: emptyList()
-                    val khachHang = khachHangList.find { it.id == "69d923c97922bf3246b90ba1" }
+                    val khachHang = khachHangList.find { it._id == "69d923c97922bf3246b90ba1" } ?: khachHangList.firstOrNull()
                     if (khachHang != null) {
                         binding.customerName.text = khachHang.tenKhachHang ?: "Khách hàng"
                         binding.customerPhone.text = khachHang.sdt?.toString() ?: ""

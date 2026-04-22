@@ -79,7 +79,7 @@ class OrderAdapter(
 
         holder.binding.viewDetailsButton.setBounceClickEffect {
             val intent = Intent(context, OrderDetailActivity::class.java).apply {
-                putExtra("DON_HANG_ID", order.id)
+                putExtra("DON_HANG_ID", order._id)
                 putExtra("MA_DON_HANG", maDH)
                 putExtra("MA_DIA_CHI", order.maDiaChi)
                 putExtra("TONG_SO_LUONG", order.tongSoLuong ?: 0)

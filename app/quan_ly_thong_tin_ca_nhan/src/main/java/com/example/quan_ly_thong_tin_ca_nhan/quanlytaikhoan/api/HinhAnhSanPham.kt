@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class HinhAnhSanPham(
     @SerializedName("_id")
-    val id: String? = null,
+    val _id: String? = null,
 
     @SerializedName("MaHinhAnh")
     val maHinhAnh: String? = null,
@@ -13,8 +13,5 @@ data class HinhAnhSanPham(
     val duongDanHinhAnh: String? = null,
 
     @SerializedName("MaSP")
-    val maSP: String? = null,
-
-    @SerializedName("TenHinhAnh")
-    val tenHinhAnh: String? = null
+    val maSP: String? = null
 )

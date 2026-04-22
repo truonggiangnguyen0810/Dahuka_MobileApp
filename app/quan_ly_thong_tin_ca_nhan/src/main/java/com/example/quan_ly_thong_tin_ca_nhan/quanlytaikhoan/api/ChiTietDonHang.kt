@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class ChiTietDonHang(
     @SerializedName("_id")
-    val id: String? = null,
+    val _id: String? = null,
 
     @SerializedName("MaDonHang")
     val maDonHang: String? = null,

@@ -4,10 +4,13 @@ import com.google.gson.annotations.SerializedName
 
 data class KhachHang(
     @SerializedName("_id")
-    val id: String? = null,
+    val _id: String? = null,
 
     @SerializedName("MaKhachHang")
     val maKhachHang: String? = null,
+
+    @SerializedName("id")
+    val id: Int? = null,
 
     @SerializedName("TenKhachHang")
     val tenKhachHang: String? = null,
