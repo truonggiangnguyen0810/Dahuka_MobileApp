@@ -39,4 +39,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+/// thêm thư viện để có thể lấy dữ liệu từ API
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+//   chuyển dữ liệu dạng json thành obiect kotlin
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
 }

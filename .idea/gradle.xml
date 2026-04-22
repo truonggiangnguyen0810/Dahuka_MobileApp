@@ -11,6 +11,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/app/common" />
             <option value="$PROJECT_DIR$/app/dang_ky" />
             <option value="$PROJECT_DIR$/app/dang_nhap" />
             <option value="$PROJECT_DIR$/app/gio_hang" />

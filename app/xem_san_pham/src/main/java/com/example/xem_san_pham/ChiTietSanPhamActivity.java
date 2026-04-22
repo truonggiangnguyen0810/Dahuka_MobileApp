@@ -6,6 +6,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+
 public class ChiTietSanPhamActivity extends AppCompatActivity {
 
     @Override
@@ -13,12 +15,26 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chi_tiet_san_pham);
 
-        ImageView img = findViewById(R.id.imgLon);
-        TextView ten = findViewById(R.id.tvTenChiTiet);
-        TextView gia = findViewById(R.id.tvGiaChiTiet);
+        ImageView img = findViewById(R.id.imgMainProduct);
+        TextView ten = findViewById(R.id.txtTenSanPham);
+        TextView gia = findViewById(R.id.txtGiaSanPham);
+        TextView maSP = findViewById(R.id.txtMaSanPham);
 
-        ten.setText(getIntent().getStringExtra("ten"));
-        gia.setText(getIntent().getStringExtra("gia"));
-        img.setImageResource(getIntent().getIntExtra("img", R.drawable.sp_1));
+        String tenStr = getIntent().getStringExtra("ten");
+        String giaStr = getIntent().getStringExtra("gia");
+        String maSPStr = getIntent().getStringExtra("maSP");
+        String imgUrl = getIntent().getStringExtra("imgUrl");
+
+        ten.setText(tenStr);
+        gia.setText(giaStr);
+        if (maSP != null) {
+            maSP.setText("Mã sản phẩm: " + maSPStr);
+        }
+
+        Glide.with(this)
+                .load(imgUrl)
+                .placeholder(R.drawable.sp_1)
+                .error(R.drawable.sp_1)
+                .into(img);
     }
 }

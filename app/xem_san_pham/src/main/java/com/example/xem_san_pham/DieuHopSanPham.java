@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class DieuHopSanPham extends RecyclerView.Adapter<DieuHopSanPham.ViewHolder> {
@@ -31,7 +33,7 @@ public class DieuHopSanPham extends RecyclerView.Adapter<DieuHopSanPham.ViewHold
             super(itemView);
             img = itemView.findViewById(R.id.imgSanPham);
             ten = itemView.findViewById(R.id.tvTenSanPham);
-            gia = itemView.findViewById(R.id.tvGiaSanPham);
+            gia = itemView.findViewById(R.id.tvGia);
             btn = itemView.findViewById(R.id.btnTimHieuThem);
         }
     }
@@ -49,13 +51,19 @@ public class DieuHopSanPham extends RecyclerView.Adapter<DieuHopSanPham.ViewHold
 
         h.ten.setText(sp.getTen());
         h.gia.setText(sp.getGia());
-        h.img.setImageResource(sp.getHinhAnh());
+
+        Glide.with(context)
+                .load(sp.getHinhAnhUrl())
+                .placeholder(R.drawable.sp_1)
+                .error(R.drawable.sp_1)
+                .into(h.img);
 
         View.OnClickListener click = v -> {
             Intent intent = new Intent(context, ChiTietSanPhamActivity.class);
+            intent.putExtra("maSP", sp.getMaSP());
             intent.putExtra("ten", sp.getTen());
             intent.putExtra("gia", sp.getGia());
-            intent.putExtra("img", sp.getHinhAnh());
+            intent.putExtra("imgUrl", sp.getHinhAnhUrl());
             context.startActivity(intent);
         };
 

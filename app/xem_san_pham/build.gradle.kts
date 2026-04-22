@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.xem_san_pham"
-        minSdk = 24
+        minSdk = 22
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -26,12 +26,13 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
+    implementation(project(":app:common"))
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -39,4 +40,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    // Glide - load ảnh từ URL
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 }

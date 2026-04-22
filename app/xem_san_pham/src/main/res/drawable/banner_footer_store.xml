@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<!--
+    Drawable tạm cho banner footer
+    - Dùng nền màu để tránh bị trống
+    - Sau này có ảnh thật thì thay bằng file png/jpg
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
 
-</selector>
+    <!-- Màu nền banner -->
+    <solid android:color="#0C7A5A" />
+
+</shape>

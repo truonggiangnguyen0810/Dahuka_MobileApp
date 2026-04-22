@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutFilterPanel"
+    android:layout_width="185dp"
+    android:layout_height="600dp"
+    android:orientation="vertical"
+    android:background="#D9D9D9"
+    android:padding="6dp">
+
+    <!-- ===================== NHÓM 1: HỆ THỐNG LÕI LỌC ===================== -->
+    <!-- Tiêu đề nhóm -->
+    <TextView
+        android:id="@+id/tvTitleHeThongLoiLoc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:text="Hệ thống lõi lọc"
+        android:textColor="#111111"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <!-- Checkbox 3 lõi -->
+    <CheckBox
+        android:id="@+id/cb3Loi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:minHeight="0dp"
+        android:padding="0dp"
+        android:buttonTint="#111111"
+        android:text="3 lõi"
+        android:textColor="#111111"
+        android:textSize="13sp" />
+
+    <!-- Checkbox 7 lõi -->
+    <CheckBox
+        android:id="@+id/cb7Loi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:minHeight="0dp"
+        android:padding="0dp"
+        android:buttonTint="#111111"
+        android:text="7 lõi"
+        android:textColor="#111111"
+        android:textSize="13sp" />
+
+    <!-- Checkbox 8 lõi -->
+    <CheckBox
+        android:id="@+id/cb8Loi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:minHeight="0dp"
+        android:padding="0dp"
+        android:buttonTint="#111111"
+        android:text="8 lõi"
+        android:textColor="#111111"
+        android:textSize="13sp" />
+
+    <!-- Checkbox 9 lõi -->
+    <CheckBox
+        android:id="@+id/cb9Loi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:minHeight="0dp"
+        android:padding="0dp"
+        android:buttonTint="#111111"
+        android:text="9 lõi"
+        android:textColor="#111111"
+        android:textSize="13sp" />
+
+    <!-- Checkbox 10 lõi -->
+    <CheckBox
+        android:id="@+id/cb10Loi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:minHeight="0dp"
+        android:padding="0dp"
+        android:buttonTint="#111111"
+        android:text="10 lõi"
+        android:textColor="#111111"
+        android:textSize="13sp" />
+
+    <!-- Checkbox 11 lõi -->
+    <CheckBox
+        android:id="@+id/cb11Loi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:minHeight="0dp"
+        android:padding="0dp"
+        android:buttonTint="#111111"
+        android:text="11 lõi"
+        android:textColor="#111111"
+        android:textSize="13sp" />
+
+    <!-- Đường kẻ phân cách nhóm -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="#8F8F8F" />
+
+    <!-- ===================== NHÓM 2: LOẠI NGUỒN NƯỚC ===================== -->
+    <!-- Tiêu đề nhóm -->
+    <TextView
+        android:id="@+id/tvTitleLoaiNguonNuoc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:text="Loại nguồn nước"
+        android:textColor="#111111"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <!-- Checkbox nước lợ -->
+    <CheckBox
+        android:id="@+id/cbNuocLo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:minHeight="0dp"
+        android:padding="0dp"
+        android:buttonTint="#111111"
+        android:text="Nước lợ"
+        android:textColor="#111111"
+        android:textSize="13sp" />
+
+    <!-- Checkbox nước máy -->
+    <CheckBox
+        android:id="@+id/cbNuocMay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:minHeight="0dp"
+        android:padding="0dp"
+        android:buttonTint="#111111"
+        android:text="Nước máy"
+        android:textColor="#111111"
+        android:textSize="13sp" />
+
+    <!-- Checkbox nước cứng -->
+    <CheckBox
+        android:id="@+id/cbNuocCung"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:minHeight="0dp"
+        android:padding="0dp"
+        android:buttonTint="#111111"
+        android:text="Nước cứng"
+        android:textColor="#111111"
+        android:textSize="13sp" />
+
+    <!-- Đường kẻ phân cách nhóm -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="#8F8F8F" />
+
+    <!-- ===================== NHÓM 3: KHOẢNG GIÁ ===================== -->
+    <!-- Tiêu đề nhóm -->
+    <TextView
+        android:id="@+id/tvTitleKhoangGia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:text="Khoảng giá"
+        android:textColor="#111111"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <!-- Checkbox giá 4 - 6 triệu -->
+    <CheckBox
+        android:id="@+id/cbGia4Den6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:minHeight="0dp"
+        android:padding="0dp"
+        android:buttonTint="#111111"
+        android:text="Từ 4 - 6 triệu"
+        android:textColor="#111111"
+        android:textSize="13sp" />
+
+    <!-- Checkbox giá 6 - 8 triệu -->
+    <CheckBox
+        android:id="@+id/cbGia6Den8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:minHeight="0dp"
+        android:padding="0dp"
+        android:buttonTint="#111111"
+        android:text="Từ 6 - 8 triệu"
+        android:textColor="#111111"
+        android:textSize="13sp" />
+
+    <!-- Checkbox giá 8 - 10 triệu -->
+    <CheckBox
+        android:id="@+id/cbGia8Den10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:minHeight="0dp"
+        android:padding="0dp"
+        android:buttonTint="#111111"
+        android:text="Từ 8 - 10 triệu"
+        android:textColor="#111111"
+        android:textSize="13sp" />
+
+    <!-- Checkbox giá trên 10 triệu -->
+    <CheckBox
+        android:id="@+id/cbGiaTren10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:minHeight="0dp"
+        android:padding="0dp"
+        android:buttonTint="#111111"
+        android:text="Trên 10 triệu"
+        android:textColor="#111111"
+        android:textSize="13sp" />
+
+    <!-- Khoảng trống co giãn để đẩy cụm nút xuống dưới -->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Đường kẻ phía trên cụm nút -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="6dp"
+        android:background="#8F8F8F" />
+
+    <!-- ===================== CỤM NÚT CUỐI PANEL ===================== -->
+    <LinearLayout
+        android:id="@+id/layoutActionButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Nút Lọc -->
+        <TextView
+            android:id="@+id/btnLocSanPham"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:background="#000000"
+            android:gravity="center"
+            android:text="Lọc"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <!-- Khoảng cách giữa 2 nút -->
+        <Space
+            android:layout_width="8dp"
+            android:layout_height="1dp" />
+
+        <!-- Nút Hủy -->
+        <TextView
+            android:id="@+id/btnHuyLoc"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:background="#EFEFEF"
+            android:gravity="center"
+            android:text="Hủy"
+            android:textColor="#111111"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>

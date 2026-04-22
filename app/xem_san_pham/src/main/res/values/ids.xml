@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <drawable name="banner_mo_ta_sp" />
+    <item name="tvGiaSanPham" type="id" />
 </resources>

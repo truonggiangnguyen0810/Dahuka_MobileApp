@@ -1,25 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:fillViewport="true"
+android:background="#F2F2F2">
+
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/imgLon"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:src="@drawable/sp_1"/>
+    <!-- HEADER -->
 
-    <TextView
-        android:id="@+id/tvTenChiTiet"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Tên sản phẩm"/>
+    <!-- BREADCRUMB -->
+
+    <include layout="@layout/taskbar" />
 
     <TextView
-        android:id="@+id/tvGiaChiTiet"
+        android:id="@+id/txtBreadcrumb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Giá"/>
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="14dp"
+        android:text="Trang chủ / Máy lọc nước / Máy lọc nước RO Mutosi / MP-S96"
+        android:textColor="#444444"
+        android:textSize="12sp" />
+
+    <!-- GALLERY -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="14dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imgMainProduct"
+            android:layout_width="0dp"
+            android:layout_height="265dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="12dp"
+            android:background="#FFFFFF"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/sp_1" />
+
+        <LinearLayout
+            android:layout_width="78dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imgThumb1"
+                android:layout_width="match_parent"
+                android:layout_height="66dp"
+                android:layout_marginBottom="8dp"
+                android:background="#FFFFFF"
+                android:padding="4dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/sp_1" />
+
+            <ImageView
+                android:id="@+id/imgThumb2"
+                android:layout_width="match_parent"
+                android:layout_height="66dp"
+                android:layout_marginBottom="8dp"
+                android:background="#FFFFFF"
+                android:padding="4dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/sp_2" />
+
+            <ImageView
+                android:id="@+id/imgThumb3"
+                android:layout_width="match_parent"
+                android:layout_height="66dp"
+                android:layout_marginBottom="8dp"
+                android:background="#FFFFFF"
+                android:padding="4dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/sp_3" />
+
+            <ImageView
+                android:id="@+id/imgThumb4"
+                android:layout_width="match_parent"
+                android:layout_height="66dp"
+                android:background="#FFFFFF"
+                android:padding="4dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/sp_4" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- INFO -->
+    <TextView
+        android:id="@+id/txtTenSanPham"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="20dp"
+        android:text="Máy lọc nước RO Mutosi MP-S96"
+        android:textColor="#006B4F"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtMaSanPham"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:text="Mã sản phẩm: 5000000218"
+        android:textColor="#666666"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/txtGiaSanPham"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="6dp"
+        android:text="5,790,000đ"
+        android:textColor="#222222"
+        android:textSize="22sp" />
+
+    <!-- TAB -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="20dp"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <TextView
+            android:id="@+id/tabThongSo"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:background="#007A5A"
+            android:gravity="center"
+            android:text="Thông số"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tabTinhNang"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:background="#8A8A8A"
+            android:gravity="center"
+            android:text="Tính năng"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tabMoTaChiTiet"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="#8A8A8A"
+            android:gravity="center"
+            android:text="Mô tả chi tiết"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- SECTION 1 -->
+    <TextView
+        android:id="@+id/txtSection1Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginEnd="20dp"
+        android:text="AN TOÀN SỨC KHỎE"
+        android:textColor="#007A5A"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtSection1SubTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="20dp"
+        android:text="MÁY LỌC NƯỚC MP-S96 ĐẠT TIÊU CHUẨN CHẤT LƯỢNG"
+        android:textColor="#111111"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtSection1Content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="20dp"
+        android:lineSpacingExtra="4dp"
+        android:text="• An tâm sử dụng vì MP-S96 đáp ứng được tiêu chuẩn loại bỏ 13 + 6 chất độc hại, theo tiêu chuẩn Nhật Bản JIS S3201&amp;IWPA&#10;• Nước sau lọc đạt chứng nhận Quy chuẩn quốc gia đối với nước uống trực tiếp QCVN6-1:2010/BYT&#10;• An tâm sử dụng vì MP-S96 đáp ứng được tiêu chuẩn loại bỏ 13 + 6 chất độc hại, theo tiêu chuẩn Nhật Bản JIS S3201&amp;IWPA"
+        android:textColor="#222222"
+        android:textSize="15sp" />
+
+    <!-- BANNER -->
+    <ImageView
+        android:id="@+id/imgBanner"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="70dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/sp_1" />
+
+    <!-- SECTION 2 -->
+    <TextView
+        android:id="@+id/txtSection2Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="NGUỒN NƯỚC CHUẨN SẠCH AN TÂM"
+        android:textColor="#007A5A"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtSection2SubTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="20dp"
+        android:text="NƯỚC SẠCH CHUẨN TINH KHIẾT VỚI 11 CẤP LỌC"
+        android:textColor="#111111"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtSection2Content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="24dp"
+        android:lineSpacingExtra="4dp"
+        android:text="• An tâm sử dụng vì MP-S96 đáp ứng được tiêu chuẩn loại bỏ 13 + 6 chất độc hại, theo tiêu chuẩn Nhật Bản JIS S3201&amp;IWPA&#10;• Nước sau lọc đạt chứng nhận Quy chuẩn quốc gia đối với nước uống trực tiếp QCVN6-1:2010/BYT&#10;• An tâm sử dụng vì MP-S96 đáp ứng được tiêu chuẩn loại bỏ 13 + 6 chất độc hại, theo tiêu chuẩn Nhật Bản JIS S3201&amp;IWPA"
+        android:textColor="#222222"
+        android:textSize="15sp" />
+
+    <!-- FOOTER -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#03161A"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp">
+
+        <ImageView
+            android:id="@+id/imgFooterLogo"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/logo_dahuka"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/txtFooter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/imgFooterLogo"
+            android:layout_marginStart="12dp"
+            android:text="Nâng tầm sống khỏe chuẩn Nhật"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="italic" />
+    </RelativeLayout>
+
 </LinearLayout>
+</ScrollView>

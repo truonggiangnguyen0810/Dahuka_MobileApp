@@ -21,6 +21,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "Dahuka_DevMobileApp"
 include(":app")
+include(":app:common")
 include(":app:xem_san_pham")
 include(":app:dang_nhap")
 include(":app:dang_ky")
