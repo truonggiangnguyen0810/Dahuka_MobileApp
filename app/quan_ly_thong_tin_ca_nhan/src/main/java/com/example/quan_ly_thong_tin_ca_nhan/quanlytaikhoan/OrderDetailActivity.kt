@@ -1,17 +1,15 @@
 package com.example.quan_ly_thong_tin_ca_nhan.quanlytaikhoan
 
-import android.os.Bundle
 import android.util.Log
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.example.common.model.KhachHang
 import com.example.quan_ly_thong_tin_ca_nhan.R
 import com.example.quan_ly_thong_tin_ca_nhan.databinding.XemChiTietDonHangBinding
-import com.example.quan_ly_thong_tin_ca_nhan.quanlytaikhoan.api.RetrofitClient
-import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class OrderDetailActivity : AppCompatActivity() {
 
@@ -21,7 +19,7 @@ class OrderDetailActivity : AppCompatActivity() {
         private const val TAG = "OrderDetail"
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: android.os.Bundle?) {
         super.onCreate(savedInstanceState)
         binding = XemChiTietDonHangBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -30,7 +28,6 @@ class OrderDetailActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
-        // Get data from intent
         val maDonHang = intent.getStringExtra("MA_DON_HANG") ?: ""
         val maDiaChi = intent.getStringExtra("MA_DIA_CHI") ?: ""
         val tongSoLuong = intent.getIntExtra("TONG_SO_LUONG", 0)
@@ -43,15 +40,11 @@ class OrderDetailActivity : AppCompatActivity() {
         val tenSanPham = intent.getStringExtra("TEN_SAN_PHAM") ?: ""
         val hinhAnhUrl = intent.getStringExtra("HINH_ANH_SAN_PHAM") ?: ""
 
-        // Shipping address
         binding.shippingAddress.text = maDiaChi
-
-        // Product section
         binding.productName.text = tenSanPham
         binding.quantity.text = "Số lượng: $tongSoLuong"
         binding.price.text = OrderAdapter.formatCurrency(tongThanhToan)
 
-        // Load product image
         if (!hinhAnhUrl.isNullOrEmpty()) {
             Glide.with(this)
                 .load(hinhAnhUrl)
@@ -62,29 +55,23 @@ class OrderDetailActivity : AppCompatActivity() {
             binding.productImage.setImageResource(R.drawable.product1)
         }
 
-        // Shipping method
         binding.shippingMethod.text = phuongThucVanChuyen
 
-        // Summary section
         binding.totalQuantity.text = tongSoLuong.toString()
         binding.totalAmount.text = OrderAdapter.formatCurrency(tongThanhTien)
         binding.totalDiscount.text = OrderAdapter.formatCurrency(tongChietKhau)
         binding.totalPayment.text = OrderAdapter.formatCurrency(tongThanhToan)
         binding.orderNote.text = ghiChu
 
-        // Update order status tracker
         updateStatusTracker(trangThai)
 
-        // Handle Cancel Button State
         if (trangThai == "Đã hủy") {
             binding.cancelOrderButton.isEnabled = false
-            // Light gray color for disabled state
-            binding.cancelOrderButton.backgroundTintList = 
+            binding.cancelOrderButton.backgroundTintList =
                 android.content.res.ColorStateList.valueOf(ContextCompat.getColor(this, R.color.dividerGray))
             binding.cancelOrderButton.setTextColor(ContextCompat.getColor(this, R.color.textGray))
         }
 
-        // Load customer info from API
         loadCustomerInfo()
     }
 
@@ -129,20 +116,21 @@ class OrderDetailActivity : AppCompatActivity() {
     }
 
     private fun loadCustomerInfo() {
-        lifecycleScope.launch {
-            try {
-                val response = RetrofitClient.khachHangApi.getAllKhachHang()
+        KhachHangApiService.api.getAllKhachHang().enqueue(object : Callback<List<KhachHang>> {
+            override fun onResponse(call: Call<List<KhachHang>>, response: Response<List<KhachHang>>) {
                 if (response.isSuccessful) {
-                    val khachHangList = response.body() ?: emptyList()
-                    val khachHang = khachHangList.find { it._id == "69d923c97922bf3246b90ba1" } ?: khachHangList.firstOrNull()
+                    val khachHang = response.body()?.find { it.get_id() == "69d923c97922bf3246b90ba1" }
+                        ?: response.body()?.firstOrNull()
                     if (khachHang != null) {
-                        binding.customerName.text = khachHang.tenKhachHang ?: "Khách hàng"
-                        binding.customerPhone.text = khachHang.sdt?.toString() ?: ""
+                        binding.customerName.text = khachHang.getTenKhachHang() ?: "Khách hàng"
+                        binding.customerPhone.text = khachHang.getSdt()?.toString() ?: ""
                     }
                 }
-            } catch (e: Exception) {
-                Log.e(TAG, "Error loading customer", e)
             }
-        }
+
+            override fun onFailure(call: Call<List<KhachHang>>, t: Throwable) {
+                Log.e(TAG, "Error loading customer", t)
+            }
+        })
     }
 }

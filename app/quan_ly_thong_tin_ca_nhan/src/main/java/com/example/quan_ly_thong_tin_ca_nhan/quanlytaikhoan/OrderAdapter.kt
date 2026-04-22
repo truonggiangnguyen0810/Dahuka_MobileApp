@@ -6,18 +6,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.common.model.DonHang
 import com.example.quan_ly_thong_tin_ca_nhan.R
 import com.example.quan_ly_thong_tin_ca_nhan.databinding.DonHangBinding
-import com.example.quan_ly_thong_tin_ca_nhan.quanlytaikhoan.api.DonHang
 import java.text.NumberFormat
 import java.util.Locale
 
 class OrderAdapter(
     private val context: Context,
     private val orders: List<DonHang>,
-    // MaDonHang -> TenSP đầu tiên
     private val productNameMap: Map<String, String> = emptyMap(),
-    // MaDonHang -> URL hình ảnh sản phẩm đầu tiên
     private val productImageMap: Map<String, String> = emptyMap()
 ) : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 
@@ -30,22 +28,20 @@ class OrderAdapter(
 
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
         val order = orders[position]
-        val maDH = order.maDonHang ?: ""
+        val maDH = order.getMaDonHang() ?: ""
 
         holder.binding.orderId.text = "#$maDH"
-        holder.binding.orderDate.text = order.phuongThucVanChuyen ?: ""
+        holder.binding.orderDate.text = order.getPhuongThucVanChuyen() ?: ""
 
-        val status = order.trangThaiDonHang ?: ""
+        val status = order.getTrangThaiDonHang() ?: ""
         holder.binding.statusBadge.text = status.uppercase()
 
-        // Show first product name; fallback to order code
         val tenSP = productNameMap[maDH] ?: "Đơn hàng $maDH"
         holder.binding.productName.text = tenSP
-        holder.binding.quantity.text = "Số lượng: ${order.tongSoLuong ?: 0}"
-        holder.binding.price.text = formatCurrency(order.tongThanhTien)
-        holder.binding.totalPayment.text = formatCurrency(order.tongThanhToan)
+        holder.binding.quantity.text = "Số lượng: ${order.getTongSoLuong() ?: 0}"
+        holder.binding.price.text = formatCurrency(order.getTongThanhTien()?.toDouble())
+        holder.binding.totalPayment.text = formatCurrency(order.getTongThanhToan()?.toDouble())
 
-        // Load image from map
         val imageUrl = productImageMap[maDH]
         if (!imageUrl.isNullOrEmpty()) {
             Glide.with(context)
@@ -57,7 +53,6 @@ class OrderAdapter(
             holder.binding.productImage.setImageResource(R.drawable.product1)
         }
 
-        // Status badge style
         when (status) {
             "Đã giao" -> {
                 holder.binding.statusBadge.setBackgroundResource(R.drawable.bg_badge_green)
@@ -79,17 +74,16 @@ class OrderAdapter(
 
         holder.binding.viewDetailsButton.setBounceClickEffect {
             val intent = Intent(context, OrderDetailActivity::class.java).apply {
-                putExtra("DON_HANG_ID", order._id)
+                putExtra("DON_HANG_ID", order.get_id())
                 putExtra("MA_DON_HANG", maDH)
-                putExtra("MA_DIA_CHI", order.maDiaChi)
-                putExtra("TONG_SO_LUONG", order.tongSoLuong ?: 0)
-                putExtra("TONG_THANH_TIEN", order.tongThanhTien ?: 0.0)
-                putExtra("TONG_CHIET_KHAU", order.tongChietKhau ?: 0.0)
-                putExtra("TONG_THANH_TOAN", order.tongThanhToan ?: 0.0)
-                putExtra("GHI_CHU", order.ghiChu ?: "Không có ghi chú")
+                putExtra("MA_DIA_CHI", order.getMaDiaChi())
+                putExtra("TONG_SO_LUONG", order.getTongSoLuong() ?: 0)
+                putExtra("TONG_THANH_TIEN", order.getTongThanhTien()?.toDouble() ?: 0.0)
+                putExtra("TONG_CHIET_KHAU", order.getTongChietKhau()?.toDouble() ?: 0.0)
+                putExtra("TONG_THANH_TOAN", order.getTongThanhToan()?.toDouble() ?: 0.0)
+                putExtra("GHI_CHU", order.getGhiChu() ?: "Không có ghi chú")
                 putExtra("TRANG_THAI", status)
-                putExtra("PHUONG_THUC_VAN_CHUYEN", order.phuongThucVanChuyen ?: "")
-                // Pass first product name and image
+                putExtra("PHUONG_THUC_VAN_CHUYEN", order.getPhuongThucVanChuyen() ?: "")
                 putExtra("TEN_SAN_PHAM", tenSP)
                 putExtra("HINH_ANH_SAN_PHAM", imageUrl)
             }

@@ -1,16 +1,15 @@
 package com.example.quan_ly_thong_tin_ca_nhan.quanlytaikhoan
 
-import android.os.Bundle
 import android.content.Intent
 import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
+import com.example.common.model.KhachHang
 import com.example.quan_ly_thong_tin_ca_nhan.R
 import com.example.quan_ly_thong_tin_ca_nhan.databinding.ActivityMainBinding
-import com.example.quan_ly_thong_tin_ca_nhan.quanlytaikhoan.api.KhachHang
-import com.example.quan_ly_thong_tin_ca_nhan.quanlytaikhoan.api.RetrofitClient
-import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         private const val TAG = "MainActivity"
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: android.os.Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -32,38 +31,36 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadKhachHangInfo() {
-        lifecycleScope.launch {
-            try {
-                val response = RetrofitClient.khachHangApi.getAllKhachHang()
+        KhachHangApiService.api.getAllKhachHang().enqueue(object : Callback<List<KhachHang>> {
+            override fun onResponse(call: Call<List<KhachHang>>, response: Response<List<KhachHang>>) {
                 if (response.isSuccessful) {
-                    val khachHangList = response.body()
-                    val khachHang = khachHangList?.find { it._id == currentId }
+                    val khachHang = response.body()?.find { it.get_id() == currentId }
                     if (khachHang != null) {
-                        currentMaKH = khachHang.maKhachHang ?: ""
+                        currentMaKH = khachHang.getMaKhachHang() ?: ""
                         displayKhachHangInfo(khachHang)
                     }
                 } else {
                     Log.e(TAG, "API Error: ${response.code()}")
                 }
-            } catch (e: Exception) {
-                Log.e(TAG, "Network Error", e)
             }
-        }
+
+            override fun onFailure(call: Call<List<KhachHang>>, t: Throwable) {
+                Log.e(TAG, "Network Error", t)
+            }
+        })
     }
 
     private fun displayKhachHangInfo(khachHang: KhachHang) {
-        // Update the user name in the profile card
         try {
             val profileCard = binding.root.findViewById<TextView>(R.id.userName)
-            profileCard?.text = khachHang.tenKhachHang ?: "Khách hàng"
+            profileCard?.text = khachHang.getTenKhachHang() ?: "Khách hàng"
         } catch (e: Exception) {
             Log.e(TAG, "Could not update user name", e)
         }
 
-        // Update member ID
         try {
             val idText = binding.root.findViewById<TextView>(R.id.memberId)
-            idText?.text = "ID: ${khachHang.maKhachHang}"
+            idText?.text = "ID: ${khachHang.getMaKhachHang()}"
         } catch (e: Exception) {
             Log.e(TAG, "Could not update member ID", e)
         }

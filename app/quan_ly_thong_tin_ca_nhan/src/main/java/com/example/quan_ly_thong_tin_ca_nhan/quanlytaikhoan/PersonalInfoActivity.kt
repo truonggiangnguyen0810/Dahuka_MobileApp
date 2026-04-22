@@ -1,17 +1,15 @@
 package com.example.quan_ly_thong_tin_ca_nhan.quanlytaikhoan
 
-import android.os.Bundle
 import android.util.Log
-import android.view.View
+import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
+import com.example.common.model.KhachHang
 import com.example.quan_ly_thong_tin_ca_nhan.R
 import com.example.quan_ly_thong_tin_ca_nhan.databinding.ThongTinCaNhanBinding
-import com.example.quan_ly_thong_tin_ca_nhan.quanlytaikhoan.api.KhachHang
-import com.example.quan_ly_thong_tin_ca_nhan.quanlytaikhoan.api.RetrofitClient
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import android.view.LayoutInflater
-import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -25,7 +23,7 @@ class PersonalInfoActivity : AppCompatActivity() {
         private const val TAG = "PersonalInfoActivity"
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: android.os.Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ThongTinCaNhanBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -46,18 +44,15 @@ class PersonalInfoActivity : AppCompatActivity() {
             saveCustomerInfo()
         }
 
-        // Load customer data from API
         val khachHangId = intent.getStringExtra(EXTRA_KHACH_HANG_ID) ?: "69d923c97922bf3246b90ba1"
         loadKhachHangData(khachHangId)
     }
 
     private fun loadKhachHangData(khachHangId: String) {
-        lifecycleScope.launch {
-            try {
-                val response = RetrofitClient.khachHangApi.getAllKhachHang()
+        KhachHangApiService.api.getAllKhachHang().enqueue(object : Callback<List<KhachHang>> {
+            override fun onResponse(call: Call<List<KhachHang>>, response: Response<List<KhachHang>>) {
                 if (response.isSuccessful) {
-                    val khachHangList = response.body()
-                    val khachHang = khachHangList?.find { it._id == khachHangId }
+                    val khachHang = response.body()?.find { it.get_id() == khachHangId }
                     if (khachHang != null) {
                         currentKhachHang = khachHang
                         displayKhachHangData(khachHang)
@@ -68,29 +63,27 @@ class PersonalInfoActivity : AppCompatActivity() {
                     Log.e(TAG, "API Error: ${response.code()} - ${response.message()}")
                     showSuccessToast("Lỗi tải dữ liệu: ${response.code()}")
                 }
-            } catch (e: Exception) {
-                Log.e(TAG, "Network Error", e)
-                showSuccessToast("Lỗi kết nối: ${e.localizedMessage}")
             }
-        }
+
+            override fun onFailure(call: Call<List<KhachHang>>, t: Throwable) {
+                Log.e(TAG, "Network Error", t)
+                showSuccessToast("Lỗi kết nối: ${t.localizedMessage}")
+            }
+        })
     }
 
     private fun displayKhachHangData(khachHang: KhachHang) {
-        binding.nameInput.setText(khachHang.tenKhachHang ?: "")
+        binding.nameInput.setText(khachHang.getTenKhachHang() ?: "")
 
-        // Format phone number with leading zero
-        val phoneNumber = khachHang.sdt?.toString() ?: ""
+        val phoneNumber = khachHang.getSdt()?.toString() ?: ""
         val formattedPhone = if (phoneNumber.length == 9) "0$phoneNumber" else phoneNumber
         binding.phoneInput.setText(formattedPhone)
 
-        binding.emailInput.setText(khachHang.email ?: "")
+        binding.emailInput.setText(khachHang.getEmail() ?: "")
 
-        // Parse and format birth date
-        val ngaySinh = khachHang.ngaySinh
+        val ngaySinh = khachHang.getNgaySinh()
         if (!ngaySinh.isNullOrEmpty()) {
             try {
-                // API returns format like "Fri Jun 10 1988 07:00:00 GMT+0700 (Indochina Time)"
-                // Extract just the date part
                 val parts = ngaySinh.split(" ")
                 if (parts.size >= 4) {
                     val monthStr = parts[1]
@@ -110,8 +103,7 @@ class PersonalInfoActivity : AppCompatActivity() {
             }
         }
 
-        // Set gender radio button
-        when (khachHang.gioiTinh) {
+        when (khachHang.getGioiTinh()) {
             "Nam" -> binding.radioMale.isChecked = true
             "Nữ" -> binding.radioFemale.isChecked = true
             "Khác" -> binding.radioOther.isChecked = true
@@ -119,7 +111,7 @@ class PersonalInfoActivity : AppCompatActivity() {
     }
 
     private fun saveCustomerInfo() {
-        val maKH = currentKhachHang?.maKhachHang ?: return
+        val maKH = currentKhachHang?.getMaKhachHang() ?: return
 
         val selectedGender = when (binding.genderGroup.checkedRadioButtonId) {
             R.id.radioMale -> "Nam"
@@ -128,33 +120,32 @@ class PersonalInfoActivity : AppCompatActivity() {
             else -> "Nam"
         }
 
-        val updatedKhachHang = currentKhachHang?.copy(
-            tenKhachHang = binding.nameInput.text.toString(),
-            email = binding.emailInput.text.toString(),
-            sdt = binding.phoneInput.text.toString().replace(" ", "").toLongOrNull(),
-            gioiTinh = selectedGender
-        )
-
-        if (updatedKhachHang == null) {
-            showSuccessToast("Không có dữ liệu để lưu")
-            return
+        val updatedKhachHang = KhachHang().apply {
+            setMaKhachHang(currentKhachHang?.getMaKhachHang())
+            setTenKhachHang(binding.nameInput.text.toString())
+            setEmail(binding.emailInput.text.toString())
+            setSdt(binding.phoneInput.text.toString().replace(" ", "").toLongOrNull() ?: 0L)
+            setGioiTinh(selectedGender)
+            setNgaySinh(currentKhachHang?.getNgaySinh())
         }
 
-        lifecycleScope.launch {
-            try {
-                val response = RetrofitClient.khachHangApi.updateKhachHang(maKH, updatedKhachHang)
-                if (response.isSuccessful) {
-                    currentKhachHang = response.body() ?: updatedKhachHang
-                    showSuccessToast("Đã lưu thay đổi thành công!")
-                } else {
-                    Log.e(TAG, "Save Error: ${response.code()}")
-                    showSuccessToast("Lỗi lưu dữ liệu: ${response.code()}")
+        KhachHangApiService.api.updateKhachHang(maKH, updatedKhachHang)
+            .enqueue(object : Callback<KhachHang> {
+                override fun onResponse(call: Call<KhachHang>, response: Response<KhachHang>) {
+                    if (response.isSuccessful) {
+                        currentKhachHang = response.body() ?: updatedKhachHang
+                        showSuccessToast("Đã lưu thay đổi thành công!")
+                    } else {
+                        Log.e(TAG, "Save Error: ${response.code()}")
+                        showSuccessToast("Lỗi lưu dữ liệu: ${response.code()}")
+                    }
                 }
-            } catch (e: Exception) {
-                Log.e(TAG, "Save Network Error", e)
-                showSuccessToast("Lỗi kết nối khi lưu: ${e.localizedMessage}")
-            }
-        }
+
+                override fun onFailure(call: Call<KhachHang>, t: Throwable) {
+                    Log.e(TAG, "Save Network Error", t)
+                    showSuccessToast("Lỗi kết nối khi lưu: ${t.localizedMessage}")
+                }
+            })
     }
 
     private fun showAvatarChangeOptions() {

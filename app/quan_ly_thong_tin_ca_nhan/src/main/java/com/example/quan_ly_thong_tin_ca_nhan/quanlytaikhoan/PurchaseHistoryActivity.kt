@@ -1,22 +1,22 @@
 package com.example.quan_ly_thong_tin_ca_nhan.quanlytaikhoan
 
-import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.common.model.ChiTietDonHang
+import com.example.common.model.DonHang
+import com.example.common.model.HinhAnhSanPham
+import com.example.common.model.SanPham
 import com.example.quan_ly_thong_tin_ca_nhan.databinding.LichSuMuaHangBinding
-import com.example.quan_ly_thong_tin_ca_nhan.quanlytaikhoan.api.DonHang
-import com.example.quan_ly_thong_tin_ca_nhan.quanlytaikhoan.api.RetrofitClient
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class PurchaseHistoryActivity : AppCompatActivity() {
 
     private lateinit var binding: LichSuMuaHangBinding
     private var fullOrders: List<DonHang> = emptyList()
-    // MaDonHang -> TenSP đầu tiên
     private var productNameMap: Map<String, String> = emptyMap()
-    // MaDonHang -> DuongDanHinhAnh đầu tiên
     private var productImageMap: Map<String, String> = emptyMap()
 
     companion object {
@@ -24,7 +24,7 @@ class PurchaseHistoryActivity : AppCompatActivity() {
         private const val TAG = "PurchaseHistory"
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: android.os.Bundle?) {
         super.onCreate(savedInstanceState)
         binding = LichSuMuaHangBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -33,8 +33,7 @@ class PurchaseHistoryActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
-        binding.orderRecyclerView.layoutManager =
-            androidx.recyclerview.widget.LinearLayoutManager(this)
+        binding.orderRecyclerView.layoutManager = LinearLayoutManager(this)
 
         setupTabLayout()
 
@@ -43,68 +42,79 @@ class PurchaseHistoryActivity : AppCompatActivity() {
     }
 
     private fun loadOrders(maKhachHang: String?) {
-        lifecycleScope.launch {
-            try {
-                // Parallel fetch all 4 APIs
-                val ordersDeferred = async { RetrofitClient.khachHangApi.getAllDonHang() }
-                val chiTietDeferred = async { RetrofitClient.khachHangApi.getAllChiTietDonHang() }
-                val sanPhamDeferred = async { RetrofitClient.khachHangApi.getAllSanPham() }
-                val hinhAnhDeferred = async { RetrofitClient.khachHangApi.getAllHinhAnhSanPham() }
+        val api = KhachHangApiService.api
 
-                val ordersResponse = ordersDeferred.await()
-                val chiTietResponse = chiTietDeferred.await()
-                val sanPhamResponse = sanPhamDeferred.await()
-                val hinhAnhResponse = hinhAnhDeferred.await()
-
-                if (ordersResponse.isSuccessful) {
-                    val allOrders = ordersResponse.body() ?: emptyList()
-                    fullOrders = if (!maKhachHang.isNullOrEmpty()) {
-                        allOrders.filter { it.maKhachHang == maKhachHang }
-                    } else {
-                        allOrders
-                    }
-
-                    // Build MaSP -> TenSP map
-                    val sanPhamMap = if (sanPhamResponse.isSuccessful) {
-                        (sanPhamResponse.body() ?: emptyList())
-                            .associateBy { it.maSP ?: "" }
-                    } else emptyMap()
-
-                    // Build MaSP -> HinhAnh (tên ảnh chính thường là Anhchinh...)
-                    val imagesByProduct = if (hinhAnhResponse.isSuccessful) {
-                        (hinhAnhResponse.body() ?: emptyList())
-                            .groupBy { it.maSP ?: "" }
-                            .mapValues { (_, images) ->
-                                images.firstOrNull()?.duongDanHinhAnh
-                            }
-                    } else emptyMap()
-
-                    // Build MaDonHang -> TenSP and Image đầu tiên
-                    if (chiTietResponse.isSuccessful) {
-                        val chiTietList = chiTietResponse.body() ?: emptyList()
-                        val groupedChiTiet = chiTietList.groupBy { it.maDonHang ?: "" }
-                        
-                        productNameMap = groupedChiTiet.mapValues { (_, items) ->
-                            val firstMaSP = items.firstOrNull()?.maSanPham ?: ""
-                            sanPhamMap[firstMaSP]?.tenSP ?: firstMaSP
-                        }
-
-                        productImageMap = groupedChiTiet.mapValues { (_, items) ->
-                            val firstMaSP = items.firstOrNull()?.maSanPham ?: ""
-                            imagesByProduct[firstMaSP] ?: ""
-                        }
-                    }
-
-                    binding.orderRecyclerView.adapter =
-                        OrderAdapter(this@PurchaseHistoryActivity, fullOrders, productNameMap, productImageMap)
-                    Log.d(TAG, "Loaded ${fullOrders.size} orders")
-                } else {
-                    Log.e(TAG, "API Error: ${ordersResponse.code()}")
+        api.getAllDonHang().enqueue(object : Callback<List<DonHang>> {
+            override fun onResponse(call: Call<List<DonHang>>, response: Response<List<DonHang>>) {
+                if (!response.isSuccessful) {
+                    Log.e(TAG, "API Error: ${response.code()}")
+                    return
                 }
-            } catch (e: Exception) {
-                Log.e(TAG, "Network Error", e)
+
+                val allOrders = response.body() ?: emptyList()
+                fullOrders = if (!maKhachHang.isNullOrEmpty()) {
+                    allOrders.filter { it.getMaKhachHang() == maKhachHang }
+                } else {
+                    allOrders
+                }
+
+                api.getAllChiTietDonHang().enqueue(object : Callback<List<ChiTietDonHang>> {
+                    override fun onResponse(call: Call<List<ChiTietDonHang>>, response: Response<List<ChiTietDonHang>>) {
+                        val chiTietList = response.body() ?: emptyList()
+                        val groupedChiTiet = chiTietList.groupBy { it.getMaDonHang() ?: "" }
+
+                        api.getAllSanPham().enqueue(object : Callback<List<SanPham>> {
+                            override fun onResponse(call: Call<List<SanPham>>, response: Response<List<SanPham>>) {
+                                val sanPhamMap = (response.body() ?: emptyList())
+                                    .associateBy { it.getMaSP() ?: "" }
+
+                                api.getAllHinhAnhSanPham().enqueue(object : Callback<List<HinhAnhSanPham>> {
+                                    override fun onResponse(call: Call<List<HinhAnhSanPham>>, response: Response<List<HinhAnhSanPham>>) {
+                                        val imagesByProduct = (response.body() ?: emptyList())
+                                            .groupBy { it.getMaSP() ?: "" }
+                                            .mapValues { (_, images) ->
+                                                images.firstOrNull()?.getDuongDanHinhAnh()
+                                            }
+
+                                        productNameMap = groupedChiTiet.mapValues { (_, items) ->
+                                            val firstMaSP = items.firstOrNull()?.getMaSanPham() ?: ""
+                                            sanPhamMap[firstMaSP]?.getTenSP() ?: firstMaSP
+                                        }
+
+                                        productImageMap = groupedChiTiet.mapValues { (_, items) ->
+                                            val firstMaSP = items.firstOrNull()?.getMaSanPham() ?: ""
+                                            imagesByProduct[firstMaSP] ?: ""
+                                        }
+
+                                        binding.orderRecyclerView.adapter =
+                                            OrderAdapter(this@PurchaseHistoryActivity, fullOrders, productNameMap, productImageMap)
+                                        Log.d(TAG, "Loaded ${fullOrders.size} orders")
+                                    }
+
+                                    override fun onFailure(call: Call<List<HinhAnhSanPham>>, t: Throwable) {
+                                        Log.e(TAG, "Image API Error", t)
+                                        binding.orderRecyclerView.adapter =
+                                            OrderAdapter(this@PurchaseHistoryActivity, fullOrders, emptyMap(), emptyMap())
+                                    }
+                                })
+                            }
+
+                            override fun onFailure(call: Call<List<SanPham>>, t: Throwable) {
+                                Log.e(TAG, "SanPham API Error", t)
+                            }
+                        })
+                    }
+
+                    override fun onFailure(call: Call<List<ChiTietDonHang>>, t: Throwable) {
+                        Log.e(TAG, "ChiTiet API Error", t)
+                    }
+                })
             }
-        }
+
+            override fun onFailure(call: Call<List<DonHang>>, t: Throwable) {
+                Log.e(TAG, "Network Error", t)
+            }
+        })
     }
 
     private fun setupTabLayout() {
@@ -122,11 +132,11 @@ class PurchaseHistoryActivity : AppCompatActivity() {
         val filteredList = when (position) {
             0 -> fullOrders
             1 -> fullOrders.filter {
-                it.trangThaiDonHang == "Chờ xác nhận" || it.trangThaiDonHang == "Đang xử lý"
+                it.getTrangThaiDonHang() == "Chờ xác nhận" || it.getTrangThaiDonHang() == "Đang xử lý"
             }
-            2 -> fullOrders.filter { it.trangThaiDonHang == "Đang giao" }
-            3 -> fullOrders.filter { it.trangThaiDonHang == "Đã giao" }
-            4 -> fullOrders.filter { it.trangThaiDonHang == "Đã hủy" }
+            2 -> fullOrders.filter { it.getTrangThaiDonHang() == "Đang giao" }
+            3 -> fullOrders.filter { it.getTrangThaiDonHang() == "Đã giao" }
+            4 -> fullOrders.filter { it.getTrangThaiDonHang() == "Đã hủy" }
             else -> fullOrders
         }
         binding.orderRecyclerView.adapter =
