@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="DAHUKA"
+        android:text=""
         android:textColor="#007A5A"
         android:textSize="0sp"
         android:textStyle="bold"
@@ -41,13 +41,13 @@
         app:layout_constraintTop_toBottomOf="@id/txtTenLogo" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardDangKy"
+        android:id="@+id/cardQuenMatKhau"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="24dp"
         app:cardElevation="0dp"
@@ -69,144 +69,149 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingStart="18dp"
-                android:paddingTop="18dp"
-                android:paddingEnd="18dp"
+                android:paddingStart="22dp"
+                android:paddingTop="20dp"
+                android:paddingEnd="22dp"
                 android:paddingBottom="24dp">
 
                 <TextView
+                    android:id="@+id/txtTieuDe"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Đăng Ký"
+                    android:text="Vui lòng nhập mã xác minh"
                     android:textColor="#1F2A3D"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/txtMoTaOtp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="Nhập thông tin để đăng ký tài khoản"
+                    android:layout_marginTop="28dp"
+                    android:text="Mã OTP của bạn đã được gửi bằng tin nhắn đến (+84) ..."
                     android:textColor="#8D94A3"
                     android:textSize="14sp" />
 
-                <!-- Họ tên -->
+                <!-- 6 ô OTP -->
                 <LinearLayout
+                    android:id="@+id/khuVucOtp"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="18dp"
-                    android:background="@drawable/o_nhap_thong_tin"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingStart="14dp"
-                    android:paddingEnd="14dp">
-
-                    <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:contentDescription="Ho ten"
-                        android:src="@drawable/ic_ho_ten" />
-
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="22dp"
-                        android:layout_marginStart="14dp"
-                        android:layout_marginEnd="12dp"
-                        android:background="#E2E5EA" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
                     <EditText
-                        android:id="@+id/edtHoTen"
+                        android:id="@+id/edtOtp1"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
                         android:layout_weight="1"
-                        android:background="@android:color/transparent"
-                        android:hint="Họ tên"
-                        android:inputType="textPersonName"
+                        android:background="@drawable/o_nhap_otp"
+                        android:gravity="center"
+                        android:hint="."
+                        android:inputType="number"
+                        android:maxLength="1"
                         android:textColor="#1F2A3D"
                         android:textColorHint="#A4ACB9"
-                        android:textSize="16sp" />
-                </LinearLayout>
+                        android:textSize="20sp" />
 
-                <!-- Email -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="14dp"
-                    android:background="@drawable/o_nhap_thong_tin"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingStart="14dp"
-                    android:paddingEnd="14dp">
-
-                    <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:contentDescription="Email"
-                        android:src="@drawable/ic_email" />
-
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="22dp"
-                        android:layout_marginStart="14dp"
-                        android:layout_marginEnd="12dp"
-                        android:background="#E2E5EA" />
+                    <Space
+                        android:layout_width="10dp"
+                        android:layout_height="1dp" />
 
                     <EditText
-                        android:id="@+id/edtEmail"
+                        android:id="@+id/edtOtp2"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
                         android:layout_weight="1"
-                        android:background="@android:color/transparent"
-                        android:hint="Nhập Email của bạn"
-                        android:inputType="textEmailAddress"
+                        android:background="@drawable/o_nhap_otp"
+                        android:gravity="center"
+                        android:hint="."
+                        android:inputType="number"
+                        android:maxLength="1"
                         android:textColor="#1F2A3D"
                         android:textColorHint="#A4ACB9"
-                        android:textSize="16sp" />
-                </LinearLayout>
+                        android:textSize="20sp" />
 
-                <!-- Ngày sinh -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="14dp"
-                    android:background="@drawable/o_nhap_thong_tin"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingStart="14dp"
-                    android:paddingEnd="14dp">
-
-                    <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:contentDescription="Ngay sinh"
-                        android:src="@drawable/ic_ngay_sinh" />
-
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="22dp"
-                        android:layout_marginStart="14dp"
-                        android:layout_marginEnd="12dp"
-                        android:background="#E2E5EA" />
+                    <Space
+                        android:layout_width="10dp"
+                        android:layout_height="1dp" />
 
                     <EditText
-                        android:id="@+id/edtNgaySinh"
+                        android:id="@+id/edtOtp3"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
                         android:layout_weight="1"
-                        android:background="@android:color/transparent"
-                        android:hint="dd/mm/yyyy"
-                        android:inputType="date"
+                        android:background="@drawable/o_nhap_otp"
+                        android:gravity="center"
+                        android:hint="."
+                        android:inputType="number"
+                        android:maxLength="1"
                         android:textColor="#1F2A3D"
                         android:textColorHint="#A4ACB9"
-                        android:textSize="16sp" />
+                        android:textSize="20sp" />
+
+                    <Space
+                        android:layout_width="10dp"
+                        android:layout_height="1dp" />
+
+                    <EditText
+                        android:id="@+id/edtOtp4"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/o_nhap_otp"
+                        android:gravity="center"
+                        android:hint="."
+                        android:inputType="number"
+                        android:maxLength="1"
+                        android:textColor="#1F2A3D"
+                        android:textColorHint="#A4ACB9"
+                        android:textSize="20sp" />
+
+                    <Space
+                        android:layout_width="10dp"
+                        android:layout_height="1dp" />
+
+                    <EditText
+                        android:id="@+id/edtOtp5"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/o_nhap_otp"
+                        android:gravity="center"
+                        android:hint="."
+                        android:inputType="number"
+                        android:maxLength="1"
+                        android:textColor="#1F2A3D"
+                        android:textColorHint="#A4ACB9"
+                        android:textSize="20sp" />
+
+                    <Space
+                        android:layout_width="10dp"
+                        android:layout_height="1dp" />
+
+                    <EditText
+                        android:id="@+id/edtOtp6"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/o_nhap_otp"
+                        android:gravity="center"
+                        android:hint="."
+                        android:inputType="number"
+                        android:maxLength="1"
+                        android:textColor="#1F2A3D"
+                        android:textColorHint="#A4ACB9"
+                        android:textSize="20sp" />
                 </LinearLayout>
 
                 <!-- Mật khẩu -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:layout_marginTop="14dp"
-                    android:background="@drawable/o_nhap_thong_tin"
+                    android:layout_marginTop="34dp"
+                    android:background="@drawable/o_nhap_quen_mk"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingStart="14dp"
@@ -226,7 +231,7 @@
                         android:background="#E2E5EA" />
 
                     <EditText
-                        android:id="@+id/edtMatKhau"
+                        android:id="@+id/edtMatKhauMoi"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -236,6 +241,13 @@
                         android:textColor="#1F2A3D"
                         android:textColorHint="#A4ACB9"
                         android:textSize="16sp" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="22dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:background="#E2E5EA" />
 
                     <ImageView
                         android:id="@+id/imgAnHienMatKhau"
@@ -249,8 +261,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:layout_marginTop="14dp"
-                    android:background="@drawable/o_nhap_thong_tin"
+                    android:layout_marginTop="18dp"
+                    android:background="@drawable/o_nhap_quen_mk"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingStart="14dp"
@@ -281,6 +293,13 @@
                         android:textColorHint="#A4ACB9"
                         android:textSize="16sp" />
 
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="22dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:background="#E2E5EA" />
+
                     <ImageView
                         android:id="@+id/imgAnHienXacNhanMatKhau"
                         android:layout_width="22dp"
@@ -289,65 +308,48 @@
                         android:src="@drawable/ic_mat_xem" />
                 </LinearLayout>
 
-                <!-- Checkbox -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingStart="10dp">
-
-                    <CheckBox
-                        android:id="@+id/chkDongY"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:buttonTint="#8F96A3" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tôi đồng ý với "
-                        android:textColor="#4A5565"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/txtDieuKhoan"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Điều kiện và Điều khoản sử dụng"
-                        android:textColor="#3D6BFF"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
                 <Button
-                    android:id="@+id/btnDangKy"
-                    android:layout_width="140dp"
+                    android:id="@+id/btnXacNhan"
+                    android:layout_width="166dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/nut_tiep_tuc"
-                    android:text="Đăng ký"
+                    android:layout_marginTop="24dp"
+                    android:background="@drawable/nut_xac_nhan_quen_mk"
+                    android:text="Xác nhận"
                     android:textAllCaps="false"
                     android:textColor="#FFFFFF"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/txtGuiLaiMa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="4dp"
+                    android:text="Gửi lại mã sau: 04:49"
+                    android:textColor="#5B6473"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/txtLuuY"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:lineSpacingExtra="4dp"
                     android:text="* Lưu ý : Mật khẩu tối thiểu mười (10) ký tự, ít nhất một chữ cái viết hoa, một chữ cái viết thường, một số và một ký tự đặc biệt (@$!%*?&amp;)."
                     android:textColor="#6B7280"
                     android:textSize="13sp" />
 
+                <Space
+                    android:layout_width="1dp"
+                    android:layout_height="130dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="16dp"
                     android:text="Hoặc"
                     android:textColor="#5B6473"
                     android:textSize="16sp" />
@@ -355,7 +357,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
+                    android:layout_marginTop="16dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingStart="22dp"
@@ -385,12 +387,12 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/btnDangNhapGoogleTrang2"
+                    android:id="@+id/btnDangNhapGoogle"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:layout_marginStart="22dp"
-                    android:layout_marginTop="22dp"
-                    android:layout_marginEnd="22dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="30dp"
                     android:background="@drawable/nut_dang_nhap_google"
                     android:clickable="true"
                     android:focusable="true"
@@ -423,6 +425,7 @@
 
             </LinearLayout>
         </ScrollView>
+
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
