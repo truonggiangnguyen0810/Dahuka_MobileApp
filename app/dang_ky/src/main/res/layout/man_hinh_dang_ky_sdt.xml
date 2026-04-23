@@ -5,9 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".MainActivity">
+    tools:context=".ManHinhDangKySdtActivity">
 
-    <!-- Logo DAHUKA -->
     <ImageView
         android:id="@+id/imgLogoDahuka"
         android:layout_width="56dp"
@@ -20,7 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Tên logo -->
     <TextView
         android:id="@+id/txtTenLogo"
         android:layout_width="wrap_content"
@@ -28,12 +26,11 @@
         android:layout_marginStart="16dp"
         android:text="DAHUKA"
         android:textColor="#007A5A"
-        android:textSize="14sp"
+        android:textSize="0sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imgLogoDahuka" />
 
-    <!-- Đường kẻ xanh trên -->
     <View
         android:id="@+id/viewLineTop"
         android:layout_width="0dp"
@@ -44,8 +41,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtTenLogo" />
 
-    <!-- Khung trắng bo góc -->
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardDangKy"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -97,7 +93,6 @@
                     android:textColor="#8D94A3"
                     android:textSize="14sp" />
 
-                <!-- Ô nhập số điện thoại -->
                 <LinearLayout
                     android:id="@+id/khungNhapSdt"
                     android:layout_width="match_parent"
@@ -106,7 +101,6 @@
                     android:background="@drawable/o_nhap_sdt"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingStart="0dp"
                     android:paddingEnd="12dp">
 
                     <LinearLayout
@@ -129,7 +123,7 @@
                             android:layout_width="16dp"
                             android:layout_height="16dp"
                             android:layout_marginStart="8dp"
-                            android:contentDescription="Chon ma quoc gia"
+                            android:contentDescription="Chọn mã quốc gia"
                             android:src="@android:drawable/arrow_down_float"
                             android:tint="#B8BEC9" />
                     </LinearLayout>
@@ -148,8 +142,6 @@
                         android:hint="Số điện thoại"
                         android:inputType="phone"
                         android:paddingStart="12dp"
-                        android:paddingTop="0dp"
-                        android:paddingBottom="0dp"
                         android:textColor="#1F2A3D"
                         android:textColorHint="#A4ACB9"
                         android:textSize="16sp" />
@@ -168,91 +160,9 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/txtHoac"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    android:text="Hoặc"
-                    android:textColor="#5B6473"
-                    android:textSize="16sp" />
-
-                <!-- Dòng kẻ + chữ -->
-                <LinearLayout
-                    android:id="@+id/khuVucKhac"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_weight="1"
-                        android:background="#D9DDE3" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginEnd="12dp"
-                        android:text="ĐĂNG NHẬP BẰNG HÌNH THỨC KHÁC"
-                        android:textColor="#7A8393"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_weight="1"
-                        android:background="#D9DDE3" />
-                </LinearLayout>
-
-                <!-- Nút Google -->
-                <LinearLayout
-                    android:id="@+id/btnDangNhapGoogle"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginStart="28dp"
-                    android:layout_marginTop="28dp"
-                    android:layout_marginEnd="28dp"
-                    android:background="@drawable/nut_dang_nhap_google"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingStart="18dp"
-                    android:paddingEnd="18dp">
-
-                    <ImageView
-                        android:id="@+id/imgGoogle"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:contentDescription="Google"
-                        android:src="@drawable/ic_google" />
-
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="24dp"
-                        android:layout_marginStart="18dp"
-                        android:layout_marginEnd="18dp"
-                        android:background="#D9DDE3" />
-
-                    <TextView
-                        android:id="@+id/txtGoogle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Đăng nhập với Google"
-                        android:textColor="#334155"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
             </LinearLayout>
         </ScrollView>
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
