@@ -39,32 +39,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="Loại nguồn nước"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical">
-
-        <CheckBox android:id="@+id/cbNuocLo" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Nước lợ" />
-        <CheckBox android:id="@+id/cbNuocMay" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Nước máy" />
-        <CheckBox android:id="@+id/cbNuocCung" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Nước cứng" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="15dp"
-        android:background="#DDDDDD" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:text="Khoảng giá"
         android:textColor="#000000"
         android:textSize="18sp"

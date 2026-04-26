@@ -30,6 +30,15 @@ public class AuthUser {
     @SerializedName("last_login")
     private String lastLogin;
 
+    @SerializedName("TenKhachHang")
+    private String tenKhachHang;
+
+    @SerializedName("Email")
+    private String email;
+
+    @SerializedName("NgaySinh")
+    private String ngaySinh;
+
     public String get_id() { return _id; }
     public void set_id(String _id) { this._id = _id; }
 
@@ -56,4 +65,13 @@ public class AuthUser {
 
     public String getLastLogin() { return lastLogin; }
     public void setLastLogin(String lastLogin) { this.lastLogin = lastLogin; }
+
+    public String getTenKhachHang() { return tenKhachHang; }
+    public void setTenKhachHang(String tenKhachHang) { this.tenKhachHang = tenKhachHang; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public String getNgaySinh() { return ngaySinh; }
+    public void setNgaySinh(String ngaySinh) { this.ngaySinh = ngaySinh; }
 }

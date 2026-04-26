@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layoutMenu"
+    android:layout_width="280dp"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:paddingStart="20dp"
+    android:paddingTop="20dp"
+    android:paddingEnd="20dp"
+    android:paddingBottom="20dp">
+
+    <!-- Header logo + slogan -->
+
+
+    <!-- Trang chủ -->
+    <TextView
+        android:id="@+id/tvTrangChu"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:gravity="center_vertical"
+        android:text="TRANG CHỦ"
+        android:textColor="#008060"
+        android:textSize="13sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E5E5E5" />
+
+    <!-- Máy lọc nước -->
+    <TextView
+        android:id="@+id/tvMayLocNuoc"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:gravity="center_vertical"
+        android:text="MÁY LỌC NƯỚC"
+        android:textColor="#008060"
+        android:textSize="13sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E5E5E5" />
+
+    <!-- Linh kiện -->
+    <TextView
+        android:id="@+id/tvLinhKien"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:gravity="center_vertical"
+        android:text="LINH KIỆN"
+        android:textColor="#008060"
+        android:textSize="13sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E5E5E5" />
+
+    <!-- Dịch vụ -->
+    <TextView
+        android:id="@+id/tvDichVu"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:gravity="center_vertical"
+        android:text="DỊCH VỤ"
+        android:textColor="#008060"
+        android:textSize="13sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E5E5E5" />
+
+    <!-- Hướng dẫn lắp đặt -->
+    <TextView
+        android:id="@+id/tvHuongDanLapDat"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:gravity="center_vertical"
+        android:text="HƯỚNG DẪN LẮP ĐẶT"
+        android:textColor="#008060"
+        android:textSize="13sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E5E5E5" />
+
+    <!-- Điểm bán - bảo hành -->
+    <TextView
+        android:id="@+id/tvDiemBanBaoHanh"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:gravity="center_vertical"
+        android:text="ĐIỂM BÁN - BẢO HÀNH"
+        android:textColor="#008060"
+        android:textSize="13sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E5E5E5" />
+
+    <!-- Quản lý thông tin cá nhân -->
+    <LinearLayout
+        android:id="@+id/btnDangNhapMenu"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="6dp"
+            android:src="@drawable/ic_user_circle"
+            app:tint="#008060" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Quản lý thông tin cá nhân"
+            android:textColor="#008060"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E5E5E5" />
+
+    <!-- Đăng xuất -->
+    <LinearLayout
+        android:id="@+id/btnDangXuat"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="6dp"
+            android:src="@drawable/ic_user_circle"
+            app:tint="#FF0000" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="ĐĂNG XUẤT"
+            android:textColor="#FF0000"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -7,6 +7,7 @@ import com.example.common.model.ChiTietDonHang
 import com.example.common.model.DonHang
 import com.example.common.model.HinhAnhSanPham
 import com.example.common.model.SanPham
+import com.example.common.network.RetrofitClient
 import com.example.quan_ly_thong_tin_ca_nhan.databinding.LichSuMuaHangBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -42,7 +43,7 @@ class PurchaseHistoryActivity : AppCompatActivity() {
     }
 
     private fun loadOrders(maKhachHang: String?) {
-        val api = KhachHangApiService.api
+        val api = RetrofitClient.getApiService()
 
         api.getAllDonHang().enqueue(object : Callback<List<DonHang>> {
             override fun onResponse(call: Call<List<DonHang>>, response: Response<List<DonHang>>) {
@@ -51,38 +52,38 @@ class PurchaseHistoryActivity : AppCompatActivity() {
                     return
                 }
 
-                val allOrders = response.body() ?: emptyList()
+                val allOrders = response.body() ?: emptyList<DonHang>()
                 fullOrders = if (!maKhachHang.isNullOrEmpty()) {
-                    allOrders.filter { it.getMaKhachHang() == maKhachHang }
+                    allOrders.filter { it.maKhachHang == maKhachHang }
                 } else {
                     allOrders
                 }
 
                 api.getAllChiTietDonHang().enqueue(object : Callback<List<ChiTietDonHang>> {
                     override fun onResponse(call: Call<List<ChiTietDonHang>>, response: Response<List<ChiTietDonHang>>) {
-                        val chiTietList = response.body() ?: emptyList()
-                        val groupedChiTiet = chiTietList.groupBy { it.getMaDonHang() ?: "" }
+                        val chiTietList = response.body() ?: emptyList<ChiTietDonHang>()
+                        val groupedChiTiet = chiTietList.groupBy { it.maDonHang ?: "" }
 
                         api.getAllSanPham().enqueue(object : Callback<List<SanPham>> {
                             override fun onResponse(call: Call<List<SanPham>>, response: Response<List<SanPham>>) {
-                                val sanPhamMap = (response.body() ?: emptyList())
-                                    .associateBy { it.getMaSP() ?: "" }
+                                val sanPhamMap = (response.body() ?: emptyList<SanPham>())
+                                    .associateBy { it.maSP ?: "" }
 
-                                api.getAllHinhAnhSanPham().enqueue(object : Callback<List<HinhAnhSanPham>> {
+                                api.getAllHinhAnh().enqueue(object : Callback<List<HinhAnhSanPham>> {
                                     override fun onResponse(call: Call<List<HinhAnhSanPham>>, response: Response<List<HinhAnhSanPham>>) {
-                                        val imagesByProduct = (response.body() ?: emptyList())
-                                            .groupBy { it.getMaSP() ?: "" }
+                                        val imagesByProduct = (response.body() ?: emptyList<HinhAnhSanPham>())
+                                            .groupBy { it.maSP ?: "" }
                                             .mapValues { (_, images) ->
-                                                images.firstOrNull()?.getDuongDanHinhAnh()
+                                                images.firstOrNull()?.anhChinh
                                             }
 
                                         productNameMap = groupedChiTiet.mapValues { (_, items) ->
-                                            val firstMaSP = items.firstOrNull()?.getMaSanPham() ?: ""
-                                            sanPhamMap[firstMaSP]?.getTenSP() ?: firstMaSP
+                                            val firstMaSP = items.firstOrNull()?.maSanPham ?: ""
+                                            sanPhamMap[firstMaSP]?.tenSP ?: firstMaSP
                                         }
 
                                         productImageMap = groupedChiTiet.mapValues { (_, items) ->
-                                            val firstMaSP = items.firstOrNull()?.getMaSanPham() ?: ""
+                                            val firstMaSP = items.firstOrNull()?.maSanPham ?: ""
                                             imagesByProduct[firstMaSP] ?: ""
                                         }
 
@@ -132,11 +133,11 @@ class PurchaseHistoryActivity : AppCompatActivity() {
         val filteredList = when (position) {
             0 -> fullOrders
             1 -> fullOrders.filter {
-                it.getTrangThaiDonHang() == "Chờ xác nhận" || it.getTrangThaiDonHang() == "Đang xử lý"
+                it.trangThaiDonHang == "Chờ xác nhận" || it.trangThaiDonHang == "Đang xử lý"
             }
-            2 -> fullOrders.filter { it.getTrangThaiDonHang() == "Đang giao" }
-            3 -> fullOrders.filter { it.getTrangThaiDonHang() == "Đã giao" }
-            4 -> fullOrders.filter { it.getTrangThaiDonHang() == "Đã hủy" }
+            2 -> fullOrders.filter { it.trangThaiDonHang == "Đang giao" }
+            3 -> fullOrders.filter { it.trangThaiDonHang == "Đã giao" }
+            4 -> fullOrders.filter { it.trangThaiDonHang == "Đã hủy" }
             else -> fullOrders
         }
         binding.orderRecyclerView.adapter =

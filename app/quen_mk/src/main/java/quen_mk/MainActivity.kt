@@ -1,73 +1,3 @@
-//package com.example.quen_mk
-//
-//import android.os.Bundle
-//import androidx.appcompat.app.AppCompatActivity
-//
-//class MainActivity : AppCompatActivity() {
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.man_hinh_quen_mat_khau)
-//    }
-//}
-
-//package com.example.quen_mk
-//
-//import android.os.Bundle
-//import androidx.appcompat.app.AppCompatActivity
-//
-//class MainActivity : AppCompatActivity() {
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.man_hinh_quen_mat_khau)
-//    }
-//}
-
-//package com.example.quen_mk
-//
-//import android.app.Dialog
-//import android.graphics.Color
-//import android.graphics.drawable.ColorDrawable
-//import android.os.Bundle
-//import android.view.ViewGroup
-//import android.view.Window
-//import android.widget.Button
-//import androidx.appcompat.app.AppCompatActivity
-//
-//class MainActivity : AppCompatActivity() {
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.man_hinh_quen_mat_khau)
-//
-//        val btnXacNhan = findViewById<Button>(R.id.btnXacNhan)
-//
-//        btnXacNhan.setOnClickListener {
-//            hienPopupDoiMatKhauThanhCong()
-//        }
-//    }
-//
-//    private fun hienPopupDoiMatKhauThanhCong() {
-//        val dialog = Dialog(this)
-//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-//        dialog.setContentView(R.layout.popup_doi_mat_khau_thanh_cong)
-//        dialog.setCancelable(true)
-//
-//        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-//        dialog.window?.setLayout(
-//            ViewGroup.LayoutParams.MATCH_PARENT,
-//            ViewGroup.LayoutParams.WRAP_CONTENT
-//        )
-//
-//        val btnTiepTucPopup = dialog.findViewById<Button>(R.id.btnTiepTucPopupDoiMk)
-//
-//        btnTiepTucPopup.setOnClickListener {
-//            dialog.dismiss()
-//        }//Sau này muốn chuyển từ nút tiếp tục sang màn hình đăng nhập, thì thêm finish() vào đây để kết thúc MainActivity, rồi trong Intent chuyển sang ManHinhDangNhapActivity
-//
-//        dialog.show()
-//    }
-//}
-
 package com.example.quen_mk
 
 import android.app.Dialog
@@ -86,16 +16,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.man_hinh_quen_mat_khau)
+        setContentView(R.layout.man_hinh_xac_minh_lai_mat_khau)
 
         val btnXacNhan = findViewById<Button>(R.id.btnXacNhan)
 
-        // 🔥 THÊM PHẦN NÀY
-        val edtMatKhau = findViewById<EditText>(R.id.edtMatKhauMoi)
-        val imgMatKhau = findViewById<ImageView>(R.id.imgAnHienMatKhau)
+        // Cập nhật ID đúng từ layout man_hinh_xac_minh_lai_mat_khau.xml
+        val edtMatKhau = findViewById<EditText>(R.id.edtPassword)
+        val imgMatKhau = findViewById<ImageView>(R.id.imgShowPass1)
 
-        val edtXacNhan = findViewById<EditText>(R.id.edtXacNhanMatKhau)
-        val imgXacNhan = findViewById<ImageView>(R.id.imgAnHienXacNhanMatKhau)
+        val edtXacNhan = findViewById<EditText>(R.id.edtRePassword)
+        val imgXacNhan = findViewById<ImageView>(R.id.imgShowPass2)
 
         var dangHienMatKhau = false
         var dangHienXacNhan = false
@@ -120,7 +50,6 @@ class MainActivity : AppCompatActivity() {
             dangHienXacNhan = !dangHienXacNhan
         }
 
-        // 🔥 CODE CŨ CỦA T
         btnXacNhan.setOnClickListener {
             hienPopupDoiMatKhauThanhCong()
         }

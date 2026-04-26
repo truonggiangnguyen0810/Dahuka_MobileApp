@@ -27,9 +27,6 @@ public class SanPham {
     @SerializedName("TinhNang")
     private String tinhNang;
 
-    @SerializedName("ThongSo")
-    private String thongSo;
-
     @SerializedName("CongSuatLoc")
     private String congSuatLoc;
 
@@ -43,10 +40,10 @@ public class SanPham {
     private String dungTichBinhChua;
 
     @SerializedName("NhietDoNuocNong")
-    private double nhietDoNuocNong;
+    private String nhietDoNuocNong;
 
     @SerializedName("NhietDoNuocLanh")
-    private double nhietDoNuocLanh;
+    private String nhietDoNuocLanh;
 
     @SerializedName("NamRaMat")
     private int namRaMat;
@@ -65,6 +62,9 @@ public class SanPham {
 
     @SerializedName("ThoiGianBH")
     private String thoiGianBH;
+
+    @SerializedName("Gia")
+    private String gia;
 
     public String get_id() { return _id; }
     public void set_id(String _id) { this._id = _id; }
@@ -90,9 +90,6 @@ public class SanPham {
     public String getTinhNang() { return tinhNang; }
     public void setTinhNang(String tinhNang) { this.tinhNang = tinhNang; }
 
-    public String getThongSo() { return thongSo; }
-    public void setThongSo(String thongSo) { this.thongSo = thongSo; }
-
     public String getCongSuatLoc() { return congSuatLoc; }
     public void setCongSuatLoc(String congSuatLoc) { this.congSuatLoc = congSuatLoc; }
 
@@ -105,11 +102,11 @@ public class SanPham {
     public String getDungTichBinhChua() { return dungTichBinhChua; }
     public void setDungTichBinhChua(String dungTichBinhChua) { this.dungTichBinhChua = dungTichBinhChua; }
 
-    public double getNhietDoNuocNong() { return nhietDoNuocNong; }
-    public void setNhietDoNuocNong(double nhietDoNuocNong) { this.nhietDoNuocNong = nhietDoNuocNong; }
+    public String getNhietDoNuocNong() { return nhietDoNuocNong; }
+    public void setNhietDoNuocNong(String nhietDoNuocNong) { this.nhietDoNuocNong = nhietDoNuocNong; }
 
-    public double getNhietDoNuocLanh() { return nhietDoNuocLanh; }
-    public void setNhietDoNuocLanh(double nhietDoNuocLanh) { this.nhietDoNuocLanh = nhietDoNuocLanh; }
+    public String getNhietDoNuocLanh() { return nhietDoNuocLanh; }
+    public void setNhietDoNuocLanh(String nhietDoNuocLanh) { this.nhietDoNuocLanh = nhietDoNuocLanh; }
 
     public int getNamRaMat() { return namRaMat; }
     public void setNamRaMat(int namRaMat) { this.namRaMat = namRaMat; }
@@ -128,4 +125,7 @@ public class SanPham {
 
     public String getThoiGianBH() { return thoiGianBH; }
     public void setThoiGianBH(String thoiGianBH) { this.thoiGianBH = thoiGianBH; }
+
+    public String getGia() { return gia; }
+    public void setGia(String gia) { this.gia = gia; }
 }

@@ -17,10 +17,14 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import com.example.gio_hang.api.CartProductModel
-import com.example.gio_hang.api.RetrofitClient
-import com.example.gio_hang.api.SanPhamItem
+import com.example.common.model.CartItem
+import com.example.common.model.ChiTietGioHang
+import com.example.common.model.SanPham
+import com.example.common.network.RetrofitClient
 import com.google.android.material.button.MaterialButton
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -28,8 +32,7 @@ class GioHangActivity : AppCompatActivity() {
 
     private val fmt = NumberFormat.getNumberInstance(Locale("vi", "VN"))
 
-    // Dữ liệu sản phẩm từ API
-    private val products = mutableListOf<CartProductModel>()
+    private val products = mutableListOf<SanPham>()
     private val cardViews = mutableListOf<CardView>()
     private val checkBoxes = mutableListOf<CheckBox>()
     private val quantities = mutableListOf<Int>()
@@ -70,8 +73,9 @@ class GioHangActivity : AppCompatActivity() {
             cardViews.forEachIndexed { i, card ->
                 val cb = checkBoxes.getOrNull(i) ?: return@forEachIndexed
                 if (card.visibility == View.VISIBLE && cb.isChecked) {
-                    val p = products[i]
-                    selectedItems.add(CartItem(p.tenSanPham, p.donGia, quantities[i]))
+                    val sp = products[i]
+                    val giaNum = sp.getGia()?.replace("[^0-9]".toRegex(), "")?.toLongOrNull() ?: 0L
+                    selectedItems.add(CartItem(sp.getTenSP(), giaNum, quantities[i]))
                 }
             }
             if (selectedItems.isEmpty()) return@setOnClickListener
@@ -86,48 +90,53 @@ class GioHangActivity : AppCompatActivity() {
 
     private fun loadGioHangFromApi() {
         val MA_KHACH_HANG = "KH_017"
-        Thread {
-            try {
-                val gioHangRes = RetrofitClient.api.getGioHang().execute()
-                val sanPhamRes = RetrofitClient.api.getSanPham().execute()
-                val donHangRes = RetrofitClient.api.getChiTietDonHang().execute()
+        val api = RetrofitClient.getApiService()
 
-                val gioHangList: List<com.example.gio_hang.api.GioHangItem> =
-                    gioHangRes.body() ?: return@Thread
-                val sanPhamMap: Map<String, SanPhamItem> =
-                    sanPhamRes.body()?.associateBy { it.maSP } ?: emptyMap()
-                val giaMap: Map<String, Long> = donHangRes.body()
-                    ?.groupBy { it.maSanPham }
-                    ?.mapValues { entry -> entry.value.map { it.donGia }.average().toLong() }
-                    ?: emptyMap()
-
-                val myCart = gioHangList.filter { it.maKhachHang == MA_KHACH_HANG }
-                if (myCart.isEmpty()) return@Thread
-
-                val loaded: List<CartProductModel> = myCart.map { item ->
-                    CartProductModel(
-                        maSanPham = item.maSanPham,
-                        tenSanPham = sanPhamMap[item.maSanPham]?.tenSP ?: item.maSanPham,
-                        donGia = giaMap[item.maSanPham] ?: 5_990_000L,
-                        soLuong = item.soLuong
-                    )
+        api.getAllChiTietGioHang().enqueue(object : Callback<List<ChiTietGioHang>> {
+            override fun onResponse(call: Call<List<ChiTietGioHang>>, response: Response<List<ChiTietGioHang>>) {
+                if (!response.isSuccessful) {
+                    android.util.Log.e("GioHang", "API giỏ hàng lỗi: ${response.code()}")
+                    return
                 }
-                runOnUiThread { renderProducts(loaded) }
-            } catch (e: Exception) {
-                android.util.Log.e("GioHang", "Lỗi API: ${e.message}")
+                val gioHangList = response.body() ?: return
+                val myCart = gioHangList.filter { it.getMaKhachHang() == MA_KHACH_HANG }
+                if (myCart.isEmpty()) return
+
+                api.getAllSanPham().enqueue(object : Callback<List<SanPham>> {
+                    override fun onResponse(call: Call<List<SanPham>>, response: Response<List<SanPham>>) {
+                        if (!response.isSuccessful) {
+                            android.util.Log.e("GioHang", "API sản phẩm lỗi: ${response.code()}")
+                            return
+                        }
+                        val sanPhamMap = response.body()?.associateBy { it.getMaSP() ?: "" } ?: emptyMap()
+
+                        val loaded = myCart.mapNotNull { item ->
+                            val sp = sanPhamMap[item.getMaTietPham()] ?: return@mapNotNull null
+                            sp to item.getSoLuong()
+                        }
+                        renderProducts(loaded)
+                    }
+
+                    override fun onFailure(call: Call<List<SanPham>>, t: Throwable) {
+                        android.util.Log.e("GioHang", "Lỗi API sản phẩm: ${t.message}")
+                    }
+                })
             }
-        }.start()
+
+            override fun onFailure(call: Call<List<ChiTietGioHang>>, t: Throwable) {
+                android.util.Log.e("GioHang", "Lỗi API giỏ hàng: ${t.message}")
+            }
+        })
     }
 
-    private fun renderProducts(loaded: List<CartProductModel>) {
-        // Xóa card cũ (giữ lại index 0 = card thông tin nhận hàng)
+    private fun renderProducts(loaded: List<Pair<SanPham, Int>>) {
         while (container.childCount > 1) container.removeViewAt(1)
         products.clear(); cardViews.clear(); checkBoxes.clear(); quantities.clear()
 
-        loaded.forEach { product ->
+        loaded.forEach { (sp, qty) ->
             val idx = products.size
-            products.add(product)
-            quantities.add(product.soLuong)
+            products.add(sp)
+            quantities.add(qty)
 
             val card = layoutInflater.inflate(R.layout.item_product_cart, container, false) as CardView
             val cb = card.findViewById<CheckBox>(R.id.cbProductApi)
@@ -138,9 +147,11 @@ class GioHangActivity : AppCompatActivity() {
             val btnPlus = card.findViewById<TextView>(R.id.btnPlusApi)
             val btnDel = card.findViewById<ImageButton>(R.id.btnDeleteApi)
 
-            tvName.text = product.tenSanPham
+            val giaNum = sp.getGia()?.replace("[^0-9]".toRegex(), "")?.toLongOrNull() ?: 0L
+
+            tvName.text = sp.getTenSP()
             tvQty.text = quantities[idx].toString()
-            tvPrice.text = "${fmt.format(product.donGia * quantities[idx])}đ"
+            tvPrice.text = "${fmt.format(giaNum * quantities[idx])}đ"
 
             cardViews.add(card)
             checkBoxes.add(cb)
@@ -151,19 +162,18 @@ class GioHangActivity : AppCompatActivity() {
                 if (quantities[idx] > 1) {
                     quantities[idx]--
                     tvQty.text = quantities[idx].toString()
-                    tvPrice.text = "${fmt.format(products[idx].donGia * quantities[idx])}đ"
+                    tvPrice.text = "${fmt.format(giaNum * quantities[idx])}đ"
                     updateTotal()
                 }
             }
             btnPlus.setOnClickListener {
                 quantities[idx]++
                 tvQty.text = quantities[idx].toString()
-                tvPrice.text = "${fmt.format(products[idx].donGia * quantities[idx])}đ"
+                tvPrice.text = "${fmt.format(giaNum * quantities[idx])}đ"
                 updateTotal()
             }
             btnDel.setOnClickListener {
                 showDeleteDialog(card) {
-                    // Sau khi xóa: ẩn card, cập nhật tổng
                     updateTotal()
                 }
             }
@@ -179,7 +189,8 @@ class GioHangActivity : AppCompatActivity() {
         cardViews.forEachIndexed { i, card ->
             val cb = checkBoxes.getOrNull(i) ?: return@forEachIndexed
             if (card.visibility == View.VISIBLE && cb.isChecked) {
-                total += products[i].donGia * quantities[i]
+                val giaNum = products[i].getGia()?.replace("[^0-9]".toRegex(), "")?.toLongOrNull() ?: 0L
+                total += giaNum * quantities[i]
                 count += quantities[i]
             }
         }

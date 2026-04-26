@@ -3,23 +3,67 @@
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
+        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="DAHUKA"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true">
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Dahuka_DevMobileApp"
+        tools:targetApi="31">
+
+        <!-- ==================== LAUNCHER ==================== -->
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.common.TrangChuActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
 
+        <activity
+            android:name="com.example.dang_nhap.MainActivity"
+            android:exported="false" />
+
+        <!-- ==================== dang_ky ==================== -->
+        <activity android:name="com.example.dang_ky.ManHinhDangKySdtActivity" />
+        <activity android:name="com.example.dang_ky.ManHinhDangKyTrang2Activity" />
+
+        <!-- ==================== xem_san_pham ==================== -->
+        <activity android:name="com.example.xem_san_pham.ManHinhDanhSachSanPhamActivity" />
+        <activity android:name="com.example.xem_san_pham.ChiTietSanPhamActivity" />
+
+        <!-- ==================== gio_hang ==================== -->
+        <activity android:name="com.example.gio_hang.GioHangActivity" />
+        <activity android:name="com.example.gio_hang.DonDatHangActivity" />
+        <activity android:name="com.example.gio_hang.ThanhToanQrActivity" />
+        <activity android:name="com.example.gio_hang.DatHangThanhCongActivity" />
+        <activity android:name="com.example.gio_hang.ChinhSuaDiaChiActivity" />
+        <activity android:name="com.example.gio_hang.SoDiaChiActivity" />
+
+        <!-- ==================== quan_ly_thong_tin_ca_nhan ==================== -->
+        <activity android:name="com.example.quan_ly_thong_tin_ca_nhan.quanlytaikhoan.MainActivity" />
+        <activity android:name="com.example.quan_ly_thong_tin_ca_nhan.quanlytaikhoan.PersonalInfoActivity" />
+        <activity android:name="com.example.quan_ly_thong_tin_ca_nhan.quanlytaikhoan.PurchaseHistoryActivity" />
+        <activity android:name="com.example.quan_ly_thong_tin_ca_nhan.quanlytaikhoan.ChangePasswordActivity" />
+        <activity android:name="com.example.quan_ly_thong_tin_ca_nhan.quanlytaikhoan.OrderDetailActivity" />
+
+        <!-- ==================== quen_mk ==================== -->
+        <activity android:name="com.example.quen_mk.MainActivity" />
+        <activity android:name="com.example.quen_mk.PopupQuenMatKhauTestActivity" />
+
+        <!-- ==================== quen_mk2 ==================== -->
+        <activity android:name="com.example.quen_mk2.MainActivity" />
+        <activity android:name="com.example.quen_mk2.PopupQuenMatKhauTestActivity" />
+
+        <!-- ==================== ql_don_hang ==================== -->
+        <activity android:name="com.example.ql_don_hang.MainActivity" />
+
+        <!-- ==================== so_dia_chi ==================== -->
+        <activity android:name="com.example.so_dia_chi.MainActivity" />
+
+    </application>
 </manifest>

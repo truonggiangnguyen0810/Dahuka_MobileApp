@@ -10,6 +10,7 @@ import android.widget.RadioButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import com.example.common.model.CartItem
 import com.google.android.material.button.MaterialButton
 import java.text.NumberFormat
 import java.util.Locale
@@ -29,20 +30,18 @@ class DonDatHangActivity : AppCompatActivity() {
         val selectedItems = intent.getSerializableExtra("selectedItems") as? ArrayList<CartItem>
             ?: arrayListOf()
 
-        // Render danh sách sản phẩm động
         val containerItems = findViewById<LinearLayout>(R.id.containerOrderItems)
         containerItems.removeAllViews()
         val fmt = NumberFormat.getNumberInstance(Locale("vi", "VN"))
         selectedItems.forEach { item ->
             val card = layoutInflater.inflate(R.layout.item_order_don_hang, containerItems, false)
-            card.findViewById<TextView>(R.id.tvItemName).text = item.name
-            card.findViewById<TextView>(R.id.tvItemQty).text = "Số lượng: ${item.quantity}"
-            card.findViewById<TextView>(R.id.tvItemPrice).text = "${fmt.format(item.price)}đ"
+            card.findViewById<TextView>(R.id.tvItemName).text = item.getTenSanPham()
+            card.findViewById<TextView>(R.id.tvItemQty).text = "Số lượng: ${item.getSoLuong()}"
+            card.findViewById<TextView>(R.id.tvItemPrice).text = "${fmt.format(item.getDonGia())}đ"
             containerItems.addView(card)
         }
 
-        // Cập nhật tạm tính
-        val total = selectedItems.sumOf { it.price * it.quantity }
+        val total = selectedItems.sumOf { it.getDonGia() * it.getSoLuong() }
         findViewById<TextView>(R.id.tvTamTinh).text = "${fmt.format(total)}đ"
 
         // Phương thức thanh toán

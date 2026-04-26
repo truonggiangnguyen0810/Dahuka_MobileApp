@@ -22,7 +22,7 @@
     <LinearLayout
         android:id="@+id/layoutSortHeader"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="60dp"
         android:background="@drawable/bg_sort_pill"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -81,17 +81,6 @@
             android:textSize="14sp" />
 
         <!-- Option 2 -->
-        <TextView
-            android:id="@+id/optionBanChay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="14dp"
-            android:paddingTop="12dp"
-            android:paddingEnd="14dp"
-            android:paddingBottom="12dp"
-            android:text="Bán chạy"
-            android:textColor="#222222"
-            android:textSize="14sp" />
 
         <!-- Option 3 -->
         <TextView

@@ -16,7 +16,7 @@
 
         <include layout="@layout/taskbar" />
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
@@ -79,20 +79,20 @@
                         <!-- [START] Dropdown sắp xếp -->
                         <FrameLayout
                             android:id="@+id/btnSapXep"
-                            android:layout_width="122dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="34dp"
                             android:clipChildren="false">
 
-                            <!-- Nút pill luôn hiện -->
                             <LinearLayout
                                 android:id="@+id/sortPill"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:background="@drawable/bg_sort_pill"
                                 android:gravity="center_vertical"
                                 android:orientation="horizontal"
                                 android:paddingStart="14dp"
-                                android:paddingEnd="10dp">
+                                android:paddingEnd="10dp"
+                                android:minWidth="160dp">
 
                                 <TextView
                                     android:id="@+id/tvSortLabel"
@@ -111,67 +111,6 @@
                                     android:src="@drawable/ic_arrow_down" />
                             </LinearLayout>
 
-                            <!-- Dropdown options (ẩn mặc định) -->
-                            <LinearLayout
-                                android:id="@+id/layoutSortOptions"
-                                android:layout_width="170dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="36dp"
-                                android:background="@drawable/bg_sort_dropdown_white"
-                                android:elevation="6dp"
-                                android:orientation="vertical"
-                                android:paddingTop="6dp"
-                                android:paddingBottom="6dp"
-                                android:visibility="gone">
-
-                                <TextView
-                                    android:id="@+id/optionMoiNhat"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:paddingStart="14dp"
-                                    android:paddingTop="12dp"
-                                    android:paddingEnd="14dp"
-                                    android:paddingBottom="12dp"
-                                    android:text="Mới nhất"
-                                    android:textColor="#222222"
-                                    android:textSize="14sp" />
-
-                                <TextView
-                                    android:id="@+id/optionBanChay"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:paddingStart="14dp"
-                                    android:paddingTop="12dp"
-                                    android:paddingEnd="14dp"
-                                    android:paddingBottom="12dp"
-                                    android:text="Bán chạy"
-                                    android:textColor="#222222"
-                                    android:textSize="14sp" />
-
-                                <TextView
-                                    android:id="@+id/optionGiaTang"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:paddingStart="14dp"
-                                    android:paddingTop="12dp"
-                                    android:paddingEnd="14dp"
-                                    android:paddingBottom="12dp"
-                                    android:text="Giá thấp đến cao"
-                                    android:textColor="#222222"
-                                    android:textSize="14sp" />
-
-                                <TextView
-                                    android:id="@+id/optionGiaGiam"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:paddingStart="14dp"
-                                    android:paddingTop="12dp"
-                                    android:paddingEnd="14dp"
-                                    android:paddingBottom="12dp"
-                                    android:text="Giá cao đến thấp"
-                                    android:textColor="#222222"
-                                    android:textSize="14sp" />
-                            </LinearLayout>
                         </FrameLayout>
                         <!-- [END] Dropdown sắp xếp -->
                     </LinearLayout>
@@ -187,6 +126,17 @@
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:spanCount="2"
                         tools:listitem="@layout/item_san_pham" />
+
+                    <TextView
+                        android:id="@+id/tvKhongTimThay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:gravity="center"
+                        android:text="Không tìm thấy sản phẩm phù hợp"
+                        android:textColor="#666666"
+                        android:textSize="16sp"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <FrameLayout
@@ -448,7 +398,7 @@
                 </LinearLayout>
 
             </LinearLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 
     <View
@@ -462,6 +412,55 @@
 
     <!-- [START] Panel lọc: căn trái + giữa dọc + nổi lên với elevation -->
     <LinearLayout
+        android:id="@+id/layoutSortOptions"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="@drawable/bg_sort_dropdown_white"
+        android:elevation="8dp"
+        android:orientation="vertical"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/optionMoiNhat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="14dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="14dp"
+            android:paddingBottom="12dp"
+            android:text="Mới nhất"
+            android:textColor="#222222"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/optionGiaTang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="14dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="14dp"
+            android:paddingBottom="12dp"
+            android:text="Giá thấp đến cao"
+            android:textColor="#222222"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/optionGiaGiam"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="14dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="14dp"
+            android:paddingBottom="12dp"
+            android:text="Giá cao đến thấp"
+            android:textColor="#222222"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/panelLoc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -474,5 +473,13 @@
         <include layout="@layout/loc" />
     </LinearLayout>
     <!-- [END] Panel lọc -->
+
+    <FrameLayout
+        android:id="@+id/menuContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:elevation="12dp"
+        android:visibility="gone" />
 
 </FrameLayout>

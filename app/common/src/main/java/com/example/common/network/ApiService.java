@@ -7,9 +7,12 @@ import com.example.common.model.ChiTietKhuyenMai;
 import com.example.common.model.DanhMucSanPham;
 import com.example.common.model.DonHang;
 import com.example.common.model.HinhAnhSanPham;
+import com.example.common.model.HinhAnhTrangWeb;
 import com.example.common.model.KhachHang;
 import com.example.common.model.KhuyenMai;
+import com.example.common.model.LoginResponse;
 import com.example.common.model.NhanVien;
+import com.example.common.model.RegisterResponse;
 import com.example.common.model.SanPham;
 import com.example.common.model.SoDiaChi;
 
@@ -61,6 +64,9 @@ public interface ApiService {
     @GET("hinh-anh-san-pham")
     Call<List<HinhAnhSanPham>> getAllHinhAnh();
 
+    @GET("hinh-anh-san-pham/ma-sp/{maSP}")
+    Call<List<HinhAnhSanPham>> getHinhAnhByMaSP(@Path("maSP") String maSP);
+
     @GET("hinh-anh-san-pham/{id}")
     Call<HinhAnhSanPham> getHinhAnhById(@Path("id") String id);
 
@@ -72,6 +78,10 @@ public interface ApiService {
 
     @DELETE("hinh-anh-san-pham/{id}")
     Call<Void> deleteHinhAnh(@Path("id") String id);
+
+    // ==================== Hình ảnh trang web ====================
+    @GET("hinh-anh-trang-web")
+    Call<List<HinhAnhTrangWeb>> getAllHinhAnhTrangWeb();
 
     // ==================== Khách hàng ====================
     @GET("khach-hang")
@@ -206,8 +216,8 @@ public interface ApiService {
     Call<List<AuthUser>> getAllUsers();
 
     @POST("auth/login")
-    Call<AuthUser> login(@Body AuthUser user);
+    Call<LoginResponse> login(@Body AuthUser user);
 
     @POST("auth/register")
-    Call<AuthUser> register(@Body AuthUser user);
+    Call<RegisterResponse> register(@Body AuthUser user);
 }
