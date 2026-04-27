@@ -1,66 +1,95 @@
 package com.example.quan_ly_thong_tin_ca_nhan.quanlytaikhoan
 
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.RadioButton
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.common.UserManager
 import com.example.common.model.KhachHang
+import com.example.common.network.RetrofitClient
 import com.example.quan_ly_thong_tin_ca_nhan.R
-import com.example.quan_ly_thong_tin_ca_nhan.databinding.ThongTinCaNhanBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.button.MaterialButton
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 class PersonalInfoActivity : AppCompatActivity() {
 
-    private lateinit var binding: ThongTinCaNhanBinding
     private var currentKhachHang: KhachHang? = null
+
+    private lateinit var nameInput: EditText
+    private lateinit var phoneInput: EditText
+    private lateinit var emailInput: EditText
+    private lateinit var dobText: TextView
+    private lateinit var dobLayout: LinearLayout
+    private lateinit var radioMale: RadioButton
+    private lateinit var radioFemale: RadioButton
+    private lateinit var radioOther: RadioButton
+    private lateinit var saveButton: MaterialButton
+    private lateinit var editAvatarButton: View
 
     companion object {
         const val EXTRA_KHACH_HANG_ID = "KHACH_HANG_ID"
         private const val TAG = "PersonalInfoActivity"
     }
 
-    override fun onCreate(savedInstanceState: android.os.Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ThongTinCaNhanBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.thong_tin_ca_nhan)
 
-        binding.toolbar.setNavigationOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
-        }
-
-        binding.editAvatarButton.setBounceClickEffect {
-            showAvatarChangeOptions()
-        }
-
-        binding.dobLayout.setOnClickListener {
-            showDatePicker()
-        }
-
-        binding.saveButton.setBounceClickEffect {
-            saveCustomerInfo()
-        }
-
-        val khachHangId = intent.getStringExtra(EXTRA_KHACH_HANG_ID) ?: "69d923c97922bf3246b90ba1"
-        loadKhachHangData(khachHangId)
+        anhXaView()
+        setupEvents()
+        loadKhachHangData()
     }
 
-    private fun loadKhachHangData(khachHangId: String) {
-        KhachHangApiService.api.getAllKhachHang().enqueue(object : Callback<List<KhachHang>> {
+    private fun anhXaView() {
+        nameInput = findViewById(R.id.nameInput)
+        phoneInput = findViewById(R.id.phoneInput)
+        emailInput = findViewById(R.id.emailInput)
+        dobText = findViewById(R.id.dobText)
+        dobLayout = findViewById(R.id.dobLayout)
+        radioMale = findViewById(R.id.radioMale)
+        radioFemale = findViewById(R.id.radioFemale)
+        radioOther = findViewById(R.id.radioOther)
+        saveButton = findViewById(R.id.saveButton)
+        editAvatarButton = findViewById(R.id.editAvatarButton)
+
+        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        toolbar.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
+    }
+
+    private fun setupEvents() {
+        editAvatarButton.setBounceClickEffect { showAvatarChangeOptions() }
+        dobLayout.setOnClickListener { showDatePicker() }
+        saveButton.setBounceClickEffect { saveCustomerInfo() }
+    }
+
+    private fun loadKhachHangData() {
+        val userId = UserManager.getUserId(this)
+        if (userId < 0) {
+            showSuccessToast("Không tìm thấy thông tin người dùng")
+            return
+        }
+        Log.d(TAG, "loadKhachHangData: userId=$userId")
+
+        RetrofitClient.getApiService().getAllKhachHang().enqueue(object : Callback<List<KhachHang>> {
             override fun onResponse(call: Call<List<KhachHang>>, response: Response<List<KhachHang>>) {
                 if (response.isSuccessful) {
-                    val khachHang = response.body()?.find { it.get_id() == khachHangId }
+                    val khachHang = response.body()?.find { it.getId() == userId }
                     if (khachHang != null) {
                         currentKhachHang = khachHang
                         displayKhachHangData(khachHang)
                     } else {
-                        showSuccessToast("Không tìm thấy khách hàng: $khachHangId")
+                        showSuccessToast("Không tìm thấy khách hàng")
                     }
                 } else {
-                    Log.e(TAG, "API Error: ${response.code()} - ${response.message()}")
+                    Log.e(TAG, "API Error: ${response.code()}")
                     showSuccessToast("Lỗi tải dữ liệu: ${response.code()}")
                 }
             }
@@ -73,13 +102,13 @@ class PersonalInfoActivity : AppCompatActivity() {
     }
 
     private fun displayKhachHangData(khachHang: KhachHang) {
-        binding.nameInput.setText(khachHang.getTenKhachHang() ?: "")
+        nameInput.setText(khachHang.getTenKhachHang() ?: "")
 
-        val phoneNumber = khachHang.getSdt()?.toString() ?: ""
+        val phoneNumber = khachHang.getSdt().toString()
         val formattedPhone = if (phoneNumber.length == 9) "0$phoneNumber" else phoneNumber
-        binding.phoneInput.setText(formattedPhone)
+        phoneInput.setText(formattedPhone)
 
-        binding.emailInput.setText(khachHang.getEmail() ?: "")
+        emailInput.setText(khachHang.getEmail() ?: "")
 
         val ngaySinh = khachHang.getNgaySinh()
         if (!ngaySinh.isNullOrEmpty()) {
@@ -95,41 +124,41 @@ class PersonalInfoActivity : AppCompatActivity() {
                         "Sep" to "09", "Oct" to "10", "Nov" to "11", "Dec" to "12"
                     )
                     val month = monthMap[monthStr] ?: "01"
-                    binding.dobText.text = "$day/$month/$year"
+                    dobText.text = "$day/$month/$year"
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Date parse error", e)
-                binding.dobText.text = ngaySinh
+                dobText.text = ngaySinh
             }
         }
 
         when (khachHang.getGioiTinh()) {
-            "Nam" -> binding.radioMale.isChecked = true
-            "Nữ" -> binding.radioFemale.isChecked = true
-            "Khác" -> binding.radioOther.isChecked = true
+            "Nam" -> radioMale.isChecked = true
+            "Nữ" -> radioFemale.isChecked = true
+            "Khác" -> radioOther.isChecked = true
         }
     }
 
     private fun saveCustomerInfo() {
-        val maKH = currentKhachHang?.getMaKhachHang() ?: return
+        val khachHangId = currentKhachHang?.getId()?.toString() ?: return
 
-        val selectedGender = when (binding.genderGroup.checkedRadioButtonId) {
-            R.id.radioMale -> "Nam"
-            R.id.radioFemale -> "Nữ"
-            R.id.radioOther -> "Khác"
+        val selectedGender = when {
+            radioMale.isChecked -> "Nam"
+            radioFemale.isChecked -> "Nữ"
+            radioOther.isChecked -> "Khác"
             else -> "Nam"
         }
 
         val updatedKhachHang = KhachHang().apply {
-            setMaKhachHang(currentKhachHang?.getMaKhachHang())
-            setTenKhachHang(binding.nameInput.text.toString())
-            setEmail(binding.emailInput.text.toString())
-            setSdt(binding.phoneInput.text.toString().replace(" ", "").toLongOrNull() ?: 0L)
+            setId(currentKhachHang?.getId() ?: 0)
+            setTenKhachHang(nameInput.text.toString())
+            setEmail(emailInput.text.toString())
+            setSdt(phoneInput.text.toString().replace(" ", "").toIntOrNull() ?: 0)
             setGioiTinh(selectedGender)
-            setNgaySinh(currentKhachHang?.getNgaySinh())
+            setNgaySinh(convertToISODate(dobText.text.toString()))
         }
 
-        KhachHangApiService.api.updateKhachHang(maKH, updatedKhachHang)
+        KhachHangApiService.api.updateKhachHang(khachHangId, updatedKhachHang)
             .enqueue(object : Callback<KhachHang> {
                 override fun onResponse(call: Call<KhachHang>, response: Response<KhachHang>) {
                     if (response.isSuccessful) {
@@ -148,22 +177,37 @@ class PersonalInfoActivity : AppCompatActivity() {
             })
     }
 
+    private fun convertToISODate(dateStr: String): String? {
+        if (dateStr.isBlank()) return null
+        return try {
+            val parts = dateStr.split("/")
+            if (parts.size == 3) {
+                "${parts[2]}-${parts[1]}-${parts[0]}T00:00:00.000Z"
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Date convert error", e)
+            null
+        }
+    }
+
     private fun showAvatarChangeOptions() {
         val bottomSheetDialog = BottomSheetDialog(this)
         val view = LayoutInflater.from(this).inflate(R.layout.doi_anh_dai_dien, null)
         bottomSheetDialog.setContentView(view)
 
-        view.findViewById<android.view.View>(R.id.optionCamera).setOnClickListener {
+        view.findViewById<View>(R.id.optionCamera).setOnClickListener {
             showSuccessToast("Mở camera...")
             bottomSheetDialog.dismiss()
         }
 
-        view.findViewById<android.view.View>(R.id.optionGallery).setOnClickListener {
+        view.findViewById<View>(R.id.optionGallery).setOnClickListener {
             showSuccessToast("Mở thư viện ảnh...")
             bottomSheetDialog.dismiss()
         }
 
-        view.findViewById<android.view.View>(R.id.optionDelete).setOnClickListener {
+        view.findViewById<View>(R.id.optionDelete).setOnClickListener {
             showSuccessToast("Đã gỡ ảnh đại diện")
             bottomSheetDialog.dismiss()
         }
@@ -181,7 +225,7 @@ class PersonalInfoActivity : AppCompatActivity() {
             this,
             { _, selectedYear, selectedMonth, selectedDay ->
                 val date = String.format("%02d/%02d/%04d", selectedDay, selectedMonth + 1, selectedYear)
-                binding.dobText.text = date
+                dobText.text = date
             },
             year,
             month,

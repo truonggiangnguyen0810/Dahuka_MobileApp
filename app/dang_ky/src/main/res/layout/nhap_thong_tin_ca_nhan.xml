@@ -58,12 +58,12 @@
                     <ImageView
                         android:layout_width="23dp"
                         android:layout_height="23dp"
-                        android:layout_marginStart="21dp"
+                        android:layout_marginStart="12dp"
                         android:src="@drawable/ic_phone"
                         app:tint="#8A8F98" />
 
                     <View
-                        android:layout_width="1dp"
+                        android:layout_width="0dp"
                         android:layout_height="25dp"
                         android:layout_marginStart="14dp"
                         android:background="#E0E5EC" />
@@ -92,9 +92,9 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="23dp"
-                        android:layout_height="23dp"
-                        android:layout_marginStart="21dp"
+                        android:layout_width="43dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="10dp"
                         android:src="@drawable/ic_user"
                         app:tint="#8A8F98" />
 
@@ -128,9 +128,9 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="23dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="23dp"
-                        android:layout_marginStart="21dp"
+                        android:layout_marginStart="12dp"
                         android:src="@drawable/ic_email"
                         app:tint="#8A8F98" />
 
@@ -164,9 +164,9 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="23dp"
+                        android:layout_width="28dp"
                         android:layout_height="23dp"
-                        android:layout_marginStart="21dp"
+                        android:layout_marginStart="12dp"
                         android:src="@drawable/ic_calendar"
                         app:tint="#8A8F98" />
 
@@ -201,9 +201,9 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="23dp"
-                        android:layout_height="23dp"
-                        android:layout_marginStart="21dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="0dp"
                         android:src="@drawable/ic_lock"
                         app:tint="#8A8F98" />
 
@@ -234,10 +234,10 @@
 
                     <ImageView
                         android:id="@+id/imgAnHienMatKhau"
-                        android:layout_width="23dp"
-                        android:layout_height="23dp"
-                        android:layout_marginStart="13dp"
-                        android:layout_marginEnd="14dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginEnd="0dp"
                         android:src="@drawable/ic_eye"
                         app:tint="#C5CAD3" />
                 </LinearLayout>
@@ -251,9 +251,9 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="23dp"
-                        android:layout_height="23dp"
-                        android:layout_marginStart="21dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="0dp"
                         android:src="@drawable/ic_lock"
                         app:tint="#8A8F98" />
 
@@ -284,10 +284,10 @@
 
                     <ImageView
                         android:id="@+id/imgAnHienXacNhanMatKhau"
-                        android:layout_width="23dp"
-                        android:layout_height="23dp"
-                        android:layout_marginStart="13dp"
-                        android:layout_marginEnd="14dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginEnd="0dp"
                         android:src="@drawable/ic_eye"
                         app:tint="#C5CAD3" />
                 </LinearLayout>

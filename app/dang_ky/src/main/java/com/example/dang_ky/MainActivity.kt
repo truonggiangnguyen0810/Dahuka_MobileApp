@@ -32,8 +32,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 else -> {
-                    val intent = Intent(this, ManHinhDangKyTrang2Activity::class.java)
-                    intent.putExtra("so_dien_thoai", soDienThoai)
+                    val intent = Intent(this, ManHinhDangKySdtActivity::class.java)
                     startActivity(intent)
                 }
             }

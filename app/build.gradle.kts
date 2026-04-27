@@ -42,7 +42,6 @@ dependencies {
     implementation(project(":app:xem_san_pham"))
     implementation(project(":app:gio_hang"))
     implementation(project(":app:quen_mk"))
-    implementation(project(":app:quen_mk2"))
     implementation(project(":app:ql_don_hang"))
     implementation(project(":app:so_dia_chi"))
     implementation(project(":app:quan_ly_thong_tin_ca_nhan"))

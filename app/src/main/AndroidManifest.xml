@@ -54,6 +54,8 @@
         <!-- ==================== quen_mk ==================== -->
         <activity android:name="com.example.quen_mk.MainActivity" />
         <activity android:name="com.example.quen_mk.PopupQuenMatKhauTestActivity" />
+        <activity android:name="com.example.quen_mk.ManHinhXacThucSdtQuenMkActivity" />
+        <activity android:name="com.example.quen_mk.ManHinhDoiMatKhauActivity" />
 
         <!-- ==================== quen_mk2 ==================== -->
         <activity android:name="com.example.quen_mk2.MainActivity" />

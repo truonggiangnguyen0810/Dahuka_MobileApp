@@ -10,6 +10,9 @@ import com.example.common.model.HinhAnhSanPham;
 import com.example.common.model.HinhAnhTrangWeb;
 import com.example.common.model.KhachHang;
 import com.example.common.model.KhuyenMai;
+import com.example.common.model.ChangePasswordRequest;
+import com.example.common.model.ChangePasswordResponse;
+import com.example.common.model.CheckUsernameResponse;
 import com.example.common.model.LoginResponse;
 import com.example.common.model.NhanVien;
 import com.example.common.model.RegisterResponse;
@@ -31,6 +34,9 @@ public interface ApiService {
     // ==================== Sản phẩm ====================
     @GET("san-pham")
     Call<List<SanPham>> getAllSanPham();
+
+    @GET("san-pham/danh-muc/{maDMSP}")
+    Call<List<SanPham>> getSanPhamByDanhMuc(@Path("maDMSP") String maDMSP);
 
     @GET("san-pham/{id}")
     Call<SanPham> getSanPhamById(@Path("id") String id);
@@ -83,6 +89,21 @@ public interface ApiService {
     @GET("hinh-anh-trang-web")
     Call<List<HinhAnhTrangWeb>> getAllHinhAnhTrangWeb();
 
+    @GET("hinh-anh-trang-web/loai-banner/{loai}")
+    Call<List<HinhAnhTrangWeb>> getHinhAnhTrangWebByLoai(@Path("loai") String loai);
+
+    @GET("hinh-anh-trang-web/{id}")
+    Call<HinhAnhTrangWeb> getHinhAnhTrangWebById(@Path("id") String id);
+
+    @POST("hinh-anh-trang-web")
+    Call<HinhAnhTrangWeb> createHinhAnhTrangWeb(@Body HinhAnhTrangWeb hinhAnh);
+
+    @PUT("hinh-anh-trang-web/{id}")
+    Call<HinhAnhTrangWeb> updateHinhAnhTrangWeb(@Path("id") String id, @Body HinhAnhTrangWeb hinhAnh);
+
+    @DELETE("hinh-anh-trang-web/{id}")
+    Call<Void> deleteHinhAnhTrangWeb(@Path("id") String id);
+
     // ==================== Khách hàng ====================
     @GET("khach-hang")
     Call<List<KhachHang>> getAllKhachHang();
@@ -100,56 +121,94 @@ public interface ApiService {
     Call<Void> deleteKhachHang(@Path("id") String id);
 
     // ==================== Đơn hàng ====================
+    // Backend dùng MaDonHang (KHÔNG phải MongoDB _id)
     @GET("don-hang")
     Call<List<DonHang>> getAllDonHang();
 
-    @GET("don-hang/{id}")
-    Call<DonHang> getDonHangById(@Path("id") String id);
+    @GET("don-hang/khach-hang/{maKH}")
+    Call<List<DonHang>> getDonHangByKhachHang(@Path("maKH") String maKH);
+
+    @GET("don-hang/nhan-vien/{maNV}")
+    Call<List<DonHang>> getDonHangByNhanVien(@Path("maNV") String maNV);
+
+    @GET("don-hang/{maDonHang}")
+    Call<DonHang> getDonHangByMa(@Path("maDonHang") String maDonHang);
 
     @POST("don-hang")
     Call<DonHang> createDonHang(@Body DonHang donHang);
 
-    @PUT("don-hang/{id}")
-    Call<DonHang> updateDonHang(@Path("id") String id, @Body DonHang donHang);
+    @PUT("don-hang/{maDonHang}")
+    Call<DonHang> updateDonHang(@Path("maDonHang") String maDonHang, @Body DonHang donHang);
 
-    @DELETE("don-hang/{id}")
-    Call<Void> deleteDonHang(@Path("id") String id);
+    @DELETE("don-hang/{maDonHang}")
+    Call<Void> deleteDonHang(@Path("maDonHang") String maDonHang);
 
     // ==================== Chi tiết đơn hàng ====================
+    // Backend dùng khóa phức hợp {MaDonHang}/{MaSanPham}
     @GET("chi-tiet-don-hang")
     Call<List<ChiTietDonHang>> getAllChiTietDonHang();
 
-    @GET("chi-tiet-don-hang/{id}")
-    Call<ChiTietDonHang> getChiTietDonHangById(@Path("id") String id);
+    @GET("chi-tiet-don-hang/don-hang/{maDH}")
+    Call<List<ChiTietDonHang>> getChiTietDonHangByDonHang(@Path("maDH") String maDH);
+
+    @GET("chi-tiet-don-hang/{maDonHang}/{maSanPham}")
+    Call<ChiTietDonHang> getChiTietDonHangById(
+            @Path("maDonHang") String maDonHang,
+            @Path("maSanPham") String maSanPham
+    );
 
     @POST("chi-tiet-don-hang")
     Call<ChiTietDonHang> createChiTietDonHang(@Body ChiTietDonHang chiTiet);
 
-    @PUT("chi-tiet-don-hang/{id}")
-    Call<ChiTietDonHang> updateChiTietDonHang(@Path("id") String id, @Body ChiTietDonHang chiTiet);
+    @PUT("chi-tiet-don-hang/{maDonHang}/{maSanPham}")
+    Call<ChiTietDonHang> updateChiTietDonHang(
+            @Path("maDonHang") String maDonHang,
+            @Path("maSanPham") String maSanPham,
+            @Body ChiTietDonHang chiTiet
+    );
 
-    @DELETE("chi-tiet-don-hang/{id}")
-    Call<Void> deleteChiTietDonHang(@Path("id") String id);
+    @DELETE("chi-tiet-don-hang/{maDonHang}/{maSanPham}")
+    Call<Void> deleteChiTietDonHang(
+            @Path("maDonHang") String maDonHang,
+            @Path("maSanPham") String maSanPham
+    );
 
     // ==================== Chi tiết giỏ hàng ====================
+    // Backend dùng khóa phức hợp {MaKhachHang}/{MaTietPham}
     @GET("chi-tiet-gio-hang")
     Call<List<ChiTietGioHang>> getAllChiTietGioHang();
 
-    @GET("chi-tiet-gio-hang/{id}")
-    Call<ChiTietGioHang> getChiTietGioHangById(@Path("id") String id);
+    @GET("chi-tiet-gio-hang/khach-hang/{maKH}")
+    Call<List<ChiTietGioHang>> getChiTietGioHangByKhachHang(@Path("maKH") String maKH);
+
+    @GET("chi-tiet-gio-hang/{maKhachHang}/{maTietPham}")
+    Call<ChiTietGioHang> getChiTietGioHangById(
+            @Path("maKhachHang") String maKhachHang,
+            @Path("maTietPham") String maTietPham
+    );
 
     @POST("chi-tiet-gio-hang")
     Call<ChiTietGioHang> createChiTietGioHang(@Body ChiTietGioHang chiTiet);
 
-    @PUT("chi-tiet-gio-hang/{id}")
-    Call<ChiTietGioHang> updateChiTietGioHang(@Path("id") String id, @Body ChiTietGioHang chiTiet);
+    @PUT("chi-tiet-gio-hang/{maKhachHang}/{maTietPham}")
+    Call<ChiTietGioHang> updateChiTietGioHang(
+            @Path("maKhachHang") String maKhachHang,
+            @Path("maTietPham") String maTietPham,
+            @Body ChiTietGioHang chiTiet
+    );
 
-    @DELETE("chi-tiet-gio-hang/{id}")
-    Call<Void> deleteChiTietGioHang(@Path("id") String id);
+    @DELETE("chi-tiet-gio-hang/{maKhachHang}/{maTietPham}")
+    Call<Void> deleteChiTietGioHang(
+            @Path("maKhachHang") String maKhachHang,
+            @Path("maTietPham") String maTietPham
+    );
 
     // ==================== Sổ địa chỉ ====================
     @GET("so-dia-chi")
     Call<List<SoDiaChi>> getAllSoDiaChi();
+
+    @GET("so-dia-chi/khach-hang/{maKH}")
+    Call<List<SoDiaChi>> getSoDiaChiByKhachHang(@Path("maKH") String maKH);
 
     @GET("so-dia-chi/{id}")
     Call<SoDiaChi> getSoDiaChiById(@Path("id") String id);
@@ -215,9 +274,18 @@ public interface ApiService {
     @GET("auth")
     Call<List<AuthUser>> getAllUsers();
 
+    @GET("auth/check-username/{username}")
+    Call<CheckUsernameResponse> checkUsername(@Path("username") String username);
+
     @POST("auth/login")
     Call<LoginResponse> login(@Body AuthUser user);
 
     @POST("auth/register")
     Call<RegisterResponse> register(@Body AuthUser user);
+
+    @PUT("auth/change-password/{username}")
+    Call<ChangePasswordResponse> changePassword(
+            @Path("username") String username,
+            @Body ChangePasswordRequest request
+    );
 }

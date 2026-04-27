@@ -29,5 +29,5 @@ include(":app:gio_hang")
 include(":app:quen_mk")
 include(":app:ql_don_hang")
 include(":app:so_dia_chi")
-include(":app:quen_mk2")
+
 include(":app:quan_ly_thong_tin_ca_nhan")

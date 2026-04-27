@@ -137,7 +137,7 @@ public class DieuHopSanPham extends RecyclerView.Adapter<DieuHopSanPham.ViewHold
     private void capNhatSoLuong(ChiTietGioHang ct) {
         ct.setSoLuong(ct.getSoLuong() + 1);
         ApiService api = RetrofitClient.getApiService();
-        api.updateChiTietGioHang(ct.get_id(), ct).enqueue(new Callback<ChiTietGioHang>() {
+        api.updateChiTietGioHang(ct.getMaKhachHang(), ct.getMaTietPham(), ct).enqueue(new Callback<ChiTietGioHang>() {
             @Override
             public void onResponse(Call<ChiTietGioHang> call, Response<ChiTietGioHang> response) {
                 if (response.isSuccessful()) {

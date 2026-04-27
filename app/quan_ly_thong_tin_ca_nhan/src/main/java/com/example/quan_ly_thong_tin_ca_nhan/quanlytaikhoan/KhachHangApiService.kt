@@ -21,9 +21,9 @@ interface KhachHangApiService {
     @GET("khach-hang/{maKH}")
     fun getKhachHangByMa(@Path("maKH") maKH: String): Call<KhachHang>
 
-    @PUT("khach-hang/{maKH}")
+    @PUT("khach-hang/{id}")
     fun updateKhachHang(
-        @Path("maKH") maKH: String,
+        @Path("id") id: String,
         @Body khachHang: KhachHang
     ): Call<KhachHang>
 

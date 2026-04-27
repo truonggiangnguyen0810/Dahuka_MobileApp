@@ -14,6 +14,7 @@ import com.example.common.model.AuthUser;
 import com.example.common.model.LoginResponse;
 import com.example.common.network.RetrofitClient;
 import com.example.dang_ky.ManHinhDangKySdtActivity;
+import com.example.quen_mk.ManHinhXacThucSdtQuenMkActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText edtPhone;
     private EditText edtPassword;
     private TextView tvRegister;
+    private TextView tvQuenMatKhau;
     private View btnLogin;
 
     @Override
@@ -35,11 +37,12 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.dang_nhap);
 
         anhXaView();
         xuLyDangNhap();
         xuLyChuyenDangKy();
+        xuLyChuyenQuenMatKhau();
     }
 
     private void navigateToMain() {
@@ -60,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         edtPassword = findViewById(R.id.edtPassword);
         btnLogin = findViewById(R.id.btnLogin);
         tvRegister = findViewById(R.id.tvRegister);
+        tvQuenMatKhau = findViewById(R.id.quenmatkhau);
     }
 
     private void xuLyDangNhap() {
@@ -125,6 +129,13 @@ public class MainActivity extends AppCompatActivity {
     private void xuLyChuyenDangKy() {
         tvRegister.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, ManHinhDangKySdtActivity.class);
+            startActivity(intent);
+        });
+    }
+
+    private void xuLyChuyenQuenMatKhau() {
+        tvQuenMatKhau.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ManHinhXacThucSdtQuenMkActivity.class);
             startActivity(intent);
         });
     }
