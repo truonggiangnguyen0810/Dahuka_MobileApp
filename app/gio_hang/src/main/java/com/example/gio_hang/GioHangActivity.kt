@@ -36,6 +36,8 @@ class GioHangActivity : AppCompatActivity() {
     private val cardViews = mutableListOf<CardView>()
     private val checkBoxes = mutableListOf<CheckBox>()
     private val quantities = mutableListOf<Int>()
+    // Lưu _id của ChiTietGioHang để dùng cho PUT/DELETE
+    private val gioHangIds = mutableListOf<String>()
 
     private lateinit var tvTongSanPham: TextView
     private lateinit var tvTongTien: TextView
@@ -64,6 +66,12 @@ class GioHangActivity : AppCompatActivity() {
         tvDiaChiNhanHang = findViewById(R.id.tvDiaChiNhanHang)
         container = findViewById(R.id.containerProducts)
 
+        // TEST: bypass login để xem giỏ hàng — xóa sau khi test xong
+        if (!com.example.common.UserManager.isLoggedIn(this)) {
+            com.example.common.UserManager.saveLogin(this, 1, "test", "user")
+            com.example.common.UserManager.saveMaKhachHang(this, "KhachHang1")
+        }
+
         findViewById<ImageButton>(R.id.btnChinhSuaDiaChi).setOnClickListener {
             chinhSuaLauncher.launch(Intent(this, SoDiaChiActivity::class.java))
         }
@@ -89,7 +97,12 @@ class GioHangActivity : AppCompatActivity() {
     }
 
     private fun loadGioHangFromApi() {
-        val MA_KHACH_HANG = "KH_017"
+        val maKhachHang = "KhachHang1" // test cứng, thay bằng UserManager sau
+        android.util.Log.d("GioHang", "maKhachHang = $maKhachHang")
+        if (maKhachHang == null) {
+            android.util.Log.e("GioHang", "Chưa đăng nhập")
+            return
+        }
         val api = RetrofitClient.getApiService()
 
         api.getAllChiTietGioHang().enqueue(object : Callback<List<ChiTietGioHang>> {
@@ -99,8 +112,13 @@ class GioHangActivity : AppCompatActivity() {
                     return
                 }
                 val gioHangList = response.body() ?: return
-                val myCart = gioHangList.filter { it.getMaKhachHang() == MA_KHACH_HANG }
-                if (myCart.isEmpty()) return
+                val myCart = gioHangList.filter { it.getMaKhachHang() == maKhachHang }
+                if (myCart.isEmpty()) {
+                    runOnUiThread {
+                        tvTongSanPham.text = "Giỏ hàng trống"
+                    }
+                    return
+                }
 
                 api.getAllSanPham().enqueue(object : Callback<List<SanPham>> {
                     override fun onResponse(call: Call<List<SanPham>>, response: Response<List<SanPham>>) {
@@ -110,11 +128,12 @@ class GioHangActivity : AppCompatActivity() {
                         }
                         val sanPhamMap = response.body()?.associateBy { it.getMaSP() ?: "" } ?: emptyMap()
 
+                        // Truyền cả ChiTietGioHang để lấy _id cho PUT/DELETE
                         val loaded = myCart.mapNotNull { item ->
                             val sp = sanPhamMap[item.getMaTietPham()] ?: return@mapNotNull null
-                            sp to item.getSoLuong()
+                            Triple(sp, item.getSoLuong(), item.get_id())
                         }
-                        renderProducts(loaded)
+                        runOnUiThread { renderProducts(loaded) }
                     }
 
                     override fun onFailure(call: Call<List<SanPham>>, t: Throwable) {
@@ -129,14 +148,15 @@ class GioHangActivity : AppCompatActivity() {
         })
     }
 
-    private fun renderProducts(loaded: List<Pair<SanPham, Int>>) {
+    private fun renderProducts(loaded: List<Triple<SanPham, Int, String>>) {
         while (container.childCount > 1) container.removeViewAt(1)
-        products.clear(); cardViews.clear(); checkBoxes.clear(); quantities.clear()
+        products.clear(); cardViews.clear(); checkBoxes.clear(); quantities.clear(); gioHangIds.clear()
 
-        loaded.forEach { (sp, qty) ->
+        loaded.forEach { (sp, qty, gioHangId) ->
             val idx = products.size
             products.add(sp)
             quantities.add(qty)
+            gioHangIds.add(gioHangId)
 
             val card = layoutInflater.inflate(R.layout.item_product_cart, container, false) as CardView
             val cb = card.findViewById<CheckBox>(R.id.cbProductApi)
@@ -164,6 +184,8 @@ class GioHangActivity : AppCompatActivity() {
                     tvQty.text = quantities[idx].toString()
                     tvPrice.text = "${fmt.format(giaNum * quantities[idx])}đ"
                     updateTotal()
+                    // PUT: cập nhật số lượng lên server
+                    capNhatSoLuong(gioHangIds[idx], quantities[idx])
                 }
             }
             btnPlus.setOnClickListener {
@@ -171,9 +193,13 @@ class GioHangActivity : AppCompatActivity() {
                 tvQty.text = quantities[idx].toString()
                 tvPrice.text = "${fmt.format(giaNum * quantities[idx])}đ"
                 updateTotal()
+                // PUT: cập nhật số lượng lên server
+                capNhatSoLuong(gioHangIds[idx], quantities[idx])
             }
             btnDel.setOnClickListener {
                 showDeleteDialog(card) {
+                    // DELETE: xóa khỏi server
+                    xoaKhoiGioHang(gioHangIds[idx])
                     updateTotal()
                 }
             }
@@ -196,6 +222,35 @@ class GioHangActivity : AppCompatActivity() {
         }
         tvTongSanPham.text = "Tổng cộng $count sản phẩm"
         tvTongTien.text = if (total == 0L) "0đ" else "${fmt.format(total)}đ"
+    }
+
+    // PUT: cập nhật số lượng sản phẩm trong giỏ hàng
+    private fun capNhatSoLuong(id: String, soLuongMoi: Int) {
+        val api = RetrofitClient.getApiService()
+        val body = ChiTietGioHang().apply { setSoLuong(soLuongMoi) }
+        api.updateChiTietGioHang(id, body).enqueue(object : retrofit2.Callback<ChiTietGioHang> {
+            override fun onResponse(call: retrofit2.Call<ChiTietGioHang>, response: retrofit2.Response<ChiTietGioHang>) {
+                if (!response.isSuccessful)
+                    android.util.Log.e("GioHang", "PUT thất bại: ${response.code()}")
+            }
+            override fun onFailure(call: retrofit2.Call<ChiTietGioHang>, t: Throwable) {
+                android.util.Log.e("GioHang", "PUT lỗi: ${t.message}")
+            }
+        })
+    }
+
+    // DELETE: xóa sản phẩm khỏi giỏ hàng
+    private fun xoaKhoiGioHang(id: String) {
+        val api = RetrofitClient.getApiService()
+        api.deleteChiTietGioHang(id).enqueue(object : retrofit2.Callback<Void> {
+            override fun onResponse(call: retrofit2.Call<Void>, response: retrofit2.Response<Void>) {
+                if (!response.isSuccessful)
+                    android.util.Log.e("GioHang", "DELETE thất bại: ${response.code()}")
+            }
+            override fun onFailure(call: retrofit2.Call<Void>, t: Throwable) {
+                android.util.Log.e("GioHang", "DELETE lỗi: ${t.message}")
+            }
+        })
     }
 
     private fun showDeleteDialog(cardView: CardView, onDeleted: (() -> Unit)? = null) {

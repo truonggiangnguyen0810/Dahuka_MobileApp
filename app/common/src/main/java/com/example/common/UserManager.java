@@ -10,6 +10,7 @@ public class UserManager {
     private static final String KEY_USERNAME = "username";
     private static final String KEY_ROLE = "role";
     private static final String KEY_IS_LOGGED_IN = "is_logged_in";
+    private static final String KEY_MA_KHACH_HANG = "ma_khach_hang";
 
     public static void saveLogin(Context context, int userId, String username, String role) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
@@ -19,6 +20,11 @@ public class UserManager {
                 .putString(KEY_ROLE, role)
                 .putBoolean(KEY_IS_LOGGED_IN, true)
                 .apply();
+    }
+
+    public static void saveMaKhachHang(Context context, String maKhachHang) {
+        SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        prefs.edit().putString(KEY_MA_KHACH_HANG, maKhachHang).apply();
     }
 
     public static int getUserId(Context context) {
@@ -37,6 +43,10 @@ public class UserManager {
     }
 
     public static String getMaKhachHang(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        String saved = prefs.getString(KEY_MA_KHACH_HANG, null);
+        if (saved != null) return saved;
+        // fallback: format từ userId
         int userId = getUserId(context);
         if (userId < 0) return null;
         return String.format("KH_%03d", userId);

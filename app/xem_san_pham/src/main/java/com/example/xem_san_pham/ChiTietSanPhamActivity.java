@@ -2,12 +2,16 @@ package com.example.xem_san_pham;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.common.UserManager;
+import com.example.common.model.ChiTietGioHang;
 import com.example.common.model.HinhAnhSanPham;
 import com.example.common.model.SanPham;
 import com.example.common.network.ApiService;
@@ -63,8 +67,72 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
 
         loadSanPhamFromApi();
         loadHinhAnhFromApi();
-
         setupTabs();
+
+        // Nút thêm vào giỏ hàng
+        Button btnThemGioHang = findViewById(R.id.btnThemVaoGioHang);
+        btnThemGioHang.setOnClickListener(v -> themVaoGioHang());
+    }
+
+    private void themVaoGioHang() {
+        if (!UserManager.isLoggedIn(this)) {
+            Toast.makeText(this, "Vui lòng đăng nhập để thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String maKH = UserManager.getMaKhachHang(this);
+        if (maKH == null || maSP == null) return;
+
+        ApiService api = RetrofitClient.getApiService();
+        api.getAllChiTietGioHang().enqueue(new Callback<List<ChiTietGioHang>>() {
+            @Override
+            public void onResponse(Call<List<ChiTietGioHang>> call, Response<List<ChiTietGioHang>> response) {
+                if (!response.isSuccessful() || response.body() == null) {
+                    Toast.makeText(ChiTietSanPhamActivity.this, "Lỗi kiểm tra giỏ hàng", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                ChiTietGioHang tonTai = null;
+                for (ChiTietGioHang ct : response.body()) {
+                    if (maKH.equals(ct.getMaKhachHang()) && maSP.equals(ct.getMaTietPham())) {
+                        tonTai = ct;
+                        break;
+                    }
+                }
+                if (tonTai != null) {
+                    // Sản phẩm đã có → PUT tăng số lượng
+                    tonTai.setSoLuong(tonTai.getSoLuong() + 1);
+                    api.updateChiTietGioHang(tonTai.get_id(), tonTai).enqueue(new Callback<ChiTietGioHang>() {
+                        @Override
+                        public void onResponse(Call<ChiTietGioHang> c, Response<ChiTietGioHang> r) {
+                            Toast.makeText(ChiTietSanPhamActivity.this, "Đã cập nhật giỏ hàng", Toast.LENGTH_SHORT).show();
+                        }
+                        @Override
+                        public void onFailure(Call<ChiTietGioHang> c, Throwable t) {
+                            Toast.makeText(ChiTietSanPhamActivity.this, "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    // Chưa có → POST tạo mới
+                    ChiTietGioHang ct = new ChiTietGioHang();
+                    ct.setMaKhachHang(maKH);
+                    ct.setMaTietPham(maSP);
+                    ct.setSoLuong(1);
+                    api.createChiTietGioHang(ct).enqueue(new Callback<ChiTietGioHang>() {
+                        @Override
+                        public void onResponse(Call<ChiTietGioHang> c, Response<ChiTietGioHang> r) {
+                            Toast.makeText(ChiTietSanPhamActivity.this, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+                        }
+                        @Override
+                        public void onFailure(Call<ChiTietGioHang> c, Throwable t) {
+                            Toast.makeText(ChiTietSanPhamActivity.this, "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onFailure(Call<List<ChiTietGioHang>> call, Throwable t) {
+                Toast.makeText(ChiTietSanPhamActivity.this, "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void loadSanPhamFromApi() {

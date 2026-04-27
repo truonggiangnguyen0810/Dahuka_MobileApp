@@ -11,9 +11,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.common.UserManager;
 import com.example.common.model.AuthUser;
+import com.example.common.model.KhachHang;
 import com.example.common.model.LoginResponse;
 import com.example.common.network.RetrofitClient;
 import com.example.dang_ky.ManHinhDangKySdtActivity;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -98,6 +101,28 @@ public class MainActivity extends AppCompatActivity {
                                 loggedInUser.getId(),
                                 loggedInUser.getUsername(),
                                 loggedInUser.getRole());
+
+                        // Lấy MaKhachHang thực từ server theo id
+                        int userId = loggedInUser.getId();
+                        RetrofitClient.getApiService().getAllKhachHang().enqueue(new Callback<List<KhachHang>>() {
+                            @Override
+                            public void onResponse(Call<List<KhachHang>> call2, Response<List<KhachHang>> res2) {
+                                if (res2.isSuccessful() && res2.body() != null) {
+                                    for (KhachHang kh : res2.body()) {
+                                        if (kh.getId() == userId) {
+                                            String maKH = kh.getMaKhachHang();
+                                            if (maKH == null || maKH.isEmpty()) {
+                                                maKH = String.format("KH_%03d", userId);
+                                            }
+                                            UserManager.saveMaKhachHang(MainActivity.this, maKH);
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<List<KhachHang>> call2, Throwable t) {}
+                        });
 
                         Toast.makeText(MainActivity.this,
                                 "Đăng nhập thành công",

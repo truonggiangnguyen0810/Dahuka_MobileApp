@@ -39,8 +39,6 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
-    implementation(libs.navigation.fragment.ktx)
-    implementation(libs.navigation.ui.ktx)
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation(libs.glide.lib)
     testImplementation(libs.junit)
