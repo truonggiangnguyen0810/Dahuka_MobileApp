@@ -181,9 +181,9 @@ class ManHinhDangKySdtActivity : AppCompatActivity() {
         authUser.setUsername(soDienThoai)
         authUser.setPassword(matKhau)
         authUser.setRole("user")
-        authUser.setIsStaff("false")
-        authUser.setIsActive("true")
-        authUser.setIsSuperuser("false")
+        authUser.setStaff(false)
+        authUser.setActive(true)
+        authUser.setSuperuser(false)
         authUser.setTenKhachHang(hoTen)
         authUser.setEmail(email)
         if (ngaySinh.isNotEmpty()) {

@@ -1,43 +1,87 @@
 package com.example.quan_ly_thong_tin_ca_nhan.quanlytaikhoan
 
 import android.content.Intent
+import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.common.UserManager
+import com.example.common.model.DonHang
 import com.example.common.model.KhachHang
+import com.example.common.network.RetrofitClient
 import com.example.quan_ly_thong_tin_ca_nhan.R
-import com.example.quan_ly_thong_tin_ca_nhan.databinding.ActivityMainBinding
+import com.google.android.material.button.MaterialButton
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
-    private var currentId: String = "69d923c97922bf3246b90ba1"
+    private var currentId: String = ""
     private var currentMaKH: String = ""
+
+    private lateinit var tvUserName: TextView
+    private lateinit var tvSoDonHang: TextView
+    private lateinit var personalInfoLayout: LinearLayout
+    private lateinit var purchaseHistoryLayout: LinearLayout
+    private lateinit var changePasswordLayout: LinearLayout
+    private lateinit var addressBookLayout: LinearLayout
+    private lateinit var customerSupportLayout: LinearLayout
+    private lateinit var logoutButton: MaterialButton
 
     companion object {
         private const val TAG = "MainActivity"
     }
 
-    override fun onCreate(savedInstanceState: android.os.Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        Log.d(TAG, "onCreate: started")
 
+        val userId = UserManager.getUserId(this)
+        Log.d(TAG, "onCreate: userId=$userId, isLoggedIn=${UserManager.isLoggedIn(this)}")
+        if (userId < 0) {
+            Toast.makeText(this, "Vui lòng đăng nhập lại", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
+
+        currentId = intent.getStringExtra("khach_hang_id") ?: ""
+
+        setContentView(R.layout.activity_quan_ly_tai_khoan)
+        Log.d(TAG, "onCreate: setContentView done")
+
+        anhXaView()
         setupClickListeners()
         loadKhachHangInfo()
     }
 
+    private fun anhXaView() {
+        tvUserName = findViewById(R.id.userName)
+        tvSoDonHang = findViewById(R.id.tvSoDonHang)
+        personalInfoLayout = findViewById(R.id.personalInfoLayout)
+        purchaseHistoryLayout = findViewById(R.id.purchaseHistoryLayout)
+        changePasswordLayout = findViewById(R.id.changePasswordLayout)
+        addressBookLayout = findViewById(R.id.addressBookLayout)
+        customerSupportLayout = findViewById(R.id.customerSupportLayout)
+        logoutButton = findViewById(R.id.logoutButton)
+    }
+
     private fun loadKhachHangInfo() {
-        KhachHangApiService.api.getAllKhachHang().enqueue(object : Callback<List<KhachHang>> {
+        val userId = UserManager.getUserId(this)
+        if (userId < 0) return
+        val maKH = String.format("KH_%03d", userId)
+        RetrofitClient.getApiService().getAllKhachHang().enqueue(object : Callback<List<KhachHang>> {
             override fun onResponse(call: Call<List<KhachHang>>, response: Response<List<KhachHang>>) {
                 if (response.isSuccessful) {
-                    val khachHang = response.body()?.find { it.get_id() == currentId }
+                    val khachHang = response.body()?.find { it.getId() == userId }
                     if (khachHang != null) {
-                        currentMaKH = khachHang.getMaKhachHang() ?: ""
+                        currentId = khachHang.get_id() ?: ""
+                        currentMaKH = maKH
                         displayKhachHangInfo(khachHang)
+                        loadSoDonHang()
                     }
                 } else {
                     Log.e(TAG, "API Error: ${response.code()}")
@@ -51,19 +95,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun displayKhachHangInfo(khachHang: KhachHang) {
-        try {
-            val profileCard = binding.root.findViewById<TextView>(R.id.userName)
-            profileCard?.text = khachHang.getTenKhachHang() ?: "Khách hàng"
-        } catch (e: Exception) {
-            Log.e(TAG, "Could not update user name", e)
-        }
-
-        try {
-            val idText = binding.root.findViewById<TextView>(R.id.memberId)
-            idText?.text = "ID: ${khachHang.getMaKhachHang()}"
-        } catch (e: Exception) {
-            Log.e(TAG, "Could not update member ID", e)
-        }
+        tvUserName.text = khachHang.getTenKhachHang() ?: "Khách hàng"
     }
 
     override fun onResume() {
@@ -72,35 +104,64 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupClickListeners() {
-        binding.personalInfoLayout.setBounceClickEffect {
+        personalInfoLayout.setBounceClickEffect {
             val intent = Intent(this, PersonalInfoActivity::class.java).apply {
                 putExtra(PersonalInfoActivity.EXTRA_KHACH_HANG_ID, currentId)
             }
             startActivity(intent)
         }
 
-        binding.purchaseHistoryLayout.setBounceClickEffect {
+        purchaseHistoryLayout.setBounceClickEffect {
             val intent = Intent(this, PurchaseHistoryActivity::class.java).apply {
                 putExtra(PurchaseHistoryActivity.EXTRA_MA_KHACH_HANG, currentMaKH)
             }
             startActivity(intent)
         }
 
-        binding.changePasswordLayout.setBounceClickEffect {
+        changePasswordLayout.setBounceClickEffect {
             val intent = Intent(this, ChangePasswordActivity::class.java)
             startActivity(intent)
         }
 
-        binding.addressBookLayout.setBounceClickEffect {
+        addressBookLayout.setBounceClickEffect {
             showSuccessToast("Tính năng Sổ địa chỉ đang phát triển")
         }
 
-        binding.customerSupportLayout.setBounceClickEffect {
+        customerSupportLayout.setBounceClickEffect {
             showSuccessToast("Tính năng Hỗ trợ khách hàng đang phát triển")
         }
 
-        binding.logoutButton.setBounceClickEffect {
+        logoutButton.setBounceClickEffect {
+            UserManager.logout(this)
             showSuccessToast("Đã đăng xuất")
+            try {
+                val clazz = Class.forName("com.example.common.TrangChuActivity")
+                val intent = Intent(this, clazz)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+            } catch (e: ClassNotFoundException) {
+                finish()
+            }
         }
+    }
+
+    private fun loadSoDonHang() {
+        if (currentMaKH.isEmpty()) return
+        RetrofitClient.getApiService().getAllDonHang()
+            .enqueue(object : Callback<List<DonHang>> {
+                override fun onResponse(
+                    call: Call<List<DonHang>>,
+                    response: Response<List<DonHang>>
+                ) {
+                    if (!response.isSuccessful || response.body() == null) return
+                    val count = response.body()!!
+                        .count { it.getMaKhachHang() == currentMaKH }
+                    tvSoDonHang.text = count.toString()
+                }
+
+                override fun onFailure(call: Call<List<DonHang>>, t: Throwable) {
+                    Log.e(TAG, "Lỗi tải đơn hàng: ${t.message}")
+                }
+            })
     }
 }

@@ -154,8 +154,10 @@ public class TaskbarLayout extends LinearLayout {
         }
 
         View btnUser = menuView.findViewById(R.id.btnDangNhapMenu);
+        Log.d(TAG, "setupMenuClicks: btnDangNhapMenu=" + btnUser + ", loggedIn=" + loggedIn);
         if (btnUser != null) {
             btnUser.setOnClickListener(v -> {
+                Log.d(TAG, "btnDangNhapMenu clicked, loggedIn=" + loggedIn);
                 dongMenu();
                 if (loggedIn) {
                     chuyenManHinh(activity, "com.example.quan_ly_thong_tin_ca_nhan.quanlytaikhoan.MainActivity");
@@ -221,10 +223,12 @@ public class TaskbarLayout extends LinearLayout {
 
     private void chuyenManHinh(Context context, String className) {
         try {
+            Log.d(TAG, "chuyenManHinh: " + className);
             Class<?> clazz = Class.forName(className);
             context.startActivity(new Intent(context, clazz));
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            Log.d(TAG, "chuyenManHinh: started activity");
+        } catch (Exception e) {
+            Log.e(TAG, "chuyenManHinh FAILED: " + className, e);
         }
     }
 

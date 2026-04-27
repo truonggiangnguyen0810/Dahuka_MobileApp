@@ -171,9 +171,9 @@ class ManHinhDangKyTrang2Activity : AppCompatActivity() {
         authUser.setUsername(soDienThoai)
         authUser.setPassword(matKhau)
         authUser.setRole("user")
-        authUser.setIsStaff("false")
-        authUser.setIsActive("true")
-        authUser.setIsSuperuser("false")
+        authUser.setStaff(false)
+        authUser.setActive(true)
+        authUser.setSuperuser(false)
 
         val apiService = RetrofitClient.getApiService()
         apiService.register(authUser).enqueue(object : Callback<RegisterResponse> {
@@ -207,7 +207,7 @@ class ManHinhDangKyTrang2Activity : AppCompatActivity() {
         val khachHang = KhachHang()
         khachHang.setTenKhachHang(hoTen)
         khachHang.setEmail(email)
-        khachHang.setSdt(soDienThoai.toLongOrNull() ?: 0)
+        khachHang.setSdt(soDienThoai.toIntOrNull() ?: 0)
         if (ngaySinh.isNotEmpty()) {
             khachHang.setNgaySinh(ngaySinh)
         }

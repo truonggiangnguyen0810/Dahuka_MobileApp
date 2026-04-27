@@ -19,13 +19,13 @@ public class AuthUser {
     private String role;
 
     @SerializedName("is_staff")
-    private String isStaff;
+    private boolean isStaff;
 
     @SerializedName("is_active")
-    private String isActive;
+    private boolean isActive;
 
     @SerializedName("is_superuser")
-    private String isSuperuser;
+    private boolean isSuperuser;
 
     @SerializedName("last_login")
     private String lastLogin;
@@ -54,14 +54,14 @@ public class AuthUser {
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
 
-    public String getIsStaff() { return isStaff; }
-    public void setIsStaff(String isStaff) { this.isStaff = isStaff; }
+    public boolean isStaff() { return isStaff; }
+    public void setStaff(boolean staff) { isStaff = staff; }
 
-    public String getIsActive() { return isActive; }
-    public void setIsActive(String isActive) { this.isActive = isActive; }
+    public boolean isActive() { return isActive; }
+    public void setActive(boolean active) { isActive = active; }
 
-    public String getIsSuperuser() { return isSuperuser; }
-    public void setIsSuperuser(String isSuperuser) { this.isSuperuser = isSuperuser; }
+    public boolean isSuperuser() { return isSuperuser; }
+    public void setSuperuser(boolean superuser) { isSuperuser = superuser; }
 
     public String getLastLogin() { return lastLogin; }
     public void setLastLogin(String lastLogin) { this.lastLogin = lastLogin; }

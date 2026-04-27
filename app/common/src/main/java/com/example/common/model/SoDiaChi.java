@@ -10,7 +10,7 @@ public class SoDiaChi {
     private String maDiaChi;
 
     @SerializedName("MaKhachHang")
-    private String maKhachHang;
+    private Object maKhachHang;
 
     @SerializedName("TenNguoiNhan")
     private String tenNguoiNhan;
@@ -39,8 +39,8 @@ public class SoDiaChi {
     public String getMaDiaChi() { return maDiaChi; }
     public void setMaDiaChi(String maDiaChi) { this.maDiaChi = maDiaChi; }
 
-    public String getMaKhachHang() { return maKhachHang; }
-    public void setMaKhachHang(String maKhachHang) { this.maKhachHang = maKhachHang; }
+    public Object getMaKhachHang() { return maKhachHang; }
+    public void setMaKhachHang(Object maKhachHang) { this.maKhachHang = maKhachHang; }
 
     public String getTenNguoiNhan() { return tenNguoiNhan; }
     public void setTenNguoiNhan(String tenNguoiNhan) { this.tenNguoiNhan = tenNguoiNhan; }

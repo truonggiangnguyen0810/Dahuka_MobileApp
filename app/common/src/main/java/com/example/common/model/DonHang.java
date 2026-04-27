@@ -2,6 +2,8 @@ package com.example.common.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class DonHang {
     @SerializedName("_id")
     private String _id;
@@ -30,9 +32,6 @@ public class DonHang {
     @SerializedName("TongThanhToan")
     private double tongThanhToan;
 
-    @SerializedName("PTTT")
-    private String pttt;
-
     @SerializedName("GhiChu")
     private String ghiChu;
 
@@ -41,6 +40,15 @@ public class DonHang {
 
     @SerializedName("PhuongThucVanChuyen")
     private String phuongThucVanChuyen;
+
+    @SerializedName("cancelDate")
+    private String cancelDate;
+
+    @SerializedName("cancelReason")
+    private String cancelReason;
+
+    @SerializedName("products")
+    private List<Object> products;
 
     public String get_id() { return _id; }
     public void set_id(String _id) { this._id = _id; }
@@ -69,9 +77,6 @@ public class DonHang {
     public double getTongThanhToan() { return tongThanhToan; }
     public void setTongThanhToan(double tongThanhToan) { this.tongThanhToan = tongThanhToan; }
 
-    public String getPttt() { return pttt; }
-    public void setPttt(String pttt) { this.pttt = pttt; }
-
     public String getGhiChu() { return ghiChu; }
     public void setGhiChu(String ghiChu) { this.ghiChu = ghiChu; }
 
@@ -80,4 +85,13 @@ public class DonHang {
 
     public String getPhuongThucVanChuyen() { return phuongThucVanChuyen; }
     public void setPhuongThucVanChuyen(String phuongThucVanChuyen) { this.phuongThucVanChuyen = phuongThucVanChuyen; }
+
+    public String getCancelDate() { return cancelDate; }
+    public void setCancelDate(String cancelDate) { this.cancelDate = cancelDate; }
+
+    public String getCancelReason() { return cancelReason; }
+    public void setCancelReason(String cancelReason) { this.cancelReason = cancelReason; }
+
+    public List<Object> getProducts() { return products; }
+    public void setProducts(List<Object> products) { this.products = products; }
 }
