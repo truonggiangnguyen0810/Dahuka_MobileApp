@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:background="#F8F9FA">
 
-    <include layout="@layout/include_toolbar" />
+    <include layout="@layout/taskbar" />
 
     <!-- Title GIỎ HÀNG -->
     <LinearLayout

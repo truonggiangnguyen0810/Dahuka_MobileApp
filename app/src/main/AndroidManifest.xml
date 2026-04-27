@@ -16,13 +16,17 @@
 
         <!-- ==================== LAUNCHER ==================== -->
         <activity
-            android:name="com.example.gio_hang.GioHangActivity"
+            android:name="com.example.xem_san_pham.ManHinhDanhSachSanPhamActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="com.example.gio_hang.GioHangActivity"
+            android:exported="false" />
 
         <activity
             android:name="com.example.common.TrangChuActivity"
@@ -37,7 +41,6 @@
         <activity android:name="com.example.dang_ky.ManHinhDangKyTrang2Activity" />
 
         <!-- ==================== xem_san_pham ==================== -->
-        <activity android:name="com.example.xem_san_pham.ManHinhDanhSachSanPhamActivity" />
         <activity android:name="com.example.xem_san_pham.ChiTietSanPhamActivity" />
 
         <!-- ==================== gio_hang ==================== -->
