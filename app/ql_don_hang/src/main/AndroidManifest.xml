@@ -1,1 +1,19 @@
-<manifest/>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.ql_don_hang">
+    <application>
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        
+        <!-- Activity để test API với dữ liệu ảo -->
+        <activity
+            android:name=".TestApiActivity"
+            android:exported="true"
+            android:label="Test API Đơn Hàng">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#F5F5F5">
+
+    <!-- Header -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TEST API QUẢN LÝ ĐƠN HÀNG"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:gravity="center"
+        android:padding="12dp"
+        android:background="@android:color/white"
+        android:elevation="2dp"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Button tạo dữ liệu mẫu -->
+    <Button
+        android:id="@+id/btnGenerateSample"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="🎲 TẠO 5 ĐƠN HÀNG MẪU"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:backgroundTint="#E91E63"
+        android:layout_marginBottom="16dp"
+        android:padding="16dp"/>
+
+    <!-- Buttons Container -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Section: Đơn hàng -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="📦 TEST ĐƠN HÀNG"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#FF6B35"
+                android:padding="8dp"
+                android:layout_marginTop="8dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/btnTestGetAll"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="GET All"
+                    android:textSize="12sp"
+                    android:layout_margin="4dp"
+                    android:backgroundTint="#4CAF50"/>
+
+                <Button
+                    android:id="@+id/btnTestPost"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="POST Tạo mới"
+                    android:textSize="12sp"
+                    android:layout_margin="4dp"
+                    android:backgroundTint="#2196F3"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <Button
+                    android:id="@+id/btnTestGetById"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="GET by ID"
+                    android:textSize="11sp"
+                    android:layout_margin="4dp"
+                    android:backgroundTint="#4CAF50"/>
+
+                <Button
+                    android:id="@+id/btnTestPut"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="PUT Update"
+                    android:textSize="11sp"
+                    android:layout_margin="4dp"
+                    android:backgroundTint="#FF9800"/>
+
+                <Button
+                    android:id="@+id/btnTestDelete"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="DELETE"
+                    android:textSize="11sp"
+                    android:layout_margin="4dp"
+                    android:backgroundTint="#F44336"/>
+            </LinearLayout>
+
+            <!-- Section: Chi tiết đơn hàng -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="📋 TEST CHI TIẾT ĐƠN HÀNG"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#FF6B35"
+                android:padding="8dp"
+                android:layout_marginTop="16dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/btnTestGetDetails"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="GET Details"
+                    android:textSize="12sp"
+                    android:layout_margin="4dp"
+                    android:backgroundTint="#4CAF50"/>
+
+                <Button
+                    android:id="@+id/btnTestPostDetail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="POST Thêm SP"
+                    android:textSize="12sp"
+                    android:layout_margin="4dp"
+                    android:backgroundTint="#2196F3"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/btnTestPutDetail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="PUT Update SP"
+                    android:textSize="12sp"
+                    android:layout_margin="4dp"
+                    android:backgroundTint="#FF9800"/>
+
+                <Button
+                    android:id="@+id/btnTestDeleteDetail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="DELETE SP"
+                    android:textSize="12sp"
+                    android:layout_margin="4dp"
+                    android:backgroundTint="#F44336"/>
+            </LinearLayout>
+
+            <!-- Section: Test tổng hợp -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🚀 TEST TỔNG HỢP"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#FF6B35"
+                android:padding="8dp"
+                android:layout_marginTop="16dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/btnTestAll"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="▶ TEST TẤT CẢ"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_margin="4dp"
+                    android:backgroundTint="#9C27B0"/>
+
+                <Button
+                    android:id="@+id/btnClearLog"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="🗑 Xóa Log"
+                    android:textSize="14sp"
+                    android:layout_margin="4dp"
+                    android:backgroundTint="#607D8B"/>
+            </LinearLayout>
+
+            <!-- Log Output -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="📝 LOG OUTPUT"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#FF6B35"
+                android:padding="8dp"
+                android:layout_marginTop="16dp"/>
+
+            <ScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="@android:color/white"
+                android:padding="12dp"
+                android:elevation="2dp">
+
+                <TextView
+                    android:id="@+id/tvLog"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nhấn các button để test API...\n"
+                    android:textSize="12sp"
+                    android:fontFamily="monospace"
+                    android:textColor="#333333"
+                    android:lineSpacingExtra="2dp"/>
+            </ScrollView>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

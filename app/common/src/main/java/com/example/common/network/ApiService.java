@@ -18,6 +18,7 @@ import com.example.common.model.NhanVien;
 import com.example.common.model.RegisterResponse;
 import com.example.common.model.SanPham;
 import com.example.common.model.SoDiaChi;
+import com.example.common.model.SoDiaChiRequest;
 
 import java.util.List;
 
@@ -213,11 +214,12 @@ public interface ApiService {
     @GET("so-dia-chi/{id}")
     Call<SoDiaChi> getSoDiaChiById(@Path("id") String id);
 
+    // POST/PUT dùng SoDiaChiRequest (camelCase) vì server nhận camelCase
     @POST("so-dia-chi")
-    Call<SoDiaChi> createSoDiaChi(@Body SoDiaChi soDiaChi);
+    Call<SoDiaChi> createSoDiaChi(@Body SoDiaChiRequest request);
 
     @PUT("so-dia-chi/{id}")
-    Call<SoDiaChi> updateSoDiaChi(@Path("id") String id, @Body SoDiaChi soDiaChi);
+    Call<SoDiaChi> updateSoDiaChi(@Path("id") String id, @Body SoDiaChiRequest request);
 
     @DELETE("so-dia-chi/{id}")
     Call<Void> deleteSoDiaChi(@Path("id") String id);

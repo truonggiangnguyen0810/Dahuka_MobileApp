@@ -35,6 +35,8 @@ android {
 
 dependencies {
     implementation(project(":app:common"))
+    implementation(project(":app:so_dia_chi"))
+    implementation(project(":app:ql_don_hang"))
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

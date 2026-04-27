@@ -21,7 +21,7 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity() {
 
     private var currentId: String = ""
-    private var currentMaKH: String = ""
+    private var currentUserId: Int = -1
 
     private lateinit var tvUserName: TextView
     private lateinit var tvSoDonHang: TextView
@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
             finish()
             return
         }
+        currentUserId = userId
 
         currentId = intent.getStringExtra("khach_hang_id") ?: ""
 
@@ -72,14 +73,12 @@ class MainActivity : AppCompatActivity() {
     private fun loadKhachHangInfo() {
         val userId = UserManager.getUserId(this)
         if (userId < 0) return
-        val maKH = String.format("KH_%03d", userId)
         RetrofitClient.getApiService().getAllKhachHang().enqueue(object : Callback<List<KhachHang>> {
             override fun onResponse(call: Call<List<KhachHang>>, response: Response<List<KhachHang>>) {
                 if (response.isSuccessful) {
                     val khachHang = response.body()?.find { it.getId() == userId }
                     if (khachHang != null) {
                         currentId = khachHang.get_id() ?: ""
-                        currentMaKH = maKH
                         displayKhachHangInfo(khachHang)
                         loadSoDonHang()
                     }
@@ -104,36 +103,43 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupClickListeners() {
-        personalInfoLayout.setBounceClickEffect {
+        personalInfoLayout.setOnClickListener {
             val intent = Intent(this, PersonalInfoActivity::class.java).apply {
                 putExtra(PersonalInfoActivity.EXTRA_KHACH_HANG_ID, currentId)
             }
             startActivity(intent)
         }
 
-        purchaseHistoryLayout.setBounceClickEffect {
-            val intent = Intent(this, PurchaseHistoryActivity::class.java).apply {
-                putExtra(PurchaseHistoryActivity.EXTRA_MA_KHACH_HANG, currentMaKH)
+        purchaseHistoryLayout.setOnClickListener {
+            try {
+                val intent = Intent(this, com.example.ql_don_hang.MainActivity::class.java)
+                startActivity(intent)
+            } catch (e: Exception) {
+                Toast.makeText(this, "Không thể mở Lịch sử mua hàng", Toast.LENGTH_SHORT).show()
             }
-            startActivity(intent)
         }
 
-        changePasswordLayout.setBounceClickEffect {
+        changePasswordLayout.setOnClickListener {
             val intent = Intent(this, ChangePasswordActivity::class.java)
             startActivity(intent)
         }
 
-        addressBookLayout.setBounceClickEffect {
-            showSuccessToast("Tính năng Sổ địa chỉ đang phát triển")
+        addressBookLayout.setOnClickListener {
+            try {
+                val intent = Intent(this, com.example.so_dia_chi.MainActivity::class.java)
+                startActivity(intent)
+            } catch (e: Exception) {
+                Toast.makeText(this, "Không thể mở Sổ địa chỉ", Toast.LENGTH_SHORT).show()
+            }
         }
 
-        customerSupportLayout.setBounceClickEffect {
-            showSuccessToast("Tính năng Hỗ trợ khách hàng đang phát triển")
+        customerSupportLayout.setOnClickListener {
+            Toast.makeText(this, "Tính năng Hỗ trợ khách hàng đang phát triển", Toast.LENGTH_SHORT).show()
         }
 
-        logoutButton.setBounceClickEffect {
+        logoutButton.setOnClickListener {
             UserManager.logout(this)
-            showSuccessToast("Đã đăng xuất")
+            Toast.makeText(this, "Đã đăng xuất", Toast.LENGTH_SHORT).show()
             try {
                 val clazz = Class.forName("com.example.common.TrangChuActivity")
                 val intent = Intent(this, clazz)
@@ -146,7 +152,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadSoDonHang() {
-        if (currentMaKH.isEmpty()) return
+        if (currentUserId < 0) return
         RetrofitClient.getApiService().getAllDonHang()
             .enqueue(object : Callback<List<DonHang>> {
                 override fun onResponse(
@@ -155,7 +161,7 @@ class MainActivity : AppCompatActivity() {
                 ) {
                     if (!response.isSuccessful || response.body() == null) return
                     val count = response.body()!!
-                        .count { it.getMaKhachHang() == currentMaKH }
+                        .count { it.getMaKhachHang() == currentUserId }
                     tvSoDonHang.text = count.toString()
                 }
 

@@ -5,10 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.example.ql_don_hang.databinding.ViewHuyDonHangBinding;
@@ -21,6 +23,7 @@ public class CancelOrderFragment extends Fragment {
 
     private ViewHuyDonHangBinding binding;
     private Order order;
+    private OrderViewModel viewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,6 +43,8 @@ public class CancelOrderFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        viewModel = new ViewModelProvider(requireActivity()).get(OrderViewModel.class);
+
         if (order != null) {
             displayOrderInfo();
         }
@@ -50,6 +55,7 @@ public class CancelOrderFragment extends Fragment {
 
         binding.btnSendRequest.setOnClickListener(v -> {
             if (order != null) {
+                // Cập nhật trạng thái cục bộ
                 order.setStatus("Cancelled");
                 String selectedReason = binding.spinnerReason.getSelectedItem().toString();
                 if (selectedReason.equals("Chọn một lý do")) {
@@ -60,7 +66,12 @@ public class CancelOrderFragment extends Fragment {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
                 order.setCancelDate(sdf.format(new Date()));
 
-                // Return to detail screen
+                // Gửi yêu cầu cập nhật lên server thông qua ViewModel
+                viewModel.updateOrder(order);
+                
+                Toast.makeText(getContext(), "Đã gửi yêu cầu hủy đơn hàng", Toast.LENGTH_SHORT).show();
+
+                // Quay lại màn hình trước đó
                 Navigation.findNavController(v).navigateUp();
             }
         });

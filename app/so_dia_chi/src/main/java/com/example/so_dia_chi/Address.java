@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 public class Address implements Parcelable {
 
+    private String id;
     private String fullName;
     private String phone;
     private String detailAddress;
@@ -12,6 +13,15 @@ public class Address implements Parcelable {
     private boolean isDefault;
 
     public Address() {}
+
+    public Address(String id, String fullName, String phone, String detailAddress, String fullAddress, boolean isDefault) {
+        this.id = id;
+        this.fullName = fullName;
+        this.phone = phone;
+        this.detailAddress = detailAddress;
+        this.fullAddress = fullAddress;
+        this.isDefault = isDefault;
+    }
 
     public Address(String fullName, String phone, String detailAddress, String fullAddress, boolean isDefault) {
         this.fullName = fullName;
@@ -22,6 +32,7 @@ public class Address implements Parcelable {
     }
 
     protected Address(Parcel in) {
+        id = in.readString();
         fullName = in.readString();
         phone = in.readString();
         detailAddress = in.readString();
@@ -40,6 +51,9 @@ public class Address implements Parcelable {
             return new Address[size];
         }
     };
+
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
     public String getFullName() { return fullName; }
     public void setFullName(String fullName) { this.fullName = fullName; }
@@ -63,6 +77,7 @@ public class Address implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
         dest.writeString(fullName);
         dest.writeString(phone);
         dest.writeString(detailAddress);

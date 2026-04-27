@@ -1,65 +1,49 @@
 package com.example.common.model;
 
-import com.google.gson.annotations.SerializedName;
-
+/**
+ * Model địa chỉ - KHÔNG dùng @SerializedName vì server trả về
+ * cùng lúc cả PascalCase và camelCase trong một object.
+ * Dùng SoDiaChiDeserializer để parse thủ công.
+ */
 public class SoDiaChi {
-    @SerializedName("_id")
     private String _id;
-
-    @SerializedName("MaDiaChi")
     private String maDiaChi;
-
-    @SerializedName("MaKhachHang")
-    private Object maKhachHang;
-
-    @SerializedName("TenNguoiNhan")
+    private String maKhachHang;
     private String tenNguoiNhan;
-
-    @SerializedName("Email")
     private String email;
-
-    @SerializedName("ThanhPho")
     private String thanhPho;
-
-    @SerializedName("QuanHuyen")
     private String quanHuyen;
-
-    @SerializedName("PhuongXa")
     private String phuongXa;
-
-    @SerializedName("DiaChiCuThe")
     private String diaChiCuThe;
-
-    @SerializedName("DiaChiMacDinh")
     private int diaChiMacDinh;
 
     public String get_id() { return _id; }
-    public void set_id(String _id) { this._id = _id; }
+    public void set_id(String v) { this._id = v; }
 
     public String getMaDiaChi() { return maDiaChi; }
-    public void setMaDiaChi(String maDiaChi) { this.maDiaChi = maDiaChi; }
+    public void setMaDiaChi(String v) { this.maDiaChi = v; }
 
-    public Object getMaKhachHang() { return maKhachHang; }
-    public void setMaKhachHang(Object maKhachHang) { this.maKhachHang = maKhachHang; }
+    public String getMaKhachHang() { return maKhachHang; }
+    public void setMaKhachHang(String v) { this.maKhachHang = v; }
 
     public String getTenNguoiNhan() { return tenNguoiNhan; }
-    public void setTenNguoiNhan(String tenNguoiNhan) { this.tenNguoiNhan = tenNguoiNhan; }
+    public void setTenNguoiNhan(String v) { this.tenNguoiNhan = v; }
 
     public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public void setEmail(String v) { this.email = v; }
 
     public String getThanhPho() { return thanhPho; }
-    public void setThanhPho(String thanhPho) { this.thanhPho = thanhPho; }
+    public void setThanhPho(String v) { this.thanhPho = v; }
 
     public String getQuanHuyen() { return quanHuyen; }
-    public void setQuanHuyen(String quanHuyen) { this.quanHuyen = quanHuyen; }
+    public void setQuanHuyen(String v) { this.quanHuyen = v; }
 
     public String getPhuongXa() { return phuongXa; }
-    public void setPhuongXa(String phuongXa) { this.phuongXa = phuongXa; }
+    public void setPhuongXa(String v) { this.phuongXa = v; }
 
     public String getDiaChiCuThe() { return diaChiCuThe; }
-    public void setDiaChiCuThe(String diaChiCuThe) { this.diaChiCuThe = diaChiCuThe; }
+    public void setDiaChiCuThe(String v) { this.diaChiCuThe = v; }
 
     public int getDiaChiMacDinh() { return diaChiMacDinh; }
-    public void setDiaChiMacDinh(int diaChiMacDinh) { this.diaChiMacDinh = diaChiMacDinh; }
+    public void setDiaChiMacDinh(int v) { this.diaChiMacDinh = v; }
 }

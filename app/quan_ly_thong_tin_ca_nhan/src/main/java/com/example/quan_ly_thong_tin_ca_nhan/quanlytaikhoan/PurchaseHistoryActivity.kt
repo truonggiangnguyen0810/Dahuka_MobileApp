@@ -54,7 +54,8 @@ class PurchaseHistoryActivity : AppCompatActivity() {
 
                 val allOrders = response.body() ?: emptyList<DonHang>()
                 fullOrders = if (!maKhachHang.isNullOrEmpty()) {
-                    allOrders.filter { it.maKhachHang == maKhachHang }
+                    val targetMaKH = maKhachHang.toIntOrNull()
+                    allOrders.filter { it.maKhachHang == targetMaKH }
                 } else {
                     allOrders
                 }

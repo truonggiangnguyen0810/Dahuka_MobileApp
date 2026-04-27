@@ -1,45 +1,32 @@
 package com.example.common.model;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class DonHang {
-    @SerializedName("_id")
+    @SerializedName(value = "_id", alternate = {"id"})
     private String _id;
 
-    @SerializedName("MaDonHang")
+    @SerializedName(value = "MaDonHang", alternate = {"maDonHang"})
     private String maDonHang;
 
-    @SerializedName("ManHanVien")
-    private String maNhanVien;
+    @SerializedName(value = "MaKhachHang", alternate = {"maKhachHang"})
+    private int maKhachHang; // Chuyển sang int để khớp với DB
 
-    @SerializedName("MaKhachHang")
-    private String maKhachHang;
-
-    @SerializedName("MaDiaChi")
+    @SerializedName(value = "MaDiaChi", alternate = {"maDiaChi"})
     private String maDiaChi;
 
-    @SerializedName("TongSoLuong")
+    @SerializedName(value = "TongSoLuong", alternate = {"tongSoLuong"})
     private int tongSoLuong;
 
-    @SerializedName("TongThanhTien")
-    private double tongThanhTien;
-
-    @SerializedName("TongChietKhau")
-    private double tongChietKhau;
-
-    @SerializedName("TongThanhToan")
+    @SerializedName(value = "TongThanhToan", alternate = {"tongThanhToan"})
     private double tongThanhToan;
 
-    @SerializedName("GhiChu")
-    private String ghiChu;
-
-    @SerializedName("TrangThaiDonHang")
+    @SerializedName(value = "TrangThaiDonHang", alternate = {"trangThaiDonHang"})
     private String trangThaiDonHang;
 
-    @SerializedName("PhuongThucVanChuyen")
-    private String phuongThucVanChuyen;
+    @SerializedName(value = "NgayDatHang", alternate = {"ngayDatHang"})
+    private String ngayDatHang;
 
     @SerializedName("cancelDate")
     private String cancelDate;
@@ -47,20 +34,27 @@ public class DonHang {
     @SerializedName("cancelReason")
     private String cancelReason;
 
-    @SerializedName("products")
-    private List<Object> products;
+    @SerializedName(value = "TongThanhTien", alternate = {"tongThanhTien"})
+    private double tongThanhTien;
 
+    @SerializedName(value = "TongChietKhau", alternate = {"tongChietKhau"})
+    private double tongChietKhau;
+
+    @SerializedName(value = "GhiChu", alternate = {"ghiChu"})
+    private String ghiChu;
+
+    @SerializedName(value = "PhuongThucVanChuyen", alternate = {"phuongThucVanChuyen"})
+    private String phuongThucVanChuyen;
+
+    // Getters and Setters
     public String get_id() { return _id; }
     public void set_id(String _id) { this._id = _id; }
 
     public String getMaDonHang() { return maDonHang; }
     public void setMaDonHang(String maDonHang) { this.maDonHang = maDonHang; }
 
-    public String getMaNhanVien() { return maNhanVien; }
-    public void setMaNhanVien(String maNhanVien) { this.maNhanVien = maNhanVien; }
-
-    public String getMaKhachHang() { return maKhachHang; }
-    public void setMaKhachHang(String maKhachHang) { this.maKhachHang = maKhachHang; }
+    public int getMaKhachHang() { return maKhachHang; }
+    public void setMaKhachHang(int maKhachHang) { this.maKhachHang = maKhachHang; }
 
     public String getMaDiaChi() { return maDiaChi; }
     public void setMaDiaChi(String maDiaChi) { this.maDiaChi = maDiaChi; }
@@ -68,23 +62,14 @@ public class DonHang {
     public int getTongSoLuong() { return tongSoLuong; }
     public void setTongSoLuong(int tongSoLuong) { this.tongSoLuong = tongSoLuong; }
 
-    public double getTongThanhTien() { return tongThanhTien; }
-    public void setTongThanhTien(double tongThanhTien) { this.tongThanhTien = tongThanhTien; }
-
-    public double getTongChietKhau() { return tongChietKhau; }
-    public void setTongChietKhau(double tongChietKhau) { this.tongChietKhau = tongChietKhau; }
-
     public double getTongThanhToan() { return tongThanhToan; }
     public void setTongThanhToan(double tongThanhToan) { this.tongThanhToan = tongThanhToan; }
-
-    public String getGhiChu() { return ghiChu; }
-    public void setGhiChu(String ghiChu) { this.ghiChu = ghiChu; }
 
     public String getTrangThaiDonHang() { return trangThaiDonHang; }
     public void setTrangThaiDonHang(String trangThaiDonHang) { this.trangThaiDonHang = trangThaiDonHang; }
 
-    public String getPhuongThucVanChuyen() { return phuongThucVanChuyen; }
-    public void setPhuongThucVanChuyen(String phuongThucVanChuyen) { this.phuongThucVanChuyen = phuongThucVanChuyen; }
+    public String getNgayDatHang() { return ngayDatHang; }
+    public void setNgayDatHang(String ngayDatHang) { this.ngayDatHang = ngayDatHang; }
 
     public String getCancelDate() { return cancelDate; }
     public void setCancelDate(String cancelDate) { this.cancelDate = cancelDate; }
@@ -92,6 +77,15 @@ public class DonHang {
     public String getCancelReason() { return cancelReason; }
     public void setCancelReason(String cancelReason) { this.cancelReason = cancelReason; }
 
-    public List<Object> getProducts() { return products; }
-    public void setProducts(List<Object> products) { this.products = products; }
+    public double getTongThanhTien() { return tongThanhTien; }
+    public void setTongThanhTien(double tongThanhTien) { this.tongThanhTien = tongThanhTien; }
+
+    public double getTongChietKhau() { return tongChietKhau; }
+    public void setTongChietKhau(double tongChietKhau) { this.tongChietKhau = tongChietKhau; }
+
+    public String getGhiChu() { return ghiChu; }
+    public void setGhiChu(String ghiChu) { this.ghiChu = ghiChu; }
+
+    public String getPhuongThucVanChuyen() { return phuongThucVanChuyen; }
+    public void setPhuongThucVanChuyen(String phuongThucVanChuyen) { this.phuongThucVanChuyen = phuongThucVanChuyen; }
 }

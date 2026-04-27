@@ -1,5 +1,9 @@
 package com.example.common.network;
 
+import com.example.common.model.SoDiaChi;
+import com.example.common.model.SoDiaChiDeserializer;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -33,10 +37,15 @@ public class RetrofitClient {
                     .writeTimeout(30, TimeUnit.SECONDS)
                     .build();
 
+            // Đăng ký custom deserializer cho SoDiaChi
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(SoDiaChi.class, new SoDiaChiDeserializer())
+                    .create();
+
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(client)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }
         return retrofit;

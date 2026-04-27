@@ -36,10 +36,14 @@ public class UserManager {
         return prefs.getString(KEY_ROLE, "");
     }
 
+    /**
+     * Trả về mã khách hàng dưới dạng chuỗi số (ví dụ: "123")
+     * Phù hợp với dữ liệu số nguyên trong Database của bạn.
+     */
     public static String getMaKhachHang(Context context) {
         int userId = getUserId(context);
         if (userId < 0) return null;
-        return String.format("KH_%03d", userId);
+        return String.valueOf(userId);
     }
 
     public static boolean isLoggedIn(Context context) {

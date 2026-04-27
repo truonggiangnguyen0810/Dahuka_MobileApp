@@ -12,7 +12,7 @@ import java.util.List;
 
 public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressViewHolder> {
 
-    private final List<Address> addresses;
+    private List<Address> addresses;
     private final OnAddressClickListener listener;
 
     public interface OnAddressClickListener {
@@ -22,6 +22,11 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
     public AddressAdapter(List<Address> addresses, OnAddressClickListener listener) {
         this.addresses = addresses;
         this.listener = listener;
+    }
+
+    public void updateAddresses(List<Address> newAddresses) {
+        this.addresses = newAddresses;
+        notifyDataSetChanged();
     }
 
     @NonNull

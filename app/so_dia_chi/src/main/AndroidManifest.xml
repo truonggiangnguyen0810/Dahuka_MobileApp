@@ -1,1 +1,8 @@
-<manifest/>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.so_dia_chi">
+    <application>
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+    </application>
+</manifest>
