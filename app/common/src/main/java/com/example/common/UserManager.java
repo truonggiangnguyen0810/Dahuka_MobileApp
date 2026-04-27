@@ -46,10 +46,10 @@ public class UserManager {
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         String saved = prefs.getString(KEY_MA_KHACH_HANG, null);
         if (saved != null) return saved;
-        // fallback: format từ userId
+        // fallback: dùng userId dạng số
         int userId = getUserId(context);
         if (userId < 0) return null;
-        return String.format("KH_%03d", userId);
+        return String.valueOf(userId);
     }
 
     public static boolean isLoggedIn(Context context) {

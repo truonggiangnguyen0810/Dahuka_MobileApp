@@ -100,7 +100,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
                 if (tonTai != null) {
                     // Sản phẩm đã có → PUT tăng số lượng
                     tonTai.setSoLuong(tonTai.getSoLuong() + 1);
-                    api.updateChiTietGioHang(tonTai.get_id(), tonTai).enqueue(new Callback<ChiTietGioHang>() {
+                    api.updateChiTietGioHang(maKH, maSP, tonTai).enqueue(new Callback<ChiTietGioHang>() {
                         @Override
                         public void onResponse(Call<ChiTietGioHang> c, Response<ChiTietGioHang> r) {
                             Toast.makeText(ChiTietSanPhamActivity.this, "Đã cập nhật giỏ hàng", Toast.LENGTH_SHORT).show();
