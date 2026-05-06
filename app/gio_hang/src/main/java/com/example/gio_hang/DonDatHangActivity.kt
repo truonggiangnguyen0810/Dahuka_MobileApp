@@ -16,7 +16,7 @@ import java.text.NumberFormat
 import java.util.Locale
 
 class DonDatHangActivity : AppCompatActivity() {
-
+//code này xử lý truyền dữ liệu giữa 2 màn hình
     private var isChuyenKhoan = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,12 +26,14 @@ class DonDatHangActivity : AppCompatActivity() {
         findViewById<ImageButton>(R.id.btnBack).setOnClickListener { finish() }
 
         // Nhận danh sách sản phẩm từ GioHangActivity
-        @Suppress("UNCHECKED_CAST")
+        @Suppress("UNCHECKED_CAST") //dòng này để tắt cảnh báo
         val selectedItems = intent.getSerializableExtra("selectedItems") as? ArrayList<CartItem>
             ?: arrayListOf()
-
+            //intent là như cái xe vận chuyển dữ liệu, lấy từ giỏ hàng sang trang đặt hàng
+        //đoạn code này là dùng để hiển thị danh sách các món hàng lên màn hình sau đó tính tổng tiền, ở trang đặt hàng
         val containerItems = findViewById<LinearLayout>(R.id.containerOrderItems)
-        containerItems.removeAllViews()
+        containerItems.removeAllViews() //này là dọn dẹp sạch cái LinearLayout, mỗi lần reload sẽ ko bị dồn sp
+        //dùng cách thủ công là inflate các view vào LinearLayout
         val fmt = NumberFormat.getNumberInstance(Locale("vi", "VN"))
         selectedItems.forEach { item ->
             val card = layoutInflater.inflate(R.layout.item_order_don_hang, containerItems, false)
@@ -40,22 +42,23 @@ class DonDatHangActivity : AppCompatActivity() {
             card.findViewById<TextView>(R.id.tvItemPrice).text = "${fmt.format(item.getDonGia())}đ"
             containerItems.addView(card)
         }
-
+        //item_order_don_hang là cái khay, là cái form chưa có j -> đẩy từng dữ liệu 1 vào form rồi quay lại đẩy tiếp đến hết
+        //đây là giao diện hiển thị còn ở trên là truyền dữ liệu lưu vào ram
         val total = selectedItems.sumOf { it.getDonGia() * it.getSoLuong() }
         findViewById<TextView>(R.id.tvTamTinh).text = "${fmt.format(total)}đ"
 
-        // Phương thức thanh toán
+        // Phương thức thanh toán //khung khai báo giao diện 
         val layoutChuyenKhoan = findViewById<LinearLayout>(R.id.layoutChuyenKhoan)
         val layoutTienMat = findViewById<LinearLayout>(R.id.layoutTienMat)
-        val rbChuyenKhoan = findViewById<RadioButton>(R.id.rbChuyenKhoan)
-        val rbTienMat = findViewById<RadioButton>(R.id.rbTienMat)
+        val rbChuyenKhoan = findViewById<RadioButton>(R.id.rbChuyenKhoan) //radio button
+        val rbTienMat = findViewById<RadioButton>(R.id.rbTienMat) //radio button
 
-        fun selectChuyenKhoan() {
+        fun selectChuyenKhoan() { //hàm này được gọi khi ng dùng muốn thanh toán bằng chuyển khoản
             isChuyenKhoan = true
             rbChuyenKhoan.isChecked = true
             rbTienMat.isChecked = false
             layoutChuyenKhoan.setBackgroundResource(R.drawable.bg_payment_selected)
-            layoutTienMat.setBackgroundResource(R.drawable.bg_payment_normal)
+            layoutTienMat.setBackgroundResource(R.drawable.bg_payment_normal) // thay đổi màu sắc 
         }
 
         fun selectTienMat() {
@@ -65,13 +68,14 @@ class DonDatHangActivity : AppCompatActivity() {
             layoutTienMat.setBackgroundResource(R.drawable.bg_payment_selected)
             layoutChuyenKhoan.setBackgroundResource(R.drawable.bg_payment_normal)
         }
-
+        //chốt chặn cuối cùng, gán sự kiện click 
         layoutChuyenKhoan.setOnClickListener { selectChuyenKhoan() }
         rbChuyenKhoan.setOnClickListener { selectChuyenKhoan() }
         layoutTienMat.setOnClickListener { selectTienMat() }
         rbTienMat.setOnClickListener { selectTienMat() }
 
         selectChuyenKhoan()
+        
 
         findViewById<MaterialButton>(R.id.btnXacNhan).setOnClickListener {
             if (isChuyenKhoan) {
